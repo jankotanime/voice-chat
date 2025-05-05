@@ -1,12 +1,12 @@
 import express from 'express';
 
 const server = express();
-const port = 8002;
+const port = 8003;
 
 server.use(express.json());
 
 server.get('/test', (req, res) => {
-  res.send('Hello from voice service!');
+  res.send('Hello from auth service!');
 })
 
 server.listen(port, () => {

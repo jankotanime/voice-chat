@@ -16,8 +16,12 @@ services:
   user-service:
     build: ./user-service
     container_name: user-service
+    depends_on:
+      - mongo
     ports:
       - "8001:8001"
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/mydatabase
     networks:
       - app-network
 
@@ -28,8 +32,31 @@ services:
       - "8002:8002"
     networks:
       - app-network
+    
+  auth-service:
+    build: ./auth-service
+    container_name: auth-service
+    ports:
+      - "8003:8003"
+    networks:
+      - app-network
+  
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+    volumes:
+      - mongo-data:/data/db
 
 networks:
   app-network:
     driver: bridge
 
+volumes:
+  mongo-data:
+
+# docker-compose up --build
