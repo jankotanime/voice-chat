@@ -6,8 +6,8 @@ fetch('http://localhost:8003/login', {
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
-    username: 'sigma',
-    password: 'sigma'
+    username: 'test',
+    password: 'test'
   })
 })
 .then(response => {
