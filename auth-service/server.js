@@ -25,21 +25,15 @@ const getKey = (header, callback) => {
 
 const verifyToken = (req, res, next) => {
   const token = req.headers['authorization'];
-
-  if (!token) {
-    return res.status(403).json({ message: 'No token provided' });
-  }
-
+  if (!token) { return res.status(403).json({ message: 'No token provided' })}
   const tokenWithoutBearer = token.split(' ')[1];
-
   jwt.verify(tokenWithoutBearer, getKey, { algorithms: ['RS256'] }, (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ message: 'Failed to authenticate token' });
-    }
+    if (err) { return res.status(401).json({ message: 'Failed to authenticate token' })}
     req.user = decoded;
     next();
   });
 };
+
 server.post('/login', async (req, res) => {
   const { username, password } = req.body;
   try {

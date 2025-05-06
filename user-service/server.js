@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import Channel from './models/Channel.js'
 
 const mongoURL = process.env.MONGO_URL;
 const authURL = process.env.AUTH_URL;
@@ -19,38 +20,27 @@ mongoose.connect(mongoURL, {
 
 server.use(express.json());
 
-server.get('/login', async (req, res) => {
+const findAllRooms = async () => {
   try {
-    const authorization = await fetch(`${authURL}/keycloak/authorization`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    });
-    console.log(authorization)
-    authorization.ok ? res.send('Hello from user service!') : res.send('Not hello!!!')
-  } catch {
-    res.send('Server connection error!')
+    const channels = await Channel.find();
+    return channels
+  } catch (err) {
+    return "Error"
   }
+}
+
+server.get('/room', async (req, res) => {
+  const rooms = await findAllRooms()
+  rooms == "Error" ? res.status(404).send("Error") : res.status(200).send(rooms)
 })
 
-server.get('/table', async (req, res) => {
-  try {
-    const newUser = new User({username: 'sigma', password: 'sigma'})
-    await newUser.save();
-    res.status(201).send('Użytkownik dodany');
-  } catch (err) {
-    console.error('Błąd podczas pobierania użytkowników:', err);
-    res.status(500).send('Błąd serwera');
-  }
-})
-
-server.get('/users', async (req, res) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (err) {
-    console.error('Błąd podczas pobierania użytkowników:', err);
-    res.status(500).send('Błąd serwera');
-  }
+server.get('/room/join/:room', async (req, res) => {
+  const room = req.params.room
+  const rooms = await findAllRooms()
+  rooms == "Error" ? res.status(404).send("Error") : null
+  rooms.forEach(elem => {
+    elem.name == room ? res.status(200).send(elem) : res.status(403).send("Zakaz")
+  })
 })
 
 server.listen(port, () => {
