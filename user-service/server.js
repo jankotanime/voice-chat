@@ -10,16 +10,16 @@ mongoose.connect(mongoURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => {
-  console.log('Połączono z MongoDB');
-})
-.catch((err) => {
-  console.error('Błąd połączenia z MongoDB:', err);
-});
+  .then(() => {
+    console.log('Połączono z MongoDB');
+  })
+  .catch((err) => {
+    console.error('Błąd połączenia z MongoDB:', err);
+  });
 
 server.use(express.json());
 
-server.get('/test', async (req, res) => {
+server.get('/login', async (req, res) => {
   try {
     const authorization = await fetch(`${authURL}/keycloak/authorization`, {
       method: 'GET',
@@ -29,6 +29,27 @@ server.get('/test', async (req, res) => {
     authorization.ok ? res.send('Hello from user service!') : res.send('Not hello!!!')
   } catch {
     res.send('Server connection error!')
+  }
+})
+
+server.get('/table', async (req, res) => {
+  try {
+    const newUser = new User({username: 'sigma', password: 'sigma'})
+    await newUser.save();
+    res.status(201).send('Użytkownik dodany');
+  } catch (err) {
+    console.error('Błąd podczas pobierania użytkowników:', err);
+    res.status(500).send('Błąd serwera');
+  }
+})
+
+server.get('/users', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    console.error('Błąd podczas pobierania użytkowników:', err);
+    res.status(500).send('Błąd serwera');
   }
 })
 

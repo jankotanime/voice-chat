@@ -47,7 +47,7 @@ server.post('/login', async (req, res) => {
       `${keycloakUrl}/realms/voice-chat/protocol/openid-connect/token`,
       new URLSearchParams({
         client_id: 'SPA',
-        client_secret: 'iLbMetMmbMWNWdkU8F936vrNIEXMSD6j',
+        client_secret: 'F6FshOROgrWuP8RBttBUMdogLWYw4HVu',
         grant_type: 'password',
         username: username,
         password: password,

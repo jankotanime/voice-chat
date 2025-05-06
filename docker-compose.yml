@@ -42,6 +42,9 @@ services:
     container_name: auth-service
     ports:
       - "8003:8003"
+    environment:
+      - KEYCLOAK_URL=http://keycloak:8080
+      - SECRET_KEY=hrsbNyY0GOV3W3EUcHnzvZPHqZ1lDKyx
     networks:
       - app-network
     volumes:
@@ -67,12 +70,20 @@ services:
       - KEYCLOAK_ADMIN_PASSWORD=admin
     ports:
       - "8080:8080"
+    networks:
+      - app-network
+    volumes:
+      - ./realms:/opt/keycloak/data/import
+      - keycloak_data:/opt/keycloak/data 
+    restart: always
 
 networks:
   app-network:
     driver: bridge
 
 volumes:
+  keycloak_data:
+    driver: local
   mongo-data:
 
 # docker-compose up --build
