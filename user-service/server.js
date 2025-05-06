@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 const mongoURL = process.env.MONGO_URL;
+const authURL = process.env.AUTH_URL;
 const server = express();
 const port = 8001;
 
@@ -18,8 +19,17 @@ mongoose.connect(mongoURL, {
 
 server.use(express.json());
 
-server.get('/test', (req, res) => {
-  res.send('Hello from user service!');
+server.get('/test', async (req, res) => {
+  try {
+    const authorization = await fetch(`${authURL}/keycloak/authorization`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    console.log(authorization)
+    authorization.ok ? res.send('Hello from user service!') : res.send('Not hello!!!')
+  } catch {
+    res.send('Server connection error!')
+  }
 })
 
 server.listen(port, () => {

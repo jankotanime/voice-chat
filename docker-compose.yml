@@ -18,12 +18,16 @@ services:
     container_name: user-service
     depends_on:
       - mongo
+      - auth-service
     ports:
       - "8001:8001"
     environment:
-      - MONGO_URL=mongodb://mongo:27017/mydatabase
+      - MONGO_URL=mongodb://mongo:27017/voice-chat
+      - AUTH_URL=http://auth-service:8003
     networks:
       - app-network
+    volumes:
+      - ./user-service:/app
 
   voice-service:
     build: ./voice-service
@@ -40,6 +44,8 @@ services:
       - "8003:8003"
     networks:
       - app-network
+    volumes:
+      - ./auth-service:/app
   
   mongo:
     image: mongo:latest
@@ -51,6 +57,16 @@ services:
       - app-network
     volumes:
       - mongo-data:/data/db
+  
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    command: start-dev
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    ports:
+      - "8080:8080"
 
 networks:
   app-network:
