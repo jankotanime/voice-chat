@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import verifyToken from './authorization.js';
 import { getUserRooms, joinRoom } from './controller/room.js';
 import { getUsers } from './controller/user.js';
-import { removeRoleFromUserC, addRoleToUserC, getUserRolesC, getRolesC } from './controller/role.js';
+import { removeRoleFromUserC, addRoleToUserC, getUserRolesC, getRolesC, createRoleC, removeRoleC, createAdminRoleC } from './controller/role.js';
 
 const mongoURL = process.env.MONGO_URL;
 const port = 8001;
@@ -18,6 +18,9 @@ server.use(express.json());
 server.get('/rooms', verifyToken, getUserRooms);
 server.get('/users', verifyToken, getUsers);
 server.get('/role', verifyToken, getRolesC);
+server.delete('/role/:role', verifyToken, removeRoleC);
+server.post('/role', verifyToken, createRoleC);
+server.post('/role/admin', verifyToken, createAdminRoleC);
 server.get('/room/join/:room', verifyToken, joinRoom);
 server.get('/user/role', verifyToken, getUserRolesC);
 server.patch('/user/role/add', verifyToken, addRoleToUserC);

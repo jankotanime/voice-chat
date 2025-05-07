@@ -6,8 +6,8 @@ fetch('http://localhost:8003/login', {
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
-    username: 'misiek',
-    password: 'misiek'
+    username: 'sigma',
+    password: 'sigma'
   })
 })
 .then(response => {
@@ -22,15 +22,16 @@ fetch('http://localhost:8003/login', {
 
 
 setTimeout(() => {
-  fetch('http://localhost:8001/user/role', {
-    method: 'GET',
+  fetch(`http://localhost:8001/role/admin`, {
+    method: 'POST',
     headers: {
       'Authorization': `Bearer ${myToken}`,
       'Content-Type': 'application/json'
     },
-    // body: JSON.stringify({
-    //   username: 'sigma'
-    // })
+    body: JSON.stringify({
+      rolename: 'sigmy',
+      description: 'Super ziomeczki'
+    })
   })
   .then(response => {
     return response.json();
