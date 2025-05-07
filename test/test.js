@@ -22,16 +22,15 @@ fetch('http://localhost:8003/login', {
 
 
 setTimeout(() => {
-  fetch('http://localhost:8001/user/role/remove', {
-    method: 'PATCH',
+  fetch('http://localhost:8001/user/role', {
+    method: 'GET',
     headers: {
       'Authorization': `Bearer ${myToken}`,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-      username: 'sigma',
-      rolename: 'chat-admin'
-    })
+    // body: JSON.stringify({
+    //   username: 'sigma'
+    // })
   })
   .then(response => {
     return response.json();

@@ -23,6 +23,7 @@ const verifyToken = (req, res, next) => {
   jwt.verify(tokenWithoutBearer, getKey, { algorithms: ['RS256'] }, (err, decoded) => {
     if (err) { return res.status(401).json({ message: 'Failed to authenticate token' })}
     req.user = decoded;
+    req.token = tokenWithoutBearer
     next();
   });
 };
