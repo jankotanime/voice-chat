@@ -6,8 +6,8 @@ fetch('http://localhost:8003/login', {
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
-    username: 'superuser',
-    password: 'superuser'
+    username: 'sigma',
+    password: 'sigma'
   })
 })
 .then(response => {
@@ -15,7 +15,6 @@ fetch('http://localhost:8003/login', {
 })
 .then(data => {
   myToken = data.token
-  console.log('Odebrane dane:', data);
 })
 .catch(error => {
   console.error('Wystąpił błąd:', error);
@@ -23,8 +22,7 @@ fetch('http://localhost:8003/login', {
 
 
 setTimeout(() => {
-  console.log(myToken)
-  fetch('http://localhost:8001/room/join/example_channel', {
+  fetch('http://localhost:8001/users', {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${myToken}`,
