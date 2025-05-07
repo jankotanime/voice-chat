@@ -6,8 +6,8 @@ fetch('http://localhost:8003/login', {
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
-    username: 'sigma',
-    password: 'sigma'
+    username: 'misiek',
+    password: 'misiek'
   })
 })
 .then(response => {
@@ -22,12 +22,16 @@ fetch('http://localhost:8003/login', {
 
 
 setTimeout(() => {
-  fetch('http://localhost:8001/users', {
-    method: 'GET',
+  fetch('http://localhost:8001/user/role/remove', {
+    method: 'PATCH',
     headers: {
       'Authorization': `Bearer ${myToken}`,
       'Content-Type': 'application/json'
-    }
+    },
+    body: JSON.stringify({
+      username: 'sigma',
+      rolename: 'chat-admin'
+    })
   })
   .then(response => {
     return response.json();
