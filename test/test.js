@@ -6,8 +6,8 @@ fetch('http://localhost:8003/login', {
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
-    username: 'test',
-    password: 'test'
+    username: 'superuser',
+    password: 'superuser'
   })
 })
 .then(response => {
@@ -24,7 +24,7 @@ fetch('http://localhost:8003/login', {
 
 setTimeout(() => {
   console.log(myToken)
-  fetch('http://localhost:8003/verify-test', {
+  fetch('http://localhost:8001/room/join/example_channel', {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${myToken}`,

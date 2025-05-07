@@ -57,7 +57,6 @@ server.post('/login', async (req, res) => {
 });
 
 server.get('/verify-test', verifyToken, async (req, res) => {
-  console.log(req.user)
   res.status(200).json({ mess: "verifed" })
 });
 

@@ -23,6 +23,7 @@ services:
       - "8001:8001"
     environment:
       - MONGO_URL=mongodb://mongo:27017/voice-chat
+      - KEYCLOAK_URL=http://keycloak:8080
       - AUTH_URL=http://auth-service:8003
     networks:
       - app-network
@@ -85,5 +86,6 @@ volumes:
   keycloak_data:
     driver: local
   mongo-data:
+    driver: local
 
 # docker-compose up --build
