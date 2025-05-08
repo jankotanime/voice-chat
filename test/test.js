@@ -23,14 +23,15 @@ fetch('http://localhost:8003/login', {
 
 setTimeout(() => {
   fetch(`http://localhost:8001/room`, {
-    method: 'DELETE',
+    method: 'POST',
     headers: {
       'Authorization': `Bearer ${myToken}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      // name: 'koxy',
-      id: "681cead9cc1bf412838c360e"
+      name: 'sigiemk',
+      roles: ['chat-admi', 'sigmy']
+      // roomId: "681cdf278279e4a6f373b335"
     })
   })
   .then(response => {

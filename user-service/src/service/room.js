@@ -1,9 +1,6 @@
 import Channel from '../models/Channel.js';
 import { getAllRoles, getUserRoles } from './role.js';
 import { isAdmin } from './user.js';
-import mongoose from 'mongoose';
-
-const keycloakUrl = process.env.KEYCLOAK_URL;
 
 export const findAllRooms = async (username, token) => {
   try {
@@ -29,8 +26,22 @@ export const findRoomsByRoles = async (username, token) => {
 export const createRoom = async (username, name, roles, token) => {
   try {
     if (!(await isAdmin(username, token))) { return {err: "403 Forbidden"} }
-    const newChannel = await Channel.create({name: name, roles: roles});
+    const allRoles = (await getAllRoles(token)).data.map(role => role.name)
+    const channelRoles = roles.filter(role => allRoles.includes(role))
+    const newChannel = await Channel.create({name: name, roles: channelRoles});
     return { mess: newChannel }
+  } catch (err) {
+    return { err: err };
+  }
+};
+
+export const putRolesToRoom = async (username, roomId, roles, token) => {
+  try {
+    if (!(await isAdmin(username, token))) { return {err: "403 Forbidden"} }
+    const channel = await Channel.findById(roomId);
+    channel.roles = roles
+    channel.save()
+    return { mess: channel }
   } catch (err) {
     return { err: err };
   }
@@ -39,7 +50,7 @@ export const createRoom = async (username, name, roles, token) => {
 export const removeRoomById = async (username, id, token) => {
   try {
     if (!(await isAdmin(username, token))) { return {err: "403 Forbidden"} }
-    const removedChannel = await Channel.deleteOne({ _id: new mongoose.Types.ObjectId(id) });
+    const removedChannel = await Channel.findByIdAndDelete(id);
     return { mess: removedChannel }
   } catch (err) {
     return { err: err };

@@ -1,4 +1,4 @@
-import { createRoom, findAllRooms, findRoomsByRoles, removeRoomById } from '../service/room.js';
+import { createRoom, findAllRooms, findRoomsByRoles, putRolesToRoom, removeRoomById } from '../service/room.js';
 
 export const getUserRooms = async (req, res) => {
   const rooms = await findRoomsByRoles(req.user.preferred_username, req.token);
@@ -23,6 +23,13 @@ export const createRoomC = async (req, res) => {
 
 export const removeRoomC = async (req, res) => {
   const response = await removeRoomById(req.user.preferred_username, req.body.id, req.token);
+  return "err" in response
+    ? res.status(404).send({err: response.err})
+    : res.status(200).send(response);
+};
+
+export const putRolesToRoomC = async (req, res) => {
+  const response = await putRolesToRoom(req.user.preferred_username, req.body.roomId, req.body.roles, req.token);
   return "err" in response
     ? res.status(404).send({err: response.err})
     : res.status(200).send(response);
