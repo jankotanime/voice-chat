@@ -102,12 +102,10 @@ export const createAdminRole = async (rolename, description = '', token) => {
     );
 
     return { mess: "Rola utworzona i przypisane role klienta realm-management" };
-
   } catch (err) {
     return { err: err?.response?.data || err.message };
   }
 };
-
 
 export const getUserRoles = async (username, token) => {
   try {
@@ -141,7 +139,7 @@ export const addRoleToUser = async (username, rolename, token) => {
     const userId = await getUserId(username, token)
     if (!userId) { return {err: userId.err}}
     const roleResp = await getRoleResp(rolename, token)
-    if (!roleResp) { return {err: userId.err}} 
+    if (!roleResp) { return {err: userId.err}}
     await axios.post(
       `${keycloakUrl}/admin/realms/voice-chat/users/${userId}/role-mappings/realm`,
       [

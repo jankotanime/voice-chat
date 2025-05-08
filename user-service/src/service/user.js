@@ -1,4 +1,5 @@
 import axios from "axios"
+import { getUserRoles } from "./role.js";
 
 const keycloakUrl = process.env.KEYCLOAK_URL;
 
@@ -28,3 +29,22 @@ export const getUserId = async (username, token) => {
     return {err: err}
   }
 }
+
+export const isAdmin = async (username, token) => {
+  try {
+    const allRoles = (await getUserRoles(username, token)).data.map(role => role.name)
+    for (const role of allRoles) {
+      const compositesRes = await axios.get(
+        `${keycloakUrl}/admin/realms/voice-chat/roles/${role}/composites`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      const compositeNames = compositesRes.data.map(r => r.name);
+      if (compositeNames.includes("realm-admin")) {
+        return true;
+      }
+    }
+    return false;
+  } catch (err) {
+    return { err: err };
+  }
+};
