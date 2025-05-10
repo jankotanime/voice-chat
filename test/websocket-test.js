@@ -1,0 +1,44 @@
+import { io } from 'socket.io-client';
+
+const socket = io("http://localhost:8002", {
+  transports: ['websocket', 'polling'],
+  autoConnect: false
+});
+
+socket.connect()
+
+socket.on("connect_error", (err) => {
+  console.error("Błąd połączenia z WebSocketem:", err.message);
+});
+
+socket.on("connect", () => {
+  console.log("Połączono z serwerem WebSocket.");
+});
+
+socket.on("voice", (message) => {
+  console.log(message);
+});
+
+let myToken = undefined
+
+fetch('http://localhost:8003/login', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    username: 'misio',
+    password: 'misio'
+  })
+})
+.then(response => {
+  return response.json();
+})
+.then(data => {
+  myToken = data.token
+  socket.emit("join_room", 'Kamil', '12345', myToken);
+})
+.catch(error => {
+  console.error('Wystąpił błąd:', error);
+});
+

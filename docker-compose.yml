@@ -37,6 +37,8 @@ services:
     container_name: voice-service
     ports:
       - "8002:8002"
+    environment:
+      - USER_URL=http://user-service:8001
     networks:
       - app-network
     volumes:
@@ -65,6 +67,7 @@ services:
       - app-network
     volumes:
       - mongo-data:/data/db
+    command: ["mongod", "--quiet"]
   
   keycloak:
     image: quay.io/keycloak/keycloak:latest
