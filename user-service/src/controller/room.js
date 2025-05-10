@@ -1,4 +1,4 @@
-import { createRoom, findAllRooms, findRoomsByRoles, putRolesToRoom, removeRoomById } from '../service/room.js';
+import { createRoom, findAllRooms, findRoomsByRoles, joinRoom, putRolesToRoom, removeRoomById } from '../service/room.js';
 
 export const getUserRooms = async (req, res) => {
   const rooms = await findRoomsByRoles(req.user.preferred_username, req.token);
@@ -35,15 +35,9 @@ export const putRolesToRoomC = async (req, res) => {
     : res.status(200).send(response);
 };
 
-export const joinRoom = async (req, res) => {
-  const roles = req.user.realm_access.roles;
-  const room = req.params.room;
-  const rooms = await findRoomsByRoles(roles);
-
-  if ("err" in rooms) return res.status(404).send({err: rooms.err});
-
-  const found = rooms.find(elem => elem.name === room);
-  return found
-    ? res.status(200).send(found)
-    : res.status(403).send({err: "Brak uprawnień"});
+export const joinRoomC = async (req, res) => {
+  const response = await joinRoom(req.user.preferred_username, req.body.roomId, req.token);
+  return "err" in response
+    ? res.status(404).send({err: response.err})
+    : res.status(200).send(response);
 };

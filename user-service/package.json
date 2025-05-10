@@ -5,7 +5,8 @@
     "http": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
     "jwks-rsa": "^3.2.0",
-    "mongoose": "^8.14.1"
+    "mongoose": "^8.14.1",
+    "socket.io-client": "^4.8.1"
   },
   "type": "module",
   "scripts": {

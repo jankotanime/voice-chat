@@ -1,6 +1,24 @@
+import { getUserRooms } from '../controller/room.js';
 import Channel from '../models/Channel.js';
 import { getAllRoles, getUserRoles } from './role.js';
 import { isAdmin } from './user.js';
+import { io } from 'socket.io-client';
+
+const voiceUrl = process.env.VOICE_URL;
+const socket = io(voiceUrl, {
+  transports: ['websocket', 'polling'],
+  autoConnect: false
+});
+
+socket.connect()
+
+socket.on("connect_error", (err) => {
+  console.error("Błąd połączenia z WebSocketem:", err.message);
+});
+
+socket.on("connect", () => {
+  console.log("Połączono z serwerem WebSocket.");
+});
 
 export const findAllRooms = async (username, token) => {
   try {
@@ -30,6 +48,30 @@ export const createRoom = async (username, name, roles, token) => {
     const channelRoles = roles.filter(role => allRoles.includes(role))
     const newChannel = await Channel.create({name: name, roles: channelRoles});
     return { mess: newChannel }
+  } catch (err) {
+    return { err: err };
+  }
+};
+
+export const checkRoomAccess = async (username, roomId, token) => {
+  try {
+    const userRoles = getUserRoles(username, token)
+    const room = await Channel.findById(roomId)
+    room.get().roles.forEach(role => {
+      if (userRoles.includes(role)) {return true}
+    })
+    return false
+  } catch (err) {
+    return { err: err };
+  }
+};
+
+export const joinRoom = async (username, roomId, token) => {
+  try {
+    const access = checkRoomAccess(username, roomId, token)
+    if ('err' in access || !access) {return {err: "forbidden"}}
+    socket.emit("join_room", username, roomId);
+    return {mess: 'dolaczono'}
   } catch (err) {
     return { err: err };
   }

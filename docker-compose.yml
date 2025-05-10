@@ -19,11 +19,13 @@ services:
     depends_on:
       - mongo
       - auth-service
+      - voice-service
     ports:
       - "8001:8001"
     environment:
       - MONGO_URL=mongodb://mongo:27017/voice-chat
       - KEYCLOAK_URL=http://keycloak:8080
+      - VOICE_URL=http://voice-service:8002
       - AUTH_URL=http://auth-service:8003
     networks:
       - app-network
@@ -37,6 +39,8 @@ services:
       - "8002:8002"
     networks:
       - app-network
+    volumes:
+      - ./voice-service:/app
     
   auth-service:
     build: ./auth-service
