@@ -15,26 +15,32 @@ const io = new Server(httpServer, {
   }
 });
 
+const verify = async (room, token) => {
+  const res = await (await fetch(`${userUrl}/room/user`, {
+    method: 'POST',
+    headers: { 
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      roomId: room
+    })
+  })).json()
+  return res
+}
+
 io.sockets.on("connection", (socket) => {
   console.log("Serwery połączone")
   socket.on("join_room", async (room, token) => {
     try {
-      const res = await (await fetch(`${userUrl}/room/user`, {
-        method: 'POST',
-        headers: { 
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            roomId: room
-          })
-      })).json()
+      const res = await verify(room, token)
       if ("err" in res) {
         socket.emit('error', { message: 'Invalid token' });
       } else {
         const user = res.user
         socket.userId = user;
         socket.join(room)
+        socket.id = room
         console.log(`${user} dołączył do pokoju: ${room}`)
         io.to(socket.id).emit('voice', `${user} dołączył do pokoju: ${room}`)
       }
@@ -43,9 +49,9 @@ io.sockets.on("connection", (socket) => {
     }
   })
 
-  socket.on("message", (data) => {
-    console.log(`${data['user']}: ${data['message']}`)
-    io.to(data.room).emit("voice", data.user, data.message);
+  socket.on("voice", (data) => {
+    console.log(`${socket.userId} on room ${socket.id}: ${data}`)
+    io.to(socket.id).emit("voice", `${socket.userId}: ${data}`);
   })
 })
 

@@ -27,8 +27,8 @@ fetch('http://localhost:8003/login', {
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
-    username: 'sigma',
-    password: 'sigma'
+    username: 'misio',
+    password: 'misio'
   })
 })
 .then(response => {
@@ -36,7 +36,11 @@ fetch('http://localhost:8003/login', {
 })
 .then(data => {
   myToken = data.token
+  // ? test rooms: 681ce9cb298e30be08df9305  , 681cf893f29b8e45ce3cff2e
   socket.emit("join_room", '681cf893f29b8e45ce3cff2e', myToken);
+  setInterval(() => {
+    socket.emit("voice", 'halo', myToken);
+  }, 1000)
 })
 .catch(error => {
   console.error('Wystąpił błąd:', error);
