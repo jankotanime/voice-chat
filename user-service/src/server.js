@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import verifyToken from './authorization.js';
-import { createRoomC, getAllRooms, getUserRooms, putRolesToRoomC, removeRoomC } from './controller/room.js';
+import { createRoomC, getAllRooms, getUserRooms, joinRoomC, putRolesToRoomC, removeRoomC } from './controller/room.js';
 import { getUsers } from './controller/user.js';
 import { removeRoleFromUserC, addRoleToUserC, getUserRolesC, getRolesC, createRoleC, removeRoleC, createAdminRoleC } from './controller/role.js';
 
@@ -26,6 +26,7 @@ server.post('/validate-token', verifyToken, (req, res) => {
   res.json({ valid: true })
 })
 server.post('/room', verifyToken, createRoomC)
+server.post('/room/user', verifyToken, joinRoomC)
 server.post('/user/role', verifyToken, addRoleToUserC);
 server.post('/role/admin', verifyToken, createAdminRoleC);
 server.post('/role', verifyToken, createRoleC);

@@ -15,9 +15,8 @@ export const findAllRooms = async (username, token) => {
 
 export const findRoomsByRoles = async (username, token) => {
   try {
-    const rolesResponse = await getUserRoles(username, token)
-    const roles = rolesResponse.data.map(elem => elem.name)
-    const rooms = await Channel.find({ 'roles.name': { $in: roles } });
+    const roles = await getUserRoles(username, token)
+    const rooms = await Channel.find({ 'roles': { $in: roles } });
     return { mess: rooms }
   } catch (err) {
     return { err: err };
@@ -38,12 +37,15 @@ export const createRoom = async (username, name, roles, token) => {
 
 export const checkRoomAccess = async (username, roomId, token) => {
   try {
-    const userRoles = getUserRoles(username, token)
+    const userRoles = await getUserRoles(username, token)
     const room = await Channel.findById(roomId)
-    room.get().roles.forEach(role => {
-      if (userRoles.includes(role)) {return true}
+    let isAccess = false
+    room.roles.forEach(role => {
+      if (userRoles.includes(role)) {
+        isAccess = true
+      }
     })
-    return false
+    return isAccess ? {mess: true} : {err: "No access"}
   } catch (err) {
     return { err: err };
   }

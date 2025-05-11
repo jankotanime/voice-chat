@@ -115,7 +115,8 @@ export const getUserRoles = async (username, token) => {
       `${keycloakUrl}/admin/realms/voice-chat/users/${userId}/role-mappings/realm`,
       { headers: { Authorization: `Bearer ${token}`}}
     );
-    return roles
+    const rolesNames = roles.data.map(role => role.name)
+    return rolesNames
   } catch (err) {
     return {err: err}
   }

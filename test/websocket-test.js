@@ -27,8 +27,8 @@ fetch('http://localhost:8003/login', {
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
-    username: 'misio',
-    password: 'misio'
+    username: 'sigma',
+    password: 'sigma'
   })
 })
 .then(response => {
@@ -36,7 +36,7 @@ fetch('http://localhost:8003/login', {
 })
 .then(data => {
   myToken = data.token
-  socket.emit("join_room", 'Kamil', '12345', myToken);
+  socket.emit("join_room", '681cf893f29b8e45ce3cff2e', myToken);
 })
 .catch(error => {
   console.error('Wystąpił błąd:', error);

@@ -1,4 +1,4 @@
-import { createRoom, findAllRooms, findRoomsByRoles, putRolesToRoom, removeRoomById } from '../service/room.js';
+import { checkRoomAccess, createRoom, findAllRooms, findRoomsByRoles, putRolesToRoom, removeRoomById } from '../service/room.js';
 
 export const getUserRooms = async (req, res) => {
   const rooms = await findRoomsByRoles(req.user.preferred_username, req.token);
@@ -33,4 +33,11 @@ export const putRolesToRoomC = async (req, res) => {
   return "err" in response
     ? res.status(404).send({err: response.err})
     : res.status(200).send(response);
+};
+
+export const joinRoomC = async (req, res) => {
+  const response = await checkRoomAccess(req.user.preferred_username, req.body.roomId, req.token);
+  return "err" in response
+    ? res.status(404).send({err: response.err})
+    : res.status(200).send({user: req.user.preferred_username})
 };

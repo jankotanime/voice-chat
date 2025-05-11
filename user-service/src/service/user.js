@@ -32,7 +32,7 @@ export const getUserId = async (username, token) => {
 
 export const isAdmin = async (username, token) => {
   try {
-    const allRoles = (await getUserRoles(username, token)).data.map(role => role.name)
+    const allRoles = await getUserRoles(username, token)
     for (const role of allRoles) {
       const compositesRes = await axios.get(
         `${keycloakUrl}/admin/realms/voice-chat/roles/${role}/composites`,

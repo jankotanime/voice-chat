@@ -17,24 +17,26 @@ const io = new Server(httpServer, {
 
 io.sockets.on("connection", (socket) => {
   console.log("Serwery połączone")
-  socket.on("join_room", async (user, room, token) => {
+  socket.on("join_room", async (room, token) => {
     try {
-      console.log(token)
-      const res = await fetch(`${userUrl}/validate-token`, {
+      const res = await (await fetch(`${userUrl}/room/user`, {
         method: 'POST',
         headers: { 
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
-        }
-      });
-      const { valid } = await res.json();
-      if (valid) {
+        },
+        body: JSON.stringify({
+            roomId: room
+          })
+      })).json()
+      if ("err" in res) {
+        socket.emit('error', { message: 'Invalid token' });
+      } else {
+        const user = res.user
         socket.userId = user;
         socket.join(room)
         console.log(`${user} dołączył do pokoju: ${room}`)
         io.to(socket.id).emit('voice', `${user} dołączył do pokoju: ${room}`)
-      } else {
-        socket.emit('error', { message: 'Invalid token' });
       }
     } catch {
       socket.emit('error', { message: 'Auth error' });
