@@ -32,7 +32,7 @@ export const getUserRolesC = async (req, res) => {
   const roles = await getUserRoles(req.user.preferred_username, req.token);
   return "err" in roles
     ? res.status(404).send({err: roles.err})
-    : res.status(200).send({roles: roles.data});
+    : res.status(200).send({roles: roles});
 };
 
 export const addRoleToUserC = async (req, res) => {

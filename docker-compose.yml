@@ -1,17 +1,21 @@
 version: "3.8"
 
 services:
-
-  frontend:
-    build: ./frontend
-    container_name: frontend
+  spa:
+    build:
+      context: ./client/spa
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     depends_on:
+      - auth-service
       - user-service
       - voice-service
     networks:
       - app-network
+    volumes:
+      - ./client/spa:/app
+
 
   user-service:
     build: ./user-service

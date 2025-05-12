@@ -22,8 +22,8 @@ fetch('http://localhost:8003/login', {
 
 
 setTimeout(() => {
-  fetch(`http://localhost:8001/user/room`, {
-    method: 'GET',
+  fetch(`http://localhost:8001/user/role`, {
+    method: 'POST',
     headers: {
       'Authorization': `Bearer ${myToken}`,
       'Content-Type': 'application/json'

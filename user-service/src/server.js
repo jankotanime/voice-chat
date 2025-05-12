@@ -15,16 +15,12 @@ mongoose.connect(mongoURL)
 
 server.use(express.json());
 
-server.get('/room', verifyToken, getAllRooms);
+server.get('/room', verifyToken, getAllRooms); // * admin
 server.get('/users', verifyToken, getUsers);
 server.get('/role', verifyToken, getRolesC);
 server.get('/user/role', verifyToken, getUserRolesC);
 server.get('/user/room', verifyToken, getUserRooms);
 
-server.post('/validate-token', verifyToken, (req, res) => {
-  console.log("aaa")
-  res.json({ valid: true })
-})
 server.post('/room', verifyToken, createRoomC)
 server.post('/room/user', verifyToken, joinRoomC)
 server.post('/user/role', verifyToken, addRoleToUserC);
