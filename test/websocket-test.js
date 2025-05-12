@@ -27,8 +27,8 @@ fetch('http://localhost:8003/login', {
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
-    username: 'sigma',
-    password: 'sigma'
+      username: 'misio',
+      password: 'misio'
   })
 })
 .then(response => {
@@ -40,6 +40,9 @@ fetch('http://localhost:8003/login', {
   socket.emit("join_room", '681ce9cb298e30be08df9305', myToken);
   setTimeout(() => {
     socket.emit("kick_user", "sigma", myToken);
+  }, 4000)
+  setInterval(() => {
+    socket.emit("voice", "halo");
   }, 1000)
 })
 .catch(error => {

@@ -55,12 +55,12 @@ io.sockets.on("connection", (socket) => {
       actualRooms.forEach(oldRoom => {
         socket.leave(oldRoom);
         console.log(`${user} opuścił pokój: ${oldRoom}`);
-        socket.emit('voice', `${user} opuścił pokój: ${oldRoom}`);
+        io.to(oldRoom).emit('voice', `${user} opuścił pokój: ${oldRoom}`);
       });
 
       socket.join(room);
       console.log(`${user} dołączył do pokoju: ${room}`);
-      socket.emit('voice', `${user} dołączył do pokoju: ${room}`);
+      io.to(room).emit('voice', `${user} dołączył do pokoju: ${room}`);
 
     } catch (err) {
       console.error(err);
@@ -76,7 +76,7 @@ io.sockets.on("connection", (socket) => {
         socket.emit('error', { message: 'Invalid token' });
       } else {
         const user = res.user
-        socket.emit('voice', `${user} opuścił pokój: ${room}`)
+        socket.to([...socket.rooms][1]).emit('voice', `${user} opuścił pokój: ${room}`)
         socket.leave(room)
         console.log(`${user} opuścił pokój: ${room}`)
       }
@@ -96,8 +96,7 @@ io.sockets.on("connection", (socket) => {
           if (socket.userId === user) {
             for (const roomName of socket.rooms) {
               if (roomName !== socket.id) {
-                socket.emit('voice', `${user} opuścił pokój`)
-                console.log("aaa")
+                io.to(roomName).emit('voice', `${user} opuścił pokój ${roomName}`)
                 socket.leave(roomName);
                 console.log(`User ${user} removed from room ${roomName}`);
               }
@@ -111,8 +110,12 @@ io.sockets.on("connection", (socket) => {
   })
 
   socket.on("voice", (data) => {
-    console.log(`${socket.userId} on room ${socket.id}: ${data}`)
-    socket.to([...socket.rooms][1]).emit("voice", `${socket.userId}: ${data}`);
+    const room = [...socket.rooms][1]
+
+    if (socket.rooms.has(room)) {
+      console.log(`${socket.userId} on room ${room}: ${data}`);
+      socket.to(room).emit("voice", `${socket.userId}: ${data}`);
+    }
   })
 })
 
