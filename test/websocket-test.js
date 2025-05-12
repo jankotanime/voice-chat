@@ -39,7 +39,7 @@ fetch('http://localhost:8003/login', {
   // ? test rooms: 681ce9cb298e30be08df9305  , 681cf893f29b8e45ce3cff2e
   socket.emit("join_room", '681ce9cb298e30be08df9305', myToken);
   setTimeout(() => {
-    socket.emit("join_room", '681cf893f29b8e45ce3cff2e', myToken);
+    socket.emit("kick_user", "sigma", myToken);
   }, 1000)
 })
 .catch(error => {

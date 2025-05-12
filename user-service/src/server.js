@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import verifyToken from './authorization.js';
 import { createRoomC, getAllRooms, getUserRooms, joinRoomC, putRolesToRoomC, removeRoomC } from './controller/room.js';
-import { getUsers } from './controller/user.js';
+import { getUsers, verifyAdminC } from './controller/user.js';
 import { removeRoleFromUserC, addRoleToUserC, getUserRolesC, getRolesC, createRoleC, removeRoleC, createAdminRoleC } from './controller/role.js';
 
 const mongoURL = process.env.MONGO_URL;
@@ -30,6 +30,7 @@ server.post('/room/user', verifyToken, joinRoomC)
 server.post('/user/role', verifyToken, addRoleToUserC);
 server.post('/role/admin', verifyToken, createAdminRoleC);
 server.post('/role', verifyToken, createRoleC);
+server.post('/user/admin', verifyToken, verifyAdminC);
 
 server.put('/room/role', verifyToken, putRolesToRoomC);
 
