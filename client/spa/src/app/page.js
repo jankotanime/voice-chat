@@ -1,15 +1,12 @@
-"use client";
-
-import { useAuth } from '../context/AuthContext.js';
-import Login from './components/authorization/Login.js';
-import Main from './components/main/Main.js';
+import React from 'react';
+import withAuth from './auth/middleware/withAuth';
+import LogoutButton from './auth/components/LogoutButton';
 
 export default function Home() {
-  const { authenticated, userInfo } = useAuth();
-
   return (
     <div>
-      {authenticated ? <Main user = {userInfo} /> : <Login />}
+      <h1>Welcome to the Home Page</h1>
+      <LogoutButton />
     </div>
   );
-}
+};

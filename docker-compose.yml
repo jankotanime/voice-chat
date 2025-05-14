@@ -5,6 +5,8 @@ services:
     build:
       context: ./client/spa
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_KEYCLOAK_URL: "http://keycloak:8080"
     ports:
       - "3000:3000"
     depends_on:
@@ -15,6 +17,8 @@ services:
       - app-network
     volumes:
       - ./client/spa:/app
+    environment:
+      - NEXT_PUBLIC_KEYCLOAK_URL=http://keycloak:8080
 
 
   user-service:

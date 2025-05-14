@@ -1,12 +1,17 @@
 "use client"
-import { AuthProvider } from '../context/AuthContext.js';
 
-export default function RootLayout({ children }) {
+import React from 'react';
+import { KeycloakProvider } from "./auth/provider/KeycloakProvider.js"
+import './globals.css';
+
+function MyApp({ children }) {
   return (
     <html>
       <body>
-        <AuthProvider>{children}</AuthProvider>
+      <KeycloakProvider>{children}</KeycloakProvider>
       </body>
     </html>
   );
 }
+
+export default MyApp;
