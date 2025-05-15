@@ -1,12 +1,12 @@
 'use client';
 import "./../../globals.css";
-import { useEffect, useState } from "react";
+import LogoutButton from "./../authorization/LogoutButton";
 
-const Main = (props) => {
+const MainScreen = (props) => {
   return (<div>
-          <h1>AAA - Zalogowany!</h1>
-          <p>Witaj, {props.preferred_username}</p>
+          <h1>Witaj, {props.user.name}</h1>
+          <LogoutButton />
         </div>)
 }
 
-export default Main
+export default MainScreen

@@ -13,18 +13,16 @@ let isInitialized = false;
 export const initKeycloak = () => {
   if (typeof window !== "undefined") {
     if (!isInitialized) {
-      console.log("Initializing Keycloak with config:", keycloakConfig);
       keycloak = new Keycloak(keycloakConfig);
       isInitialized = true;
 
       return keycloak
         .init({
-          onLoad: "login-required",
+          onLoad: "check-sso",
           checkLoginIframe: false,
           redirectUri: window.location.origin,
         })
         .then(authenticated => {
-          console.log("Keycloak initialized:", authenticated);
           return authenticated;
         })
         .catch(err => {
@@ -38,7 +36,13 @@ export const initKeycloak = () => {
   return Promise.reject("Keycloak init failed, window is undefined.");
 };
 
-
+export const login = () => {
+  if (keycloak) {
+    keycloak.login();
+  } else {
+    console.error("Keycloak is not initialized yet.");
+  }
+};
 
 export const logout = () => {
   if (keycloak) {
@@ -47,7 +51,7 @@ export const logout = () => {
 };
 
 function parseJwt(token) {
-  const base64Url = token.split('.')[1]; // bierzemy środkową część
+  const base64Url = token.split('.')[1];
   const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
   const jsonPayload = decodeURIComponent(
     atob(base64)

@@ -1,7 +1,7 @@
 "use client"
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { initKeycloak, getName, logout } from '../config/keycloak.js';
+import { initKeycloak, getName, logout, login } from '../config/keycloak.js';
 
 const KeycloakContext = createContext({
   initialized: false,
@@ -21,8 +21,7 @@ export const KeycloakProvider = ({ children }) => {
         .then(async auth => {
           if  (auth) {
             setAuthenticated(true);
-            const name = await getName() 
-            console.log(name)
+            const name = await getName()
             if (name) {
               setUser({
                 name: name,
@@ -41,7 +40,7 @@ export const KeycloakProvider = ({ children }) => {
   }, []);
 
   return (
-    <KeycloakContext.Provider value={{ initialized, authenticated, user, logout }}>
+    <KeycloakContext.Provider value={{ initialized, authenticated, user, logout, login }}>
       {children}
     </KeycloakContext.Provider>
   );

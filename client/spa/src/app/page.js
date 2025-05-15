@@ -1,12 +1,19 @@
+"use client"
+
 import React from 'react';
 import withAuth from './auth/middleware/withAuth';
-import LogoutButton from './auth/components/LogoutButton';
+import { useKeycloak } from './auth/provider/KeycloakProvider.js';
+import MainScreen from './components/main/Main'
+import LoadingScreen from './components/main/LoadingScreen'
+import LoginScreen from './components/authorization/LoginScreen'
 
 export default function Home() {
-  return (
-    <div>
-      <h1>Welcome to the Home Page</h1>
-      <LogoutButton />
-    </div>
-  );
+  const { initialized, authenticated, user } = useKeycloak();
+  return (<div>{
+    initialized ? 
+    authenticated && user ? 
+    <MainScreen user = {user} /> : 
+    <LoginScreen /> : 
+    <LoadingScreen />
+  }</div>)
 };
