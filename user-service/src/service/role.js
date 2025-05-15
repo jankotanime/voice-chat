@@ -6,15 +6,16 @@ const keycloakUrl = process.env.KEYCLOAK_URL;
 
 export const getAllRoles = async (token) => {
   try {
+    const adminToken = await getAdminAccessToken()
     const roles = await axios.get(
       `${keycloakUrl}/admin/realms/voice-chat/roles`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${adminToken}`,
         },
       }
     )
-
-    return roles;
+    const rolesNames = roles.data.map(role => role.name)
+    return rolesNames
   } catch (err) {
     return { err: err?.response?.data || err.message };
   }
@@ -115,7 +116,6 @@ export const getUserRoles = async (username, userId, token) => {
       `${keycloakUrl}/admin/realms/voice-chat/users/${userId}/role-mappings/realm`,
       { headers: { Authorization: `Bearer ${adminToken}`, 'Content-Type': 'application/json'}}
     );
-    console.log(roles)
     const rolesNames = roles.data.map(role => role.name)
     return rolesNames
   } catch (err) {

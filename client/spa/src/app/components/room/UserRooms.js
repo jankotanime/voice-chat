@@ -30,7 +30,6 @@ const UserRooms = () => {
   
         const json = await response.json();
         setRooms(json.mess);
-        console.log(json.mess)
       } catch (error) {
         console.error('Błąd podczas pobierania danych:', error);
       }

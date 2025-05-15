@@ -1,7 +1,8 @@
-import { getUserRooms } from '../controller/room.js';
+import { getAllRooms, getUserRooms } from '../controller/room.js';
 import Channel from '../models/Channel.js';
 import { getAllRoles, getUserRoles } from './role.js';
 import { getUserId, isAdmin } from './user.js';
+import getAdminAccessToken from "../adminToken.js"
 
 export const findAllRooms = async (username, token) => {
   try {
@@ -15,8 +16,9 @@ export const findAllRooms = async (username, token) => {
 
 export const findRoomsByRoles = async (username, id, token) => {
   try {
+    const admin = await isAdmin(username, id, token)
     const roles = await getUserRoles(username, id, token)
-    const rooms = await Channel.find({ 'roles': { $in: roles } });
+    const rooms = admin ? await Channel.find() : await Channel.find({ 'roles': { $in: roles } });
     return { mess: rooms }
   } catch (err) {
     return { err: err };
