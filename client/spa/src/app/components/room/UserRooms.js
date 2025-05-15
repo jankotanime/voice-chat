@@ -2,10 +2,15 @@
 import "./../../globals.css";
 import { useState, useEffect } from "react";
 import { useKeycloak } from '../../auth/provider/KeycloakProvider.js';
+import DeleteRoom from './DeleteRoom.js'
 
 const UserRooms = () => {
   const { getToken } = useKeycloak();
   const [rooms, setRooms] = useState([]);
+
+  const onDelete = (id) => {
+    setRooms(rooms => rooms.filter(elem => elem._id != id))
+  }
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -37,10 +42,9 @@ const UserRooms = () => {
   
     fetchRooms();
   }, [getToken]);
-  
 
   return (<div>
-    {rooms.map((elem, id) => (<div key={id}>{elem.name}</div>))}
+    {rooms.map((elem) => (<div key={elem._id}>{elem.name}<DeleteRoom id={elem._id} onDelete={onDelete} /></div>))}
   </div>)
 }
 

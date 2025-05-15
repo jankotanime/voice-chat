@@ -65,9 +65,9 @@ export const putRolesToRoom = async (username, roomId, roles, token) => {
   }
 };
 
-export const removeRoomById = async (username, id, token) => {
+export const removeRoomById = async (username, userId, id, token) => {
   try {
-    if (!(await isAdmin(username, token))) { return {err: "403 Forbidden"} }
+    if (!(await isAdmin(username, userId, token))) { return {err: "403 Forbidden"} }
     const removedChannel = await Channel.findByIdAndDelete(id);
     return { mess: removedChannel }
   } catch (err) {

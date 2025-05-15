@@ -22,7 +22,7 @@ export const createRoomC = async (req, res) => {
 };
 
 export const removeRoomC = async (req, res) => {
-  const response = await removeRoomById(req.user.preferred_username, req.body.id, req.token);
+  const response = await removeRoomById(req.user.preferred_username, req.user.sub, req.body.id, req.token);
   return "err" in response
     ? res.status(404).send({err: response.err})
     : res.status(200).send(response);
