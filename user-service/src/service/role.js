@@ -1,5 +1,6 @@
 import axios from "axios"
 import { getUserId } from "./user.js";
+import getAdminAccessToken from "../adminToken.js"
 
 const keycloakUrl = process.env.KEYCLOAK_URL;
 
@@ -107,17 +108,18 @@ export const createAdminRole = async (rolename, description = '', token) => {
   }
 };
 
-export const getUserRoles = async (username, token) => {
+export const getUserRoles = async (username, userId, token) => {
   try {
-    const userId = await getUserId(username, token)
-    if (!userId) { return {err: userId.err}}
+    const adminToken = await getAdminAccessToken();
     const roles = await axios.get(
       `${keycloakUrl}/admin/realms/voice-chat/users/${userId}/role-mappings/realm`,
-      { headers: { Authorization: `Bearer ${token}`}}
+      { headers: { Authorization: `Bearer ${adminToken}`, 'Content-Type': 'application/json'}}
     );
+    console.log(roles)
     const rolesNames = roles.data.map(role => role.name)
     return rolesNames
   } catch (err) {
+    console.log(err)
     return {err: err}
   }
 }

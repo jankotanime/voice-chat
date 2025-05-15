@@ -78,4 +78,20 @@ export const getName = async () => {
   return null;
 };
 
+export const getToken = async () => {
+  if (keycloak) {
+    if (keycloak.isTokenExpired()) {
+      try {
+        await keycloak.updateToken(30);
+      } catch (error) {
+        console.error("Failed to refresh the token", error);
+        keycloak.logout();
+        return null;
+      }
+    }
+    return keycloak.token ?? null;
+  }
+  return null;
+};
+
 export default { keycloak };

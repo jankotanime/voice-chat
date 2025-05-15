@@ -19,6 +19,7 @@ services:
       - ./client/spa:/app
     environment:
       - NEXT_PUBLIC_KEYCLOAK_URL=http://keycloak:8080
+      - NEXT_PUBLIC_USER_URL=http://user-service:8001
 
 
   user-service:

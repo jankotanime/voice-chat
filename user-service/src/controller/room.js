@@ -1,7 +1,7 @@
 import { checkRoomAccess, createRoom, findAllRooms, findRoomsByRoles, putRolesToRoom, removeRoomById } from '../service/room.js';
 
 export const getUserRooms = async (req, res) => {
-  const rooms = await findRoomsByRoles(req.user.preferred_username, req.token);
+  const rooms = await findRoomsByRoles(req.user.preferred_username, req.user.sub, req.token);
   return "err" in rooms
     ? res.status(404).send({err: rooms.err})
     : res.status(200).send(rooms);

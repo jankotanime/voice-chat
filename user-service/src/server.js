@@ -4,6 +4,7 @@ import verifyToken from './authorization.js';
 import { createRoomC, getAllRooms, getUserRooms, joinRoomC, putRolesToRoomC, removeRoomC } from './controller/room.js';
 import { getUsers, verifyAdminC } from './controller/user.js';
 import { removeRoleFromUserC, addRoleToUserC, getUserRolesC, getRolesC, createRoleC, removeRoleC, createAdminRoleC } from './controller/role.js';
+import cors from 'cors';
 
 const mongoURL = process.env.MONGO_URL;
 const port = 8001;
@@ -12,6 +13,11 @@ const server = express();
 mongoose.connect(mongoURL)
   .then(() => console.log('Połączono z MongoDB'))
   .catch((err) => console.error('Błąd połączenia z MongoDB:', err));
+
+server.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 
 server.use(express.json());
 
