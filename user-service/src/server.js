@@ -22,7 +22,7 @@ server.use(cors({
 server.use(express.json());
 
 server.get('/room', verifyToken, getAllRooms); // * admin
-server.get('/users', verifyToken, getUsers);
+server.get('/user', verifyToken, getUsers);
 server.get('/role', verifyToken, getRolesC);
 server.get('/user/role', verifyToken, getUserRolesC);
 server.get('/user/room', verifyToken, getUserRooms);

@@ -6,8 +6,9 @@ const keycloakUrl = process.env.KEYCLOAK_URL;
 
 export const findUsers = async (token) => {
   try {
+    const adminToken = await getAdminAccessToken()
     const usersResp = await axios.get(`${keycloakUrl}/admin/realms/voice-chat/users`, {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${adminToken}` }
     });
     const simplified = usersResp.data.map(u => ({ username: u.username }));
 
