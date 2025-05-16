@@ -28,7 +28,7 @@ export const findRoomsByRoles = async (username, id, token) => {
 export const createRoom = async (username, name, roles, token) => {
   try {
     if (!(await isAdmin(username, token))) { return {err: "403 Forbidden"} }
-    const allRoles = (await getAllRoles(token)).data.map(role => role.name)
+    const allRoles = await getAllRoles(token)
     const channelRoles = roles.filter(role => allRoles.includes(role))
     const newChannel = await Channel.create({name: name, roles: channelRoles});
     return { mess: newChannel }

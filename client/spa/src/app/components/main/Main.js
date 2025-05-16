@@ -3,7 +3,6 @@ import "./../../globals.css";
 import LogoutButton from "./../authorization/LogoutButton";
 import UserRooms from "./../room/UserRooms";
 import Users from "./../users/Users"
-import CreateRoom from "./../room/CreateRoom"
 
 const MainScreen = (props) => {
   return (<div>
@@ -11,7 +10,6 @@ const MainScreen = (props) => {
           <LogoutButton />
           <h2>Pokoje</h2>
           <UserRooms />
-          <CreateRoom />
           <h2>Użytkownicy</h2>
           <Users />
         </div>)

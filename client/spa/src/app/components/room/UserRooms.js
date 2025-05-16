@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import { useKeycloak } from '../../auth/provider/KeycloakProvider.js';
 import DeleteRoom from './DeleteRoom.js'
 import JoinRoom from './JoinRoom.js'
+import CreateRoom from "./CreateRoom"
+
 
 const socket = io("http://localhost:8002", {
   transports: ['websocket', 'polling'],
@@ -72,6 +74,7 @@ const UserRooms = () => {
         <DeleteRoom id={elem._id} onDelete={onDelete} />
       </div>
     ))}
+    <CreateRoom setRooms={setRooms} />
   </div>)
 }
 

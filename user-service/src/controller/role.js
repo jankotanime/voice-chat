@@ -4,7 +4,7 @@ export const getRolesC = async (req, res) => {
   const roles = await getAllRoles(req.token);
   return "err" in roles
     ? res.status(404).send({err: roles.err})
-    : res.status(200).send({roles: roles.data});
+    : res.status(200).send({roles: roles});
 };
 
 export const createRoleC = async (req, res) => {
