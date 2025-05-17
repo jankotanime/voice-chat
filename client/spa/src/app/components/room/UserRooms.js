@@ -1,29 +1,12 @@
 'use client';
 import "./../../globals.css";
-import { io } from 'socket.io-client';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useKeycloak } from '../../auth/provider/KeycloakProvider.js';
 import DeleteRoom from './DeleteRoom.js'
 import JoinRoom from './JoinRoom.js'
 import CreateRoom from "./CreateRoom"
-
-
-const socket = io("http://localhost:8002", {
-  transports: ['websocket', 'polling'],
-  autoConnect: false
-});
-
-socket.on("connect_error", (err) => {
-  console.error("Błąd połączenia z WebSocketem:", err.message);
-});
-
-socket.on("connect", () => {
-  console.log("Połączono z serwerem WebSocket.");
-});
-
-socket.on("voice", (message) => {
-  console.log(message);
-});
+import { socket } from "../../handle-voice-chat/handleWebsocket.js";
+import { handleVoice } from "../../handle-voice-chat/handleVoice.js"
 
 const UserRooms = () => {
   const { getToken } = useKeycloak();
@@ -33,12 +16,18 @@ const UserRooms = () => {
     setRooms(rooms => rooms.filter(elem => elem._id != id))
   }
 
-  const onJoin = (id, token) => {
+  const onJoin = async (id, token) => {
+    rooms.forEach(elem => {
+      if (elem.joined === true) {
+        socket.emit("leave_room", token);
+      }
+    })
     if (socket.connected) {
       socket.disconnect();
     }
     socket.connect()
     socket.emit("join_room", id, token);
+    await handleVoice();
     setRooms(rooms => rooms.map(elem =>{
       if (elem._id === id) {
         elem.joined = true
@@ -80,6 +69,8 @@ const UserRooms = () => {
   
     fetchRooms();
   }, [getToken]);
+
+  handleVoice()
 
   return (<div>
     {rooms.map((elem) => (

@@ -113,8 +113,7 @@ io.sockets.on("connection", (socket) => {
     const room = [...socket.rooms][1]
 
     if (socket.rooms.has(room)) {
-      console.log(`${socket.userId} on room ${room}: ${data}`);
-      socket.to(room).emit("voice", `${socket.userId}: ${data}`);
+      socket.to(room).emit("voice", data)
     }
   })
 })
