@@ -25,9 +25,9 @@ export const findRoomsByRoles = async (username, id, token) => {
   }
 };
 
-export const createRoom = async (username, name, roles, token) => {
+export const createRoom = async (username, userId, name, roles, token) => {
   try {
-    if (!(await isAdmin(username, token))) { return {err: "403 Forbidden"} }
+    if (!(await isAdmin(username, userId, token))) { return {err: "403 Forbidden"} }
     const allRoles = await getAllRoles(token)
     const channelRoles = roles.filter(role => allRoles.includes(role))
     const newChannel = await Channel.create({name: name, roles: channelRoles});
@@ -37,9 +37,9 @@ export const createRoom = async (username, name, roles, token) => {
   }
 };
 
-export const checkRoomAccess = async (username, roomId, token) => {
+export const checkRoomAccess = async (username, userId, roomId, token) => {
   try {
-    const userRoles = await getUserRoles(username, token)
+    const userRoles = await getUserRoles(username, userId, token)
     const room = await Channel.findById(roomId)
     let isAccess = false
     room.roles.forEach(role => {

@@ -15,7 +15,7 @@ export const getAllRooms = async (req, res) => {
 };
 
 export const createRoomC = async (req, res) => {
-  const response = await createRoom(req.user.preferred_username, req.body.name, req.body.roles, req.token);
+  const response = await createRoom(req.user.preferred_username, req.user.sub, req.body.name, req.body.roles, req.token);
   return "err" in response
     ? res.status(404).send({err: response.err})
     : res.status(200).send(response);
@@ -36,7 +36,7 @@ export const putRolesToRoomC = async (req, res) => {
 };
 
 export const joinRoomC = async (req, res) => {
-  const response = await checkRoomAccess(req.user.preferred_username, req.body.roomId, req.token);
+  const response = await checkRoomAccess(req.user.preferred_username, req.user.sub, req.body.roomId, req.token);
   return "err" in response
     ? res.status(404).send({err: response.err})
     : res.status(200).send({user: req.user.preferred_username})
