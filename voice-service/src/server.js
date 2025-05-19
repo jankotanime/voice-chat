@@ -52,16 +52,19 @@ io.sockets.on("connection", (socket) => {
       const user = res.user;
       socket.userId = user;
       const actualRooms = [...socket.rooms].filter(r => r !== socket.id);
-      actualRooms.forEach(oldRoom => {
+      actualRooms.forEach(async (oldRoom) => {
         socket.leave(oldRoom);
         console.log(`${user} opuścił pokój: ${oldRoom}`);
-        // io.to(oldRoom).emit('voice', `${user} opuścił pokój: ${oldRoom}`);
+        socket.to(oldRoom).emit("guest_leave")
+        const usersInRoom = (await io.in(oldRoom).fetchSockets()).map(elem => elem.userId)
+        console.log(usersInRoom)
+        socket.to(oldRoom).emit('roomMates', usersInRoom);
       });
-
       socket.join(room);
       console.log(`${user} dołączył do pokoju: ${room}`);
-      // io.to(room).emit('voice', `${user} dołączył do pokoju: ${room}`);
-
+      socket.to(room).emit('guest_join');
+      const usersInRoom = (await io.in(room).fetchSockets()).map(elem => elem.userId)
+      io.to(room).emit('roomMates', usersInRoom);
     } catch (err) {
       console.error(err);
       socket.emit('error', { message: 'Auth error' });
@@ -76,7 +79,10 @@ io.sockets.on("connection", (socket) => {
         socket.emit('error', { message: 'Invalid token' });
       } else {
         const user = res.user
-        // socket.to([...socket.rooms][1]).emit('voice', `${user} opuścił pokój: ${room}`)
+        io.to(room).emit("guest_leave")
+        const usersInRoom = (await io.in(room).fetchSockets())
+        .map(elem => elem.userId).filter(elem => elem !== user);
+        socket.to(room).emit('roomMates', usersInRoom);
         socket.leave(room)
         console.log(`${user} opuścił pokój: ${room}`)
       }
@@ -92,12 +98,14 @@ io.sockets.on("connection", (socket) => {
         socket.emit('error', { message: 'Invalid token' });
       } else {
         const sockets = Array.from(io.sockets.sockets);
-        sockets.forEach(([id, socket]) => {
+        sockets.forEach(async ([id, socket]) => {
           if (socket.userId === user) {
             for (const roomName of socket.rooms) {
               if (roomName !== socket.id) {
-                // io.to(roomName).emit('voice', `${user} opuścił pokój ${roomName}`)
                 socket.leave(roomName);
+                io.to(roomName).emit("guest_leave");
+                const usersInRoom = (await io.in(roomName).fetchSockets()).map(elem => elem.userId);
+                io.to(roomName).emit('roomMates', usersInRoom);
                 console.log(`User ${user} removed from room ${roomName}`);
               }
             }

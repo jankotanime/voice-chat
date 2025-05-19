@@ -40,3 +40,20 @@ socket.on("voice", (userId, buffer) => {
     console.error("Błąd podczas odtwarzania audio:", err);
   }
 });
+
+socket.on("guest_join", () => {
+  const audio = new Audio("/audio/guest-join.mp3");
+  audio.play().catch(err => console.error("Error playing audio:", err));
+});
+
+socket.on("guest_leave", () => {
+  const audio = new Audio("/audio/guest-leave.mp3");
+  audio.play().catch(err => console.error("Error playing audio:", err));
+});
+
+export const roomMatesListener = (setRoomMates) => {
+  if (!socket) return
+  socket.on("roomMates", (data) => {
+    setRoomMates(data)
+  }); 
+}

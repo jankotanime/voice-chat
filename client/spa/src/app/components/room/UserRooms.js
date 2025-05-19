@@ -7,30 +7,34 @@ import JoinRoom from './JoinRoom.js'
 import CreateRoom from "./CreateRoom"
 import { socket } from "../../handle-voice-chat/handleWebsocket.js";
 import { handleVoice } from "../../handle-voice-chat/handleVoice.js"
+import { roomMatesListener } from "../../handle-voice-chat/handleWebsocket.js";
 
 const UserRooms = () => {
+  socket.connect();
   const { getToken } = useKeycloak();
   const [rooms, setRooms] = useState([]);
   const [muted, setMuted] = useState(false);
   const [shouldHandleVoice, setShouldHandleVoice] = useState(false);
   const mutedRef = useRef(muted)
+  const [roomMates, setRoomMates] = useState([])
+
+  useEffect(() => {
+    if (!socket) return;
+    roomMatesListener(setRoomMates);
+    return () => {
+      socket.off("roomMates");
+    };
+  }, [socket]);
 
   const onDelete = (id) => {
     setRooms(rooms => rooms.filter(elem => elem._id != id))
   }
 
   const onJoin = async (id, token) => {
-    rooms.forEach(elem => {
-      if (elem.joined === true) {
-        socket.emit("leave_room", token);
-      }
-    })
-    if (socket.connected) {
-      socket.disconnect();
-    }
-    socket.connect()
     setShouldHandleVoice(true)
     socket.emit("join_room", id, token);
+    const audio = new Audio("/audio/user-join.mp3");
+    audio.play().catch(err => console.error("Error playing audio:", err));
     setRooms(rooms => rooms.map(elem =>{
       if (elem._id === id) {
         elem.joined = true
@@ -96,6 +100,13 @@ const UserRooms = () => {
       setShouldHandleVoice(true)
     }}>{ muted ? "Zmutowany" : "Odmutowany"}</div>
     <CreateRoom setRooms={setRooms} />
+    <div>Użytkownicy w pokoju:</div>
+    {roomMates.map((elem, id) => (
+      <div key={id}>
+      {console.log(roomMates)}
+      {elem}</div>
+    ))}
+    <div>-----</div>
   </div>)
 }
 

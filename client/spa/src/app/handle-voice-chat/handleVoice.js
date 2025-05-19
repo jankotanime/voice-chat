@@ -10,8 +10,6 @@ export const handleVoice = async (muted) => {
   source.connect(processor);
   processor.connect(audioCtx.destination);
 
-  console.log(muted)
-
   processor.onaudioprocess = (e) => {
     const inputData = e.inputBuffer.getChannelData(0);
     const int16Buffer = new Int16Array(inputData.length);
