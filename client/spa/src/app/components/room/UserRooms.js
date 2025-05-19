@@ -30,6 +30,23 @@ const UserRooms = () => {
     setRooms(rooms => rooms.filter(elem => elem._id != id))
   }
 
+  const onLeave  = async () => {
+    try {
+      const token = await getToken();
+      if (!token) {
+        console.error("Brak tokenu – użytkownik nieautoryzowany.");
+        return;
+      }
+      socket.emit("leave_room", token)
+      setRooms(rooms => rooms.map(elem => {
+        elem.joined = false
+        return elem
+      }))
+    } catch (err) {
+      console.log("Error: ", err)
+    }
+  }
+
   const onJoin = async (id, token) => {
     setShouldHandleVoice(true)
     socket.emit("join_room", id, token);
@@ -107,6 +124,11 @@ const UserRooms = () => {
       {elem}</div>
     ))}
     <div>-----</div>
+    <div>{rooms.map((elem, id) => {
+      if (elem.joined) {
+        return (<div key={id} onClick={() => onLeave()}> Opuść pokój </div>)
+      }
+    })}</div>
   </div>)
 }
 
