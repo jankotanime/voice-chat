@@ -17,6 +17,7 @@ const UserRooms = () => {
   const [shouldHandleVoice, setShouldHandleVoice] = useState(false);
   const mutedRef = useRef(muted)
   const [roomMates, setRoomMates] = useState([])
+  const [roles, setRoles] = useState([])
 
   useEffect(() => {
     if (!socket) return;
@@ -97,6 +98,21 @@ const UserRooms = () => {
         const json = await response.json();
         json.mess.forEach(elem => elem.joined = false);
         setRooms(json.mess);
+
+        const rolesResponse = await fetch(`http://localhost:8001/role`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+  
+        if (!rolesResponse.ok) {
+          throw new Error(`HTTP error! Status: ${rolesResponse.status}`);
+        }
+  
+        const rolesJson = await rolesResponse.json();
+        setRoles(rolesJson.roles);
       } catch (error) {
         console.error('Błąd podczas pobierania danych:', error);
       }
@@ -129,6 +145,13 @@ const UserRooms = () => {
         return (<div key={id} onClick={() => onLeave()}> Opuść pokój </div>)
       }
     })}</div>
+    <div>Role:</div>
+    {roles.map((elem, id) => (
+      <div key={id}>
+        {console.log(elem)}
+        {elem}
+      </div>
+    ))}
   </div>)
 }
 

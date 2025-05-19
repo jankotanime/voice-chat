@@ -82,7 +82,7 @@ io.sockets.on("connection", (socket) => {
         io.to(room).emit("guest_leave")
         const usersInRoom = (await io.in(room).fetchSockets())
         .map(elem => elem.userId).filter(elem => elem !== user);
-        socket.to(room).emit('roomMates', usersInRoom);
+        io.to(room).emit('roomMates', usersInRoom);
         socket.leave(room)
         console.log(`${user} opuścił pokój: ${room}`)
       }
