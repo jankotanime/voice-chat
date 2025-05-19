@@ -18,7 +18,7 @@ const audioCtx = getAudioContext();
 
 socket.on("voice", (userId, buffer) => {
   if (!audioCtx) {
-    console.warn("AudioContext niedostępny (np. SSR lub przeglądarka nie wspiera)");
+    console.warn("AudioContext niedostępny");
     return;
   }
   

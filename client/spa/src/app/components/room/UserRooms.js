@@ -12,6 +12,8 @@ const UserRooms = () => {
   const { getToken } = useKeycloak();
   const [rooms, setRooms] = useState([]);
   const [muted, setMuted] = useState(false);
+  const [shouldHandleVoice, setShouldHandleVoice] = useState(false);
+  const mutedRef = useRef(muted)
 
   const onDelete = (id) => {
     setRooms(rooms => rooms.filter(elem => elem._id != id))
@@ -27,8 +29,8 @@ const UserRooms = () => {
       socket.disconnect();
     }
     socket.connect()
+    setShouldHandleVoice(true)
     socket.emit("join_room", id, token);
-    await handleVoice(muted);
     setRooms(rooms => rooms.map(elem =>{
       if (elem._id === id) {
         elem.joined = true
@@ -38,6 +40,17 @@ const UserRooms = () => {
       return elem
     }))
   }
+
+  useEffect(() => {
+    if (shouldHandleVoice) {
+      handleVoice(mutedRef);
+      setShouldHandleVoice(false)
+    }
+  }, [shouldHandleVoice]);
+
+  useEffect(() => {
+    mutedRef.current = muted;
+  }, [muted]);
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -78,7 +91,10 @@ const UserRooms = () => {
         <DeleteRoom id={elem._id} onDelete={onDelete} />
       </div>
     ))}
-    <div onClick={() => setMuted(!muted)}>{ muted ? "Zmutowany" : "Odmutowany"}</div>
+    <div onClick={() => {
+      setMuted(!muted)
+      setShouldHandleVoice(true)
+    }}>{ muted ? "Zmutowany" : "Odmutowany"}</div>
     <CreateRoom setRooms={setRooms} />
   </div>)
 }
