@@ -1,22 +1,23 @@
 import { socket } from "./handleWebsocket";
 
-let mediaRecorder;
+export const handleVoice = async (muted) => {
+  const constraints = { audio: true, video: false };
+  const stream = await navigator.mediaDevices.getUserMedia(constraints);
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const source = audioCtx.createMediaStreamSource(stream);
 
-export const handleVoice = async () => {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  const processor = audioCtx.createScriptProcessor(2048, 1, 1);
+  source.connect(processor);
+  processor.connect(audioCtx.destination);
 
-    mediaRecorder = new MediaRecorder(stream);
+  processor.onaudioprocess = (e) => {
+    if (muted) return;
 
-    mediaRecorder.ondataavailable = (event) => {
-      if (event.data.size > 0 && socket.connected) {
-        event.data.arrayBuffer().then(buffer => {
-          socket.emit("voice", buffer);
-        });
-      }
-    };
-    mediaRecorder.start(250);
-  } catch (err) {
-    console.error("Błąd dostępu do mikrofonu:", err);
-  }
+    const inputData = e.inputBuffer.getChannelData(0);
+    const int16Buffer = new Int16Array(inputData.length);
+    for (let i = 0; i < inputData.length; i++) {
+      int16Buffer[i] = inputData[i] * 0x7FFF;
+    }
+    socket.emit("voice", int16Buffer.buffer);
+  };
 };

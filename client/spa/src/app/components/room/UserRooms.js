@@ -11,6 +11,7 @@ import { handleVoice } from "../../handle-voice-chat/handleVoice.js"
 const UserRooms = () => {
   const { getToken } = useKeycloak();
   const [rooms, setRooms] = useState([]);
+  const [muted, setMuted] = useState(false);
 
   const onDelete = (id) => {
     setRooms(rooms => rooms.filter(elem => elem._id != id))
@@ -27,7 +28,7 @@ const UserRooms = () => {
     }
     socket.connect()
     socket.emit("join_room", id, token);
-    await handleVoice();
+    await handleVoice(muted);
     setRooms(rooms => rooms.map(elem =>{
       if (elem._id === id) {
         elem.joined = true
@@ -70,8 +71,6 @@ const UserRooms = () => {
     fetchRooms();
   }, [getToken]);
 
-  handleVoice()
-
   return (<div>
     {rooms.map((elem) => (
       <div key={elem._id}>
@@ -79,6 +78,7 @@ const UserRooms = () => {
         <DeleteRoom id={elem._id} onDelete={onDelete} />
       </div>
     ))}
+    <div onClick={() => setMuted(!muted)}>{ muted ? "Zmutowany" : "Odmutowany"}</div>
     <CreateRoom setRooms={setRooms} />
   </div>)
 }

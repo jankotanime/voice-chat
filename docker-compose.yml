@@ -18,8 +18,8 @@ services:
     volumes:
       - ./client/spa:/app
     environment:
-      - NEXT_PUBLIC_KEYCLOAK_URL=http://keycloak:8080
-      - NEXT_PUBLIC_USER_URL=http://user-service:8001
+      - NEXT_PUBLIC_KEYCLOAK_URL=${NEXT_PUBLIC_KEYCLOAK_UR}
+      - NEXT_PUBLIC_USER_URL=${NEXT_PUBLIC_USER_URL}
 
 
   user-service:
