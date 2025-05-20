@@ -2,10 +2,12 @@
 import "./../../globals.css";
 import { useState, useEffect } from "react";
 import { useKeycloak } from '../../auth/provider/KeycloakProvider.js';
+import ManageUser from "./ManageUser.js"
 
 const Users = () => {
   const { getToken } = useKeycloak();
   const [users, setUsers] = useState([]);
+  const [manage, setManage] = useState(null);
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -39,7 +41,10 @@ const Users = () => {
   }, [getToken]);
 
   return (<div className="users">
-    {users.map((elem, id) => (<div key={id}>{elem.username}</div>))}
+    {manage ? <ManageUser user={manage}/> : null}
+    {users.map((elem, id) => (<div key={id} onClick={() => {
+      elem.username === manage ? setManage(null) : setManage(elem.username)
+    }}>{elem.username}</div>))}
   </div>)
 }
 
