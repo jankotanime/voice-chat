@@ -6,16 +6,18 @@ import Users from "./../users/Users"
 import Roles from "./../roles/Roles"
 
 const MainScreen = (props) => {
-  return (<div>
-          <h1>Witaj, {props.user.name}</h1>
-          <LogoutButton />
-          <h2>Pokoje</h2>
-          <RoomsContainer />
-          <h2>Użytkownicy</h2>
-          <Users />
-          <h2>Role</h2>
-          <Roles />
-        </div>)
+  return (
+  <div>
+    <div className="header">    
+      <h1>Witaj, {props.user.name}</h1>
+      <LogoutButton />
+    </div>
+    <div className="main"> 
+      <RoomsContainer />
+      <Users />
+      <Roles />
+    </div>
+  </div>)
 }
 
 export default MainScreen

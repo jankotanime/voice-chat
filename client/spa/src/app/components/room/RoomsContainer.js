@@ -2,8 +2,6 @@
 import "./../../globals.css";
 import { useState, useEffect, useRef } from "react";
 import { useKeycloak } from '../../auth/provider/KeycloakProvider.js';
-import DeleteRoom from './DeleteRoom.js'
-import JoinRoom from './JoinRoom.js'
 import CreateRoom from "./CreateRoom"
 import { socket } from "../../handle-voice-chat/handleWebsocket.js";
 import JoinedRoom from "./JoinedRoom";
@@ -17,6 +15,7 @@ const RoomsContainer = () => {
   const [rooms, setRooms] = useState([]);
   const [shouldHandleVoice, setShouldHandleVoice] = useState(false);
   const [muted, setMuted] = useState(false);
+  const [creatingRoom, setCreatingRoom] = useState(false);
   const mutedRef = useRef(muted)
 
   useEffect(() => {
@@ -62,18 +61,24 @@ const RoomsContainer = () => {
     fetchRooms();
   }, [getToken]);
 
-  return (<div>
+  return (<div className="rooms-container">
+    <div className="user-rooms">
     <UserRooms rooms={rooms} setRooms={setRooms} setShouldHandleVoice={setShouldHandleVoice} />
-    <CreateRoom setRooms={setRooms} />
-    {rooms.map((elem, id) => { return(
-      <div key={id}>
-      {elem.joined ? <JoinedRoom /> : null}
-      </div>
-    )})}
-    <div onClick={() => {
-      setMuted(!muted)
-      setShouldHandleVoice(true)
-    }}>{ muted ? "Zmutowany" : "Odmutowany"}</div>
+    <div onClick={() => setCreatingRoom(!creatingRoom)}>
+      {creatingRoom ? <CreateRoom setRooms={setRooms} /> : "Stwórz pokój" }
+    </div>
+    </div>
+    <div className="joined-room">
+      {rooms.map((elem, id) => { return(
+        <div key={id}>
+        {elem.joined ? <JoinedRoom setRooms={setRooms} /> : null}
+        </div>
+      )})}
+      <div onClick={() => {
+        setMuted(!muted)
+        setShouldHandleVoice(true)
+      }}>{ muted ? "Zmutowany" : "Odmutowany"}</div>
+    </div>
   </div>)
 }
 

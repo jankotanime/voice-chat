@@ -38,7 +38,7 @@ const Roles = () => {
     fetchRooms();
   }, [getToken]);
 
-  return (<div>
+  return (<div className="roles">
     {roles.map((elem, id) => (<div key={id}>{elem}</div>))}
   </div>)
 }

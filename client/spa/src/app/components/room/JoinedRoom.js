@@ -2,10 +2,10 @@
 import "./../../globals.css";
 import { useKeycloak } from '../../auth/provider/KeycloakProvider.js';
 import { socket } from "../../handle-voice-chat/handleWebsocket.js";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { roomMatesListener } from "../../handle-voice-chat/handleWebsocket.js";
 
-const JoinedRoom = () => {
+const JoinedRoom = (props) => {
   const { getToken } = useKeycloak();
   const [roomMates, setRoomMates] = useState([])
 
@@ -25,7 +25,7 @@ const JoinedRoom = () => {
         return;
       }
       socket.emit("leave_room", token)
-      setRooms(rooms => rooms.map(elem => {
+      props.setRooms(rooms => rooms.map(elem => {
         elem.joined = false
         return elem
       }))

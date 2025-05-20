@@ -38,7 +38,7 @@ const Users = () => {
     fetchRooms();
   }, [getToken]);
 
-  return (<div>
+  return (<div className="users">
     {users.map((elem, id) => (<div key={id}>{elem.username}</div>))}
   </div>)
 }
