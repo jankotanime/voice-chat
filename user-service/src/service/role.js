@@ -1,5 +1,5 @@
 import axios from "axios"
-import { getUserId } from "./user.js";
+import { getUserId, isAdmin } from "./user.js";
 import getAdminAccessToken from "../adminToken.js"
 
 const keycloakUrl = process.env.KEYCLOAK_URL;
@@ -23,7 +23,6 @@ export const getAllRoles = async (token) => {
 
 export const deleteRole = async (rolename, token) => {
   try {
-    console.log(rolename)
     const response = await axios.delete(
       `${keycloakUrl}/admin/realms/voice-chat/roles/${encodeURIComponent(rolename)}`, {
         headers: {
@@ -119,7 +118,6 @@ export const getUserRoles = async (username, userId, token) => {
     const rolesNames = roles.data.map(role => role.name)
     return rolesNames
   } catch (err) {
-    console.log(err)
     return {err: err}
   }
 }
@@ -136,6 +134,27 @@ export const getRoleResp = async (rolename, token) => {
     return {err: err}
   }
 }
+
+export const updateUserRoles = async (username, userId, targetUser, roles, token) => {
+  try {
+    const adminToken = await getAdminAccessToken()
+    const admin = await isAdmin(username, userId, token)
+    if (!admin) return { err: "Forbidden" };
+    const targetId = await getUserId(targetUser)
+    const userRoles = await getUserRoles(targetUser, targetId, token)
+    roles.forEach(role => {
+      if (userRoles.includes(role.name) && !role.picked) {
+        removeRoleFromUser(targetUser, role.name, adminToken)
+      } else if (!userRoles.includes(role.name) && role.picked) {
+        addRoleToUser(targetUser, role.name, adminToken)
+      }
+    })
+    return {mess: "Rola zmienione" }
+  } catch (err) {
+    return { err: err };
+  }
+};
+
 
 export const addRoleToUser = async (username, rolename, token) => {
   try {
@@ -176,21 +195,21 @@ export const removeRoleFromUser = async (username, rolename, token) => {
     if (!roleResp) { return {err: userId.err}} 
     await axios.delete(
       `${keycloakUrl}/admin/realms/voice-chat/users/${userId}/role-mappings/realm`,
-      [
-        {
-          name: rolename,
-          id: roleResp.data.id,
-          description: roleResp.data.description,
-          composite: roleResp.data.composite,
-          clientRole: false,
-          containerId: roleResp.data.containerId
-        }
-      ],
       {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
-        }
+        },
+        data: [
+          {
+            name: rolename,
+            id: roleResp.data.id,
+            description: roleResp.data.description,
+            composite: roleResp.data.composite,
+            clientRole: false,
+            containerId: roleResp.data.containerId
+          }
+        ]
       }
     );    
     return {mess: "Rola usunięta" }

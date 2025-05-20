@@ -18,11 +18,12 @@ export const findUsers = async (token) => {
   }
 };
 
-export const getUserId = async (username, token) => {
+export const getUserId = async (username) => {
   try {
+    const adminToken = await getAdminAccessToken()
     const user = await axios.get(
       `${keycloakUrl}/admin/realms/voice-chat/users?username=${username}`,
-      { headers: { Authorization: `Bearer ${token}` } }
+      { headers: { Authorization: `Bearer ${adminToken}` } }
     );
     const userId = user.data[0].id
     if (!userId) {return { err: 'Wrong username' }}
