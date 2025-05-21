@@ -52,3 +52,19 @@ export const isAdmin = async (username, id, token) => {
     return { err: err };
   }
 };
+
+export const deleteUser = async (username, id, user, token) => {
+  try {
+    const admin = await isAdmin(username, id, token)
+    if (!admin) return {err: "Forbidden"}
+    const adminToken = await getAdminAccessToken()
+    const userId = await getUserId(user)
+    await axios.delete(
+      `${keycloakUrl}/admin/realms/voice-chat/users/${userId}`,
+      { headers: { Authorization: `Bearer ${adminToken}` } }
+    );
+    return {mess: "Usunięto"}
+  } catch (err) {
+    return {err: err}
+  }
+}

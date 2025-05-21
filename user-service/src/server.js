@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import verifyToken from './authorization.js';
 import { createRoomC, getAllRooms, getUserRooms, joinRoomC, putRolesToRoomC, removeRoomC } from './controller/room.js';
-import { getUsers, verifyAdminC } from './controller/user.js';
+import { getUsers, removeUserC, verifyAdminC } from './controller/user.js';
 import { removeRoleFromUserC, addRoleToUserC, getUserRolesC, getRolesC, createRoleC, removeRoleC, createAdminRoleC, updateUserRolesC } from './controller/role.js';
 import cors from 'cors';
 
@@ -40,6 +40,7 @@ server.put('/user/role', verifyToken, updateUserRolesC)
 server.delete('/role/:role', verifyToken, removeRoleC);
 server.delete('/user/role', verifyToken, removeRoleFromUserC);
 server.delete('/room', verifyToken, removeRoomC);
+server.delete('/user', verifyToken, removeUserC);
 
 server.listen(port, () => {
   console.log(`Serwer działa na http://localhost:${port}`);
