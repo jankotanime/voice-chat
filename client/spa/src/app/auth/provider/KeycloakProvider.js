@@ -1,7 +1,7 @@
 "use client"
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { initKeycloak, getName, logout, login, getToken } from '../config/keycloak.js';
+import { initKeycloak, getName, logout, login, getToken, register } from '../config/keycloak.js';
 
 const KeycloakContext = createContext({
   initialized: false,
@@ -40,7 +40,7 @@ export const KeycloakProvider = ({ children }) => {
   }, []);
 
   return (
-    <KeycloakContext.Provider value={{ initialized, authenticated, user, logout, login, getToken }}>
+    <KeycloakContext.Provider value={{ initialized, authenticated, user, logout, login, register, getToken }}>
       {children}
     </KeycloakContext.Provider>
   );
