@@ -3,11 +3,13 @@ import "./../../globals.css";
 import { useState, useEffect } from "react";
 import { useKeycloak } from '../../auth/provider/KeycloakProvider.js';
 import CreateRole from "./CreateRole";
+import ManageRole from "./ManageRole"
 
 const Roles = () => {
   const { getToken } = useKeycloak();
   const [roles, setRoles] = useState([]);
   const [createRole, setCreateRole] = useState(false)
+  const [manage, setManage] = useState(null);
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -41,8 +43,15 @@ const Roles = () => {
     fetchRooms();
   }, [getToken]);
 
+  const onDelete = (name) => {
+    setRoles(prev => prev.filter(elem => elem !== name))
+  }
+
   return (<div className="roles">
-    {roles.map((elem, id) => (<div key={id}>{elem}</div>))}
+    {roles.map((elem, id) => (<div key={id}>
+      <div onClick={() => setManage(elem)}> {elem} </div>
+      {manage === elem ? <ManageRole name={elem} onDelete={onDelete} /> : null }
+    </div>))}
     <div onClick={() => setCreateRole(!createRole)}>
       {createRole ? "Anuluj" : "Stwórz role" }
     </div>

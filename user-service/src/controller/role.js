@@ -24,7 +24,7 @@ export const createAdminRoleC = async (req, res) => {
 };
 
 export const removeRoleC = async (req, res) => {
-  const roles = await deleteRole(req.params.role, req.token);
+  const roles = await deleteRole(req.user.preferred_username, req.user.sub, req.params.role, req.token);
   return "err" in roles
     ? res.status(404).send({err: roles.err})
     : res.status(200).send({roles: roles.data});

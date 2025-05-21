@@ -21,12 +21,15 @@ export const getAllRoles = async (token) => {
   }
 };
 
-export const deleteRole = async (rolename, token) => {
+export const deleteRole = async (username, id, rolename, token) => {
   try {
+    const admin = await isAdmin(username, id, token)
+    if (!admin) return {err: "forbidden"}
+    const adminToken = await getAdminAccessToken()
     const response = await axios.delete(
       `${keycloakUrl}/admin/realms/voice-chat/roles/${encodeURIComponent(rolename)}`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${adminToken}`,
           'Content-Type': 'application/json',
         },
       }
