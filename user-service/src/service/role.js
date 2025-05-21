@@ -211,7 +211,7 @@ export const removeRoleFromUser = async (username, rolename, token) => {
           }
         ]
       }
-    );    
+    );
     return {mess: "Rola usunięta" }
   } catch (err) {
     return { err: err };

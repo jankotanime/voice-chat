@@ -41,10 +41,9 @@ const Users = () => {
   }, [getToken]);
 
   return (<div className="users">
-    {manage ? <ManageUser user={manage}/> : null}
     {users.map((elem, id) => (<div key={id} onClick={() => {
-      elem.username === manage ? setManage(null) : setManage(elem.username)
-    }}>{elem.username}</div>))}
+      setManage(elem.username)
+    }}>{elem.username}{manage && manage === elem.username ? <ManageUser user={manage}/> : null}</div>))}
   </div>)
 }
 
