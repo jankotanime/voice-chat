@@ -29,7 +29,7 @@ export const removeRoomC = async (req, res) => {
 };
 
 export const putRolesToRoomC = async (req, res) => {
-  const response = await putRolesToRoom(req.user.preferred_username, req.body.roomId, req.body.roles, req.token);
+  const response = await putRolesToRoom(req.user.preferred_username, req.user.sub, req.body.roomId, req.body.roles, req.token);
   return "err" in response
     ? res.status(404).send({err: response.err})
     : res.status(200).send(response);

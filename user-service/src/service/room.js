@@ -53,11 +53,11 @@ export const checkRoomAccess = async (username, userId, roomId, token) => {
   }
 };
 
-export const putRolesToRoom = async (username, roomId, roles, token) => {
+export const putRolesToRoom = async (username, id, roomId, roles, token) => {
   try {
-    if (!(await isAdmin(username, token))) { return {err: "403 Forbidden"} }
+    if (!(await isAdmin(username, id, token))) { return {err: "403 Forbidden"} }
     const channel = await Channel.findById(roomId);
-    channel.roles = roles
+    channel.roles = roles.filter(elem => elem.picked).map(elem => elem.name)
     channel.save()
     return { mess: channel }
   } catch (err) {

@@ -1,7 +1,7 @@
 'use client';
-import "./../../globals.css";
+import "./../../../globals.css";
 import { useState } from "react";
-import { useKeycloak } from '../../auth/provider/KeycloakProvider.js';
+import { useKeycloak } from '../../../auth/provider/KeycloakProvider.js';
 
 const handleDelete = async (getToken, id, onDelete) => {
   try {

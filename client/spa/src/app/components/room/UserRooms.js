@@ -1,11 +1,13 @@
 'use client';
 import "./../../globals.css";
-import DeleteRoom from './DeleteRoom.js'
 import JoinRoom from './JoinRoom.js'
 import { socket } from "../../handle-voice-chat/handleWebsocket.js";
+import ManageRoom from "./ManageRoom/ManageRoom.js";
+import { useState } from "react";
 
 const UserRooms = (props) => {
   socket.connect();
+  const [manage, setManage] = useState(null);
 
   const onDelete = (id) => {
     props.setRooms(rooms => rooms.filter(elem => elem._id != id))
@@ -27,10 +29,11 @@ const UserRooms = (props) => {
   }
 
   return (<div>
-    {props.rooms.map((elem) => (
-      <div key={elem._id}>
+    {props.rooms.map((elem, i) => (
+      <div key={i}>
         <JoinRoom id={elem._id} name={elem.name} joined={elem.joined} onJoin={onJoin}/>
-        <DeleteRoom id={elem._id} onDelete={onDelete} />
+        <div onClick={() => manage === elem._id ? setManage(null) : setManage(elem._id)}>Edytuj</div>
+        {manage === elem._id ? <ManageRoom id={elem._id} name={elem.name} onDelete={onDelete} setRooms={props.setRooms} /> : null}
       </div>
     ))}
     <div>-----</div>
