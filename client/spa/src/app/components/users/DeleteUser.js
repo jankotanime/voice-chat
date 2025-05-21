@@ -3,6 +3,8 @@ import "./../../globals.css";
 import { useState } from "react";
 import { useKeycloak } from '../../auth/provider/KeycloakProvider.js';
 
+const USER_URL = process.env.NEXT_PUBLIC_USER_URL
+
 const handleDelete = async (getToken, user, setUsers) => {
   try {
     const token = await getToken();
@@ -11,7 +13,7 @@ const handleDelete = async (getToken, user, setUsers) => {
       return;
     }
 
-    const response = await fetch(`http://localhost:8001/user`, {
+    const response = await fetch(`${USER_URL}/user`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,

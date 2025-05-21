@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { useKeycloak } from '../../auth/provider/KeycloakProvider.js';
 import ManageUser from "./ManageUser.js"
 
+const USER_URL = process.env.NEXT_PUBLIC_USER_URL
+
 const Users = (props) => {
   const { getToken } = useKeycloak();
   const [users, setUsers] = useState([]);
@@ -18,7 +20,7 @@ const Users = (props) => {
           return;
         }
   
-        const response = await fetch(`http://localhost:8001/user`, {
+        const response = await fetch(`${USER_URL}/user`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

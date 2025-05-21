@@ -6,11 +6,10 @@ services:
       context: ./client/spa
       dockerfile: Dockerfile
       args:
-        NEXT_PUBLIC_KEYCLOAK_URL: "http://keycloak:8080"
+        NEXT_PUBLIC_KEYCLOAK_URL: ${NEXT_PUBLIC_KEYCLOAK_URL}
     ports:
       - "3000:3000"
     depends_on:
-      - auth-service
       - user-service
       - voice-service
     networks:
@@ -18,24 +17,25 @@ services:
     volumes:
       - ./client/spa:/app
     environment:
-      - NEXT_PUBLIC_KEYCLOAK_URL=${NEXT_PUBLIC_KEYCLOAK_UR}
+      - NEXT_PUBLIC_KEYCLOAK_URL=${NEXT_PUBLIC_KEYCLOAK_URL}
       - NEXT_PUBLIC_USER_URL=${NEXT_PUBLIC_USER_URL}
-
+      - NEXT_PUBLIC_VOICE_URL=${NEXT_PUBLIC_VOICE_URL}
+      - NEXT_PUBLIC_CLIENT_ID=${NEXT_PUBLIC_CLIENT_ID}
+      - NEXT_PUBLIC_REALM=${REALM}
 
   user-service:
     build: ./user-service
     container_name: user-service
     depends_on:
       - mongo
-      - auth-service
-      - voice-service
+      - keycloak
     ports:
       - "8001:8001"
     environment:
-      - MONGO_URL=mongodb://mongo:27017/voice-chat
-      - KEYCLOAK_URL=http://keycloak:8080
-      - VOICE_URL=http://voice-service:8002
-      - AUTH_URL=http://auth-service:8003
+      - MONGO_URL=${MONGO_URL}
+      - KEYCLOAK_URL=${KEYCLOAK_URL}
+      - VOICE_URL=${VOICE_URL}
+      - SPA_URL=${SPA_URL}
     networks:
       - app-network
     volumes:
@@ -44,27 +44,17 @@ services:
   voice-service:
     build: ./voice-service
     container_name: voice-service
+    depends_on:
+      - user-service
     ports:
       - "8002:8002"
     environment:
-      - USER_URL=http://user-service:8001
+      - USER_URL=${USER_URL}
+      - SPA_URL=${SPA_URL}
     networks:
       - app-network
     volumes:
       - ./voice-service:/app
-    
-  auth-service:
-    build: ./auth-service
-    container_name: auth-service
-    ports:
-      - "8003:8003"
-    environment:
-      - KEYCLOAK_URL=http://keycloak:8080
-      - SECRET_KEY=hrsbNyY0GOV3W3EUcHnzvZPHqZ1lDKyx
-    networks:
-      - app-network
-    volumes:
-      - ./auth-service:/app
   
   mongo:
     image: mongo:latest
@@ -82,9 +72,6 @@ services:
     image: quay.io/keycloak/keycloak:latest
     container_name: keycloak
     command: start-dev
-    environment:
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
     ports:
       - "8080:8080"
     networks:

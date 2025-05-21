@@ -8,6 +8,7 @@ import JoinedRoom from "./JoinedRoom";
 import UserRooms from "./UserRooms";
 import { handleVoice } from "../../handle-voice-chat/handleVoice.js"
 
+const USER_URL = process.env.NEXT_PUBLIC_USER_URL
 
 const RoomsContainer = (props) => {
   socket.connect();
@@ -38,7 +39,7 @@ const RoomsContainer = (props) => {
           return;
         }
   
-        const response = await fetch(`http://localhost:8001/user/room`, {
+        const response = await fetch(`${USER_URL}/user/room`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

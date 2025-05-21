@@ -7,6 +7,8 @@ import Roles from "./../roles/Roles"
 import { useKeycloak } from './../../auth/provider/KeycloakProvider.js';
 import { useEffect, useState } from "react";
 
+const USER_URL = process.env.NEXT_PUBLIC_USER_URL
+
 const MainScreen = (props) => {
   const { getToken } = useKeycloak();
   const [admin, setAdmin] = useState(false)
@@ -20,7 +22,7 @@ const MainScreen = (props) => {
           return;
         }
   
-        const response = await fetch(`http://localhost:8001/user/admin`, {
+        const response = await fetch(`${USER_URL}/user/admin`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,

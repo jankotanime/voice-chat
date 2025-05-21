@@ -1,7 +1,9 @@
 'use client';
 import "./../../globals.css";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useKeycloak } from '../../auth/provider/KeycloakProvider.js';
+
+const USER_URL = process.env.NEXT_PUBLIC_USER_URL
 
 const PickRoles = (props) => {
   const { getToken } = useKeycloak();
@@ -15,7 +17,7 @@ const PickRoles = (props) => {
           return;
         }
   
-        const response = await fetch(`http://localhost:8001/role`, {
+        const response = await fetch(`${USER_URL}/role`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

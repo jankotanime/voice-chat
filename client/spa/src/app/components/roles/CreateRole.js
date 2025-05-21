@@ -3,6 +3,8 @@ import "./../../globals.css";
 import { useState } from "react";
 import { useKeycloak } from '../../auth/provider/KeycloakProvider.js';
 
+const USER_URL = process.env.NEXT_PUBLIC_USER_URL
+
 const handleCreate = async (getToken, name, description, admin, setRoles) => {
   try {
     const token = await getToken();
@@ -11,7 +13,7 @@ const handleCreate = async (getToken, name, description, admin, setRoles) => {
       return;
     }
 
-    const response = await fetch(admin ? `http://localhost:8001/role/admin` : `http://localhost:8001/role`, {
+    const response = await fetch(admin ? `${USER_URL}/role/admin` : `${USER_URL}/role`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,

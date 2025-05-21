@@ -1,7 +1,9 @@
 import { io } from 'socket.io-client';
 import { getAudioContext } from './audioContext.js';
 
-export const socket = io("http://localhost:8002", {
+const VOICE_URL = process.env.NEXT_PUBLIC_VOICE_URL
+
+export const socket = io(VOICE_URL, {
   transports: ['websocket', 'polling'],
   autoConnect: false
 });

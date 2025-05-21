@@ -1,6 +1,5 @@
 'use client';
 import "./../../globals.css";
-import { useState } from "react";
 import { useKeycloak } from '../../auth/provider/KeycloakProvider.js';
 
 const handleJoin = async (getToken, id, onJoin) => {

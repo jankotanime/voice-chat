@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useKeycloak } from '../../auth/provider/KeycloakProvider.js';
 import PickRoles from './PickRoles.js'
 
+const USER_URL = process.env.NEXT_PUBLIC_USER_URL
+
 const handleCreate = async (getToken, roles, name, setRooms) => {
   try {
     const roomRoles = roles.filter(elem => elem.picked).map(elem => elem.name)
@@ -13,7 +15,7 @@ const handleCreate = async (getToken, roles, name, setRooms) => {
       return;
     }
 
-    const response = await fetch(`http://localhost:8001/room`, {
+    const response = await fetch(`${USER_URL}/room`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,

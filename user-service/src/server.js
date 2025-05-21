@@ -7,6 +7,7 @@ import { removeRoleFromUserC, addRoleToUserC, getUserRolesC, getRolesC, createRo
 import cors from 'cors';
 
 const mongoURL = process.env.MONGO_URL;
+const spaURL = process.env.SPA_URL;
 const port = 8001;
 const server = express();
 
@@ -15,7 +16,7 @@ mongoose.connect(mongoURL)
   .catch((err) => console.error('Błąd połączenia z MongoDB:', err));
 
 server.use(cors({
-  origin: 'http://localhost:3000',
+  origin: spaURL,
   credentials: true
 }));
 

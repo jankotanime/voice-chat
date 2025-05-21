@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { useKeycloak } from '../../../auth/provider/KeycloakProvider.js';
 import PickRoles from "./PickRoles";
 
+const USER_URL = process.env.NEXT_PUBLIC_USER_URL
+
 const handleAdd = async (getToken, roomId, roles, setRooms) => {
   try {
     const token = await getToken();
@@ -11,7 +13,7 @@ const handleAdd = async (getToken, roomId, roles, setRooms) => {
       console.error("Brak tokenu – użytkownik nieautoryzowany.");
       return;
     }
-    const response = await fetch(`http://localhost:8001/room/role`, {
+    const response = await fetch(`${USER_URL}/room/role`, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -44,7 +46,7 @@ const PutRoomRoles = (props) => {
           return;
         }
 
-        const roomRolesResponse = await fetch(`http://localhost:8001/room`, {
+        const roomRolesResponse = await fetch(`${USER_URL}/room`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -58,7 +60,7 @@ const PutRoomRoles = (props) => {
   
         const userRolesJson = await roomRolesResponse.json();
   
-        const response = await fetch(`http://localhost:8001/role`, {
+        const response = await fetch(`${USER_URL}/role`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

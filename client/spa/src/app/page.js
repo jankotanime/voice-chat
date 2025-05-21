@@ -1,7 +1,6 @@
 "use client"
 
 import React from 'react';
-import withAuth from './auth/middleware/withAuth';
 import { useKeycloak } from './auth/provider/KeycloakProvider.js';
 import MainScreen from './components/main/Main'
 import LoadingScreen from './components/main/LoadingScreen'

@@ -3,6 +3,7 @@ import { Server } from 'socket.io'
 import http from 'http'
 
 const userUrl = process.env.USER_URL;
+const spaURL = process.env.SPA_URL;
 
 const app = connect();
 const port = 8002;
@@ -11,7 +12,7 @@ const httpServer = http.createServer(app)
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "*",
+    origin: spaURL,
   }
 });
 

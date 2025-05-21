@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { useKeycloak } from '../../auth/provider/KeycloakProvider.js';
 import PickRoles from "./PickRoles";
 
+const USER_URL = process.env.NEXT_PUBLIC_USER_URL
+
 const handleAdd = async (getToken, user, roles) => {
   try {
     const token = await getToken();
@@ -12,7 +14,7 @@ const handleAdd = async (getToken, user, roles) => {
       return;
     }
 
-    const response = await fetch(`http://localhost:8001/user/role`, {
+    const response = await fetch(`${USER_URL}/user/role`, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -45,7 +47,7 @@ const AddRoleToUser = (props) => {
           return;
         }
 
-        const userRolesResponse = await fetch(`http://localhost:8001/user/role?username=${props.user}`, {
+        const userRolesResponse = await fetch(`${USER_URL}/user/role?username=${props.user}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -59,7 +61,7 @@ const AddRoleToUser = (props) => {
   
         const userRolesJson = await userRolesResponse.json();
   
-        const response = await fetch(`http://localhost:8001/role`, {
+        const response = await fetch(`${USER_URL}/role`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

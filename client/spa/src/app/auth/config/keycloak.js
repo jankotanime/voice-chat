@@ -1,10 +1,14 @@
 "use client";
 import Keycloak from "keycloak-js";
 
+const KEYCLOAK_URL = process.env.NEXT_PUBLIC_KEYCLOAK_URL
+const REALM = process.env.NEXT_PUBLIC_REALM
+const CLIENT = process.env.NEXT_PUBLIC_CLIENT_ID
+
 const keycloakConfig = {
-  url: "http://localhost:8080",
-  realm: "voice-chat",
-  clientId: "SPA",
+  url: KEYCLOAK_URL,
+  realm: REALM,
+  clientId: CLIENT,
 };
 
 let keycloak;

@@ -5,6 +5,8 @@ import { useKeycloak } from '../../auth/provider/KeycloakProvider.js';
 import CreateRole from "./CreateRole";
 import ManageRole from "./ManageRole"
 
+const USER_URL = process.env.NEXT_PUBLIC_USER_URL
+
 const Roles = (props) => {
   const { getToken } = useKeycloak();
   const [roles, setRoles] = useState([]);
@@ -20,7 +22,7 @@ const Roles = (props) => {
           return;
         }
   
-        const response = await fetch(`http://localhost:8001/role`, {
+        const response = await fetch(`${USER_URL}/role`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
