@@ -37,15 +37,18 @@ export const deleteRole = async (rolename, token) => {
   }
 };
 
-export const createRole = async (rolename, description = '', token) => {
+export const createRole = async (rolename, description = '', username, id, token) => {
   try {
+    const admin = await isAdmin(username, id, token)
+    if (!admin) return {err: "Forbidden"}
+    const adminToken = await getAdminAccessToken()
     const response = await axios.post(
       `${keycloakUrl}/admin/realms/voice-chat/roles`, {
         name: rolename,
         description: description,
       }, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${adminToken}`,
           'Content-Type': 'application/json',
         },
       }
@@ -56,12 +59,15 @@ export const createRole = async (rolename, description = '', token) => {
   }
 };
 
-export const createAdminRole = async (rolename, description = '', token) => {
+export const createAdminRole = async (rolename, description = '', username, id, token) => {
   try {
+    const admin = await isAdmin(username, id, token)
+    if (!admin) return {err: "Forbidden"}
+    const adminToken = await getAdminAccessToken()
     const realmMgmtClient = await axios.get(
       `${keycloakUrl}/admin/realms/voice-chat/clients?clientId=realm-management`,
       {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${adminToken}` }
       }
     );
     const realmMgmtClientId = realmMgmtClient.data[0].id;
@@ -76,7 +82,7 @@ export const createAdminRole = async (rolename, description = '', token) => {
     const clientRoles = await axios.get(
       `${keycloakUrl}/admin/realms/voice-chat/clients/${realmMgmtClientId}/roles`,
       {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${adminToken}` }
       }
     );
 
@@ -84,7 +90,7 @@ export const createAdminRole = async (rolename, description = '', token) => {
       realmRoles.includes(role.name)
     );
 
-    await createRole(rolename, description, token);
+    await createRole(rolename, description, username, id, token);
 
     await axios.post(
       `${keycloakUrl}/admin/realms/voice-chat/roles/${rolename}/composites`,
@@ -96,7 +102,7 @@ export const createAdminRole = async (rolename, description = '', token) => {
       })),
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${adminToken}`,
           'Content-Type': 'application/json',
         }
       }

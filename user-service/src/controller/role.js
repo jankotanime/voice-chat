@@ -10,14 +10,14 @@ export const getRolesC = async (req, res) => {
 };
 
 export const createRoleC = async (req, res) => {
-  const roles = await createRole(req.body.rolename, req.body.description, req.token);
+  const roles = await createRole(req.body.rolename, req.body.description, req.user.preferred_username, req.user.sub, req.token);
   return "err" in roles
     ? res.status(404).send({err: roles.err})
     : res.status(200).send({roles: roles.data});
 };
 
 export const createAdminRoleC = async (req, res) => {
-  const roles = await createAdminRole(req.body.rolename, req.body.description, req.token);
+  const roles = await createAdminRole(req.body.rolename, req.body.description, req.user.preferred_username, req.user.sub, req.token);
   return "err" in roles
     ? res.status(404).send({err: roles.err})
     : res.status(200).send({roles: roles.data});

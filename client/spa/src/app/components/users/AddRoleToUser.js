@@ -72,9 +72,6 @@ const AddRoleToUser = (props) => {
         }
   
         const json = await response.json();
-
-        console.log(userRolesJson)
-        console.log(json)
         setRoles(json.roles.map((elem) => {return  {name: elem, picked: userRolesJson.roles.includes(elem)}}));
       } catch (error) {
         console.error('Błąd podczas pobierania danych:', error);
