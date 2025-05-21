@@ -8,7 +8,7 @@ export const getUsers = async (req, res) => {
 };
 
 export const verifyAdminC = async (req, res) => {
-  const admin = await isAdmin(req.user.preferred_username, req.token);
+  const admin = await isAdmin(req.user.preferred_username, req.user.sub, req.token);
   return admin === true ? res.status(200).send({mess: true}) : 
   admin === false ? res.status(403).send({err: "Forbidden"})
   : res.status(404).send({err: admin})

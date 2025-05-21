@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useKeycloak } from '../../auth/provider/KeycloakProvider.js';
 import ManageUser from "./ManageUser.js"
 
-const Users = () => {
+const Users = (props) => {
   const { getToken } = useKeycloak();
   const [users, setUsers] = useState([]);
   const [manage, setManage] = useState(null);
@@ -42,7 +42,7 @@ const Users = () => {
 
   return (<div className="users">
     {users.map((elem, id) => (<div key={id} onClick={() => {
-      setManage(elem.username)
+      props.admin ? setManage(elem.username) : null
     }}>{elem.username}{manage && manage === elem.username ? <ManageUser user={manage}/> : null}</div>))}
   </div>)
 }

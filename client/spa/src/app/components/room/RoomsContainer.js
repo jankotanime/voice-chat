@@ -9,7 +9,7 @@ import UserRooms from "./UserRooms";
 import { handleVoice } from "../../handle-voice-chat/handleVoice.js"
 
 
-const RoomsContainer = () => {
+const RoomsContainer = (props) => {
   socket.connect();
   const { getToken } = useKeycloak();
   const [rooms, setRooms] = useState([]);
@@ -63,9 +63,9 @@ const RoomsContainer = () => {
 
   return (<div className="rooms-container">
     <div className="user-rooms">
-    <UserRooms rooms={rooms} setRooms={setRooms} setShouldHandleVoice={setShouldHandleVoice} />
+    <UserRooms admin={props.admin} rooms={rooms} setRooms={setRooms} setShouldHandleVoice={setShouldHandleVoice} />
     <div onClick={() => setCreatingRoom(!creatingRoom)}>
-      {creatingRoom ? <CreateRoom setRooms={setRooms} /> : "Stwórz pokój" }
+      {props.admin ? creatingRoom ? <CreateRoom setRooms={setRooms} /> : "Stwórz pokój" : null }
     </div>
     </div>
     <div className="joined-room">

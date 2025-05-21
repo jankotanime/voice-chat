@@ -32,7 +32,7 @@ const UserRooms = (props) => {
     {props.rooms.map((elem, i) => (
       <div key={i}>
         <JoinRoom id={elem._id} name={elem.name} joined={elem.joined} onJoin={onJoin}/>
-        <div onClick={() => manage === elem._id ? setManage(null) : setManage(elem._id)}>Edytuj</div>
+        {props.admin ? <div onClick={() => manage === elem._id ? setManage(null) : setManage(elem._id)}>Edytuj</div> : null}
         {manage === elem._id ? <ManageRoom id={elem._id} name={elem.name} onDelete={onDelete} setRooms={props.setRooms} /> : null}
       </div>
     ))}

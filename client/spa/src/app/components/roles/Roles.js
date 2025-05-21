@@ -5,7 +5,7 @@ import { useKeycloak } from '../../auth/provider/KeycloakProvider.js';
 import CreateRole from "./CreateRole";
 import ManageRole from "./ManageRole"
 
-const Roles = () => {
+const Roles = (props) => {
   const { getToken } = useKeycloak();
   const [roles, setRoles] = useState([]);
   const [createRole, setCreateRole] = useState(false)
@@ -49,7 +49,7 @@ const Roles = () => {
 
   return (<div className="roles">
     {roles.map((elem, id) => (<div key={id}>
-      <div onClick={() => setManage(elem)}> {elem} </div>
+      <div onClick={() => props.admin ? setManage(elem) : null}> {elem} </div>
       {manage === elem ? <ManageRole name={elem} onDelete={onDelete} /> : null }
     </div>))}
     <div onClick={() => setCreateRole(!createRole)}>
