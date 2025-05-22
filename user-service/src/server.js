@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import verifyToken from './authorization.js';
 import { createRoomC, getAllRooms, getUserRooms, joinRoomC, putRolesToRoomC, removeRoomC } from './controller/room.js';
-import { getUsers, removeUserC, verifyAdminC } from './controller/user.js';
+import { getAdminPanelC, getUsers, removeUserC, verifyAdminC } from './controller/user.js';
 import { removeRoleFromUserC, addRoleToUserC, getUserRolesC, getRolesC, createRoleC, removeRoleC, createAdminRoleC, updateUserRolesC } from './controller/role.js';
 import cors from 'cors';
 
@@ -27,6 +27,7 @@ server.get('/user', verifyToken, getUsers);
 server.get('/role', verifyToken, getRolesC);
 server.get('/user/role', verifyToken, getUserRolesC);
 server.get('/user/room', verifyToken, getUserRooms);
+server.get('/admin-panel', verifyToken, getAdminPanelC);
 
 server.post('/room', verifyToken, createRoomC)
 server.post('/room/user', verifyToken, joinRoomC)

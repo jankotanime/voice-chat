@@ -1,7 +1,7 @@
 const fetchData = async (token) => {
   if (token) {
     try {
-      const response = await fetch(`http://192.168.0.12:8001/user`, {
+      const response = await fetch(`http://192.168.0.12:8001/admin-panel`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
