@@ -34,6 +34,7 @@ const MainScreen = (props) => {
           const json = (await response.json()).mess;
           if (json) setAdmin(json)
         }
+        return
       } catch (error) {
         console.error('Błąd podczas pobierania danych:', error);
       }

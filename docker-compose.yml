@@ -23,6 +23,21 @@ services:
       - NEXT_PUBLIC_CLIENT_ID=${NEXT_PUBLIC_CLIENT_ID}
       - NEXT_PUBLIC_REALM=${REALM}
 
+  ssr:
+    build:
+      context: ./client/ssr
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    depends_on:
+      - user-service
+    networks:
+      - app-network
+    volumes:
+      - ./client/ssr:/app
+    environment:
+      - NEXT_PUBLIC_USER_URL=${NEXT_PUBLIC_USER_URL}
+
   user-service:
     build: ./user-service
     container_name: user-service
@@ -77,7 +92,7 @@ services:
     networks:
       - app-network
     volumes:
-      - ./realms:/opt/keycloak/data/import
+      # - ./realms:/opt/keycloak/data/import
       - keycloak_data:/opt/keycloak/data 
     restart: always
 

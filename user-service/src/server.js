@@ -16,7 +16,7 @@ mongoose.connect(mongoURL)
   .catch((err) => console.error('Błąd połączenia z MongoDB:', err));
 
 server.use(cors({
-  origin: spaURL,
+  origin: [spaURL, 'http://localhost:3001'],
   credentials: true
 }));
 

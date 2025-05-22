@@ -35,7 +35,6 @@ const Roles = (props) => {
         }
   
         const json = (await response.json()).roles;
-        console.log(json)
         setRoles(json);
       } catch (error) {
         console.error('Błąd podczas pobierania danych:', error);
