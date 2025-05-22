@@ -1,6 +1,7 @@
 import axios from "axios"
 import getAdminAccessToken from "../adminToken.js"
 import { isAdmin } from "./user.js";
+import Channel from '../models/Channel.js';
 
 const keycloakUrl = process.env.KEYCLOAK_URL;
 
@@ -23,11 +24,13 @@ export const getAdminPanel = async (username, id, token) => {
 
       return {
         username: u.username,
-        realmRoles: realmRoles.data.map(r => r.name)
+        realmRoles: realmRoles.data.map(r => r.name),
       }
     }));
 
-    return usersWithRoles;
+    const rooms = await Channel.find();
+
+    return {users: usersWithRoles, rooms: rooms};
 
   } catch (err) {
     console.error(err);

@@ -8,7 +8,28 @@
   <h1>Użytkownicy</h1>
   <ul>
     <% users.forEach(user => { %>
-      <li><strong><%= user.username %></strong></li>
+      <li>
+        <strong><%= user.username %></strong>
+        <ul>
+          <% user.realmRoles.forEach(role => { %>
+            <li><%= role %></li>
+          <% }) %>
+        </ul>
+      </li>
+    <% }) %>
+  </ul>
+
+  <h1>Pokoje</h1>
+  <ul>
+    <% rooms.forEach(room => { %>
+      <li>
+        <strong><%= room.name %></strong>
+        <ul>
+          <% room.roles.forEach(role => { %>
+            <li><%= role %></li>
+          <% }) %>
+        </ul>
+      </li>
     <% }) %>
   </ul>
 

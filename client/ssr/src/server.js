@@ -59,8 +59,7 @@ app.get('/', keycloak.protect(), async (req, res) => {
       }
 
       const json = await fetchData(token);
-      console.log(json)
-      res.render('index.ejs', { users: json }); 
+      res.render('index.ejs', json); 
     } catch (error) {
       console.error('Błąd podczas pobierania danych:', error);
       res.status(500).send('Błąd serwera podczas pobierania danych');
