@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista użytkowników</title>
+</head>
+<body>
+  <h1>Użytkownicy</h1>
+  <ul>
+    <% users.forEach(user => { %>
+      <li><strong><%= user.username %></strong></li>
+    <% }) %>
+  </ul>
+
+  <form action="/logout" method="get">
+    <button type="submit">Wyloguj się</button>
+  </form>
+</body>
+</html>
