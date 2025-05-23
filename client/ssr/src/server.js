@@ -8,6 +8,10 @@ import fetchData from './fetchData.js';
 const app = express();
 const port = 3001;
 
+const IP = process.env.IP
+const KEYCLOAK_URL = process.env.KEYCLOAK_URL
+const USER_URL = process.env.USER_URL
+
 const memoryStore = new session.MemoryStore();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -23,7 +27,7 @@ app.use(session({
 const keycloakConfig = {
   clientId: 'SSR',
   bearerOnly: false,
-  serverUrl: 'http://192.168.0.12:8080',
+  serverUrl: KEYCLOAK_URL,
   realm: 'voice-chat',
 };
 
@@ -33,7 +37,7 @@ app.use(keycloak.middleware({
   logout: '/logout',
   admin: '/',
   protected: '/',
-  redirectUri: 'http://192.168.0.12:3001/'
+  redirectUri: `http://${IP}:${port}/`
 }));
 
 app.set('views', path.join(__dirname, '..', 'views'));
@@ -44,7 +48,7 @@ app.get('/', keycloak.protect(), async (req, res) => {
 
   if (token) {
     try {
-      const response = await fetch(`http://192.168.0.12:8001/user/admin`, {
+      const response = await fetch(`${USER_URL}/user/admin`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -57,7 +61,10 @@ app.get('/', keycloak.protect(), async (req, res) => {
 
       if (response.ok) {
         const json = (await response.json()).mess;
-        if (!json) return
+        if (!json) {
+          res.render('forbidden.ejs'); 
+          return
+        }
       }
       const json = await fetchData(token);
       res.render('index.ejs', json); 
@@ -76,7 +83,7 @@ app.get('/logout', (req, res, next) => {
       console.error('Błąd podczas niszczenia sesji:', err);
       return next(err);
     }
-    const logoutUrl = 'http://192.168.0.12:8080/auth/realms/voice-chat/protocol/openid-connect/logout?redirect_uri=http://192.168.0.12:3001/';
+    const logoutUrl = `${KEYCLOAK_URL}/auth/realms/voice-chat/protocol/openid-connect/logout?redirect_uri=http://${IP}:${port}/`;
     res.redirect(logoutUrl);
   });
 });

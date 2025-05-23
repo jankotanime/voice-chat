@@ -1,7 +1,11 @@
+const IP = process.env.IP
+const KEYCLOAK_URL = process.env.KEYCLOAK_URL
+const USER_URL = process.env.USER_URL
+
 const fetchData = async (token) => {
   if (token) {
     try {
-      const response = await fetch(`http://192.168.0.12:8001/admin-panel`, {
+      const response = await fetch(`${USER_URL}/admin-panel`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,

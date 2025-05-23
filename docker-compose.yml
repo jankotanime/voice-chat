@@ -36,7 +36,9 @@ services:
     volumes:
       - ./client/ssr:/app
     environment:
-      - NEXT_PUBLIC_USER_URL=${NEXT_PUBLIC_USER_URL}
+      - USER_URL=${SSR_USER_URL}
+      - KEYCLOAK_URL=${SSR_KEYCLOAK_URL}
+      - IP=${IP}
 
   user-service:
     build: ./user-service
