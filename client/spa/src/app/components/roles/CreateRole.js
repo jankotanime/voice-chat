@@ -35,11 +35,11 @@ const CreateRole = (props) => {
   const [description, setDescription] = useState("")
   const [admin, SetAdmin] = useState(false)
   const { getToken } = useKeycloak()
-  return (<div>
-          <div onClick={() => handleCreate(getToken, name, description, admin, props.setRoles)}>Stwórz role</div>
-          <input type="checkbox" checked={admin} onChange={e => SetAdmin(!admin)} />Rola admina
-          <input style={{ backgroundColor: 'white', color: "black" }} onChange={(e) => SetName(e.target.value)} type="text"></input>
-          <input style={{ backgroundColor: 'white', color: "black" }} onChange={(e) => setDescription(e.target.value)} type="text"></input>
+  return (<div className="createRole">
+          <div className="change"><input type="checkbox" checked={admin} onChange={e => SetAdmin(!admin)} />Admin role</div>
+          <input className="change" placeholder="Name..." style={{ backgroundColor: 'white', color: "black" }} onChange={(e) => SetName(e.target.value)} type="text"></input>
+          <input className="change" placeholder="Description..." style={{ backgroundColor: 'white', color: "black" }} onChange={(e) => setDescription(e.target.value)} type="text"></input>
+          <div className="createRoomButtonFinish" onClick={() => handleCreate(getToken, name, description, admin, props.setRoles)}>Create role</div>
         </div>)
 }
 

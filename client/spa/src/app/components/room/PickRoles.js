@@ -39,9 +39,9 @@ const PickRoles = (props) => {
     fetchRoles();
   }, [getToken]);
 
-  return (<div>
+  return (<div className="change"> Pick roles:
     {props.roles.map((elem, id) => (<div key={id}>
-      <input type="checkbox" 
+      <input className="change" type="checkbox" 
       checked={elem.picked} onChange={(e) => {
         props.setRoles((prevRoles) =>
           prevRoles.map((role, i) =>

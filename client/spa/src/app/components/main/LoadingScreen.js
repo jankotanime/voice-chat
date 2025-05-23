@@ -2,9 +2,9 @@
 import "./../../globals.css";
 
 const LoadingScreen = () => {
-  return (<div>
-          <h1>Ładowanie serwisu...</h1>
-        </div>)
+  return (<div className="center">
+    Loading...
+  </div>)
 }
 
 export default LoadingScreen

@@ -34,14 +34,13 @@ const JoinedRoom = (props) => {
     }
   }
 
-  return (<div>
-<div>Użytkownicy w pokoju:</div>
+  return (<div className="joined-room">
+<div className="joined-elem">Users in room:</div>
     {roomMates.map((elem, id) => (
-      <div key={id}>
+      <div className="joined-elem" key={id}>
       {elem}</div>
     ))}
-    <div>-----</div>
-    <div onClick={() => onLeave()}> Opuść pokój </div>
+    <div className="leave-room" onClick={() => onLeave()}> Leave room </div>
   </div>)
 }
 

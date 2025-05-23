@@ -34,8 +34,8 @@ const DeleteUser = (props) => {
   const [sure, setSure] = useState(false);
   const { getToken } = useKeycloak()
   return (<div>
-    { sure ? <div onClick={() => handleDelete(getToken, props.user, props.setUsers)}>Na pewno?</div> :
-      <div onClick={() => setSure(true)}>Usuń</div>
+    { sure ? <div onClick={() => handleDelete(getToken, props.user, props.setUsers)}>Confirm</div> :
+      <div onClick={() => setSure(true)}>Delete</div>
     }
   </div>)
 }

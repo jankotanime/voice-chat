@@ -51,13 +51,14 @@ app.get('/', keycloak.protect(), async (req, res) => {
           'Content-Type': 'application/json'
         }
       });
-      if (response.status === 403) {
-        return res.render('forbidden.ejs'); 
-      }
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
+      if (response.ok) {
+        const json = (await response.json()).mess;
+        if (!json) return
+      }
       const json = await fetchData(token);
       res.render('index.ejs', json); 
     } catch (error) {

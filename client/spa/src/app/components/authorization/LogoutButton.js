@@ -6,7 +6,7 @@ const LogoutButton = () => {
   const { logout } = useKeycloak();
   
   return (<div className="logout">
-          <button onClick={logout}>Wyloguj</button>
+          <button className="logoutButton" onClick={logout}>Logout</button>
         </div>)
 }
 

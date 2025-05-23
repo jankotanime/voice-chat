@@ -48,14 +48,6 @@ export const login = () => {
   }
 };
 
-export const register = () => {
-  if (keycloak) {
-    keycloak.register();
-  } else {
-    console.error("Keycloak is not initialized yet.");
-  }
-};
-
 export const logout = () => {
   if (keycloak) {
     keycloak.logout();

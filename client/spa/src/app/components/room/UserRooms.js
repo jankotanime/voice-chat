@@ -4,6 +4,7 @@ import JoinRoom from './JoinRoom.js'
 import { socket } from "../../handle-voice-chat/handleWebsocket.js";
 import ManageRoom from "./ManageRoom/ManageRoom.js";
 import { useState } from "react";
+import Image from "next/image";
 
 const UserRooms = (props) => {
   socket.connect();
@@ -29,14 +30,21 @@ const UserRooms = (props) => {
   }
 
   return (<div>
+    <div className="title">Rooms:</div>
     {props.rooms.map((elem, i) => (
-      <div key={i}>
+      <div key={i} className="room">
         <JoinRoom id={elem._id} name={elem.name} joined={elem.joined} onJoin={onJoin}/>
-        {props.admin ? <div onClick={() => manage === elem._id ? setManage(null) : setManage(elem._id)}>Edytuj</div> : null}
+        {props.admin ? <div onClick={() => manage === elem._id ? setManage(null) : setManage(elem._id)}>
+          <Image
+          src="/images/edit.png"
+          alt="Edit"
+          width={30}
+          height={30}
+        />
+        </div> : null}
         {manage === elem._id ? <ManageRoom id={elem._id} name={elem.name} onDelete={onDelete} setRooms={props.setRooms} /> : null}
       </div>
     ))}
-    <div>-----</div>
   </div>)
 }
 

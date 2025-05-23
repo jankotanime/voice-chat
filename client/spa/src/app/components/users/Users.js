@@ -43,9 +43,10 @@ const Users = (props) => {
   }, [getToken]);
 
   return (<div className="users">
-    {users.map((elem, id) => (<div key={id} onClick={() => {
-      props.admin ? setManage(elem.username) : null
-    }}>{elem.username}{manage && manage === elem.username ? <ManageUser user={manage} setUsers={setUsers} /> : null}</div>))}
+    <div className="title">Users:</div>
+    {users.map((elem, id) => (<div className="user" key={id}><div onClick={() => {
+      props.admin ? manage === elem.username ? setManage(null) : setManage(elem.username) : null
+    }}>{elem.username}</div>{manage && manage === elem.username ? <ManageUser user={manage} setUsers={setUsers} /> : null}</div>))}
   </div>)
 }
 

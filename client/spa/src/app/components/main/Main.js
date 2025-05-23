@@ -34,9 +34,9 @@ const MainScreen = (props) => {
           const json = (await response.json()).mess;
           if (json) setAdmin(json)
         }
-        return
+      return
       } catch (error) {
-        console.error('Błąd podczas pobierania danych:', error);
+        console.warn('Błąd podczas pobierania danych:', error);
       }
     }
     fetchAdmin()
@@ -44,11 +44,10 @@ const MainScreen = (props) => {
 
   return (
   <div>
-    <div className="header">    
-      <h1>
-        Witaj, {props.user.name}
-        {admin ? "Jesteś adminem" : null}
-      </h1>
+    <div className="header">
+      <div className={admin ? "admin" : "notAdmin" }>
+        Hello, {props.user.name}
+      </div>
       <LogoutButton />
     </div>
     <div className="main"> 

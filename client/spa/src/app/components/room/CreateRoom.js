@@ -37,10 +37,11 @@ const CreateRoom = (props) => {
   const [name, SetName] = useState("")
   const [roles, setRoles] = useState([]);
   const { getToken } = useKeycloak()
-  return (<div>
-          <div onClick={() => handleCreate(getToken, roles, name, props.setRooms)}>Stwórz pokój</div>
+  return (<div className="createRoom">
+          <input className="change" style={{ backgroundColor: 'white', color: "black" }} placeholder="Name..."
+          onChange={(e) => SetName(e.target.value)} type="text"></input>
           <PickRoles roles={roles} setRoles={setRoles} />
-          <input style={{ backgroundColor: 'white', color: "black" }} onChange={(e) => SetName(e.target.value)} type="text"></input>
+          <div className="createRoomButtonFinish" onClick={() => handleCreate(getToken, roles, name, props.setRooms)}>Create room</div>
         </div>)
 }
 

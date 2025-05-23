@@ -86,8 +86,8 @@ const AddRoleToUser = (props) => {
 
   return (<div>
     { add ? <div><PickRoles user={props.user} roles={roles} setRoles={setRoles} />
-    <div onClick={() => handleAdd(getToken, props.user, roles)}>Zapisz</div></div> :
-      <div onClick={() => setAdd(true)}>Aktualizuj role</div>
+    <div onClick={() => handleAdd(getToken, props.user, roles)}>Save</div></div> :
+      <div onClick={() => setAdd(true)}>Update roles</div>
     }
   </div>)
 }

@@ -87,8 +87,8 @@ const PutRoomRoles = (props) => {
 
   return (<div>
     { add ? <div><PickRoles name={props.name} roles={roles} setRoles={setRoles} />
-    <div onClick={() => handleAdd(getToken, props.id, roles, props.setRooms)}>Zapisz</div></div> :
-      <div onClick={() => setAdd(true)}>Aktualizuj role</div>
+    <div onClick={() => handleAdd(getToken, props.id, roles, props.setRooms)}>Save</div></div> :
+      <div onClick={() => setAdd(true)}>Update roles</div>
     }
   </div>)
 }

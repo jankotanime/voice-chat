@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useKeycloak } from '../../auth/provider/KeycloakProvider.js';
 import CreateRole from "./CreateRole";
 import ManageRole from "./ManageRole"
+import Image from "next/image";
 
 const USER_URL = process.env.NEXT_PUBLIC_USER_URL
 
@@ -49,12 +50,14 @@ const Roles = (props) => {
   }
 
   return (<div className="roles">
-    {roles.map((elem, id) => (<div key={id}>
-      <div onClick={() => props.admin ? setManage(elem) : null}> {elem} </div>
+    <div className="title">Roles:</div>
+    {roles.map((elem, id) => (<div className="role" key={id}>
+      <div onClick={() => props.admin ? manage === elem ? setManage(null) : setManage(elem) : null}> {elem} </div>
       {manage === elem ? <ManageRole name={elem} onDelete={onDelete} /> : null }
     </div>))}
-    <div onClick={() => setCreateRole(!createRole)}>
-      {createRole ? "Anuluj" : "Stwórz role" }
+    <div className="createRoomButton" onClick={() => setCreateRole(!createRole)}>
+      {props.admin ? createRole ? <Image src="/images/less.png" alt="Create role" width={50} height={50}/> 
+      : <Image src="/images/more.png" alt="Create role" width={50} height={50}/> : null }
     </div>
     {createRole ? <CreateRole setRoles={setRoles}/> : null}
   </div>)

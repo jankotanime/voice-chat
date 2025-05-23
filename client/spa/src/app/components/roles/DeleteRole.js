@@ -33,7 +33,7 @@ const DeleteRole = (props) => {
   const { getToken } = useKeycloak();
   const [del, setDel] = useState(false)
 
-  return del ? <div onClick={() => handleDelete(getToken, props.name, props.onDelete)}>Potwierdź usunięcie</div> : <div onClick={setDel}>Usuń</div>
+  return del ? <div onClick={() => handleDelete(getToken, props.name, props.onDelete)}>Confirm</div> : <div onClick={setDel}>Delete</div>
 }
 
 export default DeleteRole

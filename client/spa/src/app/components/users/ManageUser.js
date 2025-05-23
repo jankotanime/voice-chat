@@ -4,7 +4,7 @@ import DeleteUser from "./DeleteUser"
 import AddRoleToUser from "./AddRoleToUser"
 
 const ManageUser = (props) => {
-  return (<div>
+  return (<div className="manage">
     <DeleteUser user={props.user} setUsers={props.setUsers} />
     <AddRoleToUser user={props.user} />
   </div>)

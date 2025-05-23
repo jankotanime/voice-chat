@@ -7,6 +7,7 @@ import { socket } from "../../handle-voice-chat/handleWebsocket.js";
 import JoinedRoom from "./JoinedRoom";
 import UserRooms from "./UserRooms";
 import { handleVoice } from "../../handle-voice-chat/handleVoice.js"
+import Image from "next/image";
 
 const USER_URL = process.env.NEXT_PUBLIC_USER_URL
 
@@ -65,9 +66,11 @@ const RoomsContainer = (props) => {
   return (<div className="rooms-container">
     <div className="user-rooms">
     <UserRooms admin={props.admin} rooms={rooms} setRooms={setRooms} setShouldHandleVoice={setShouldHandleVoice} />
-    <div onClick={() => setCreatingRoom(!creatingRoom)}>
-      {props.admin ? creatingRoom ? <CreateRoom setRooms={setRooms} /> : "Stwórz pokój" : null }
+    <div className="createRoomButton" onClick={() => setCreatingRoom(!creatingRoom)}>
+      {props.admin ? creatingRoom ? <Image src="/images/less.png" alt="Return" width={50} height={50}/>
+      : <Image src="/images/more.png" alt="Create room" width={50} height={50}/> : null }
     </div>
+    {creatingRoom ? <CreateRoom setRooms={setRooms} /> : null}
     </div>
     <div className="joined-room">
       {rooms.map((elem, id) => { return(
@@ -75,10 +78,11 @@ const RoomsContainer = (props) => {
         {elem.joined ? <JoinedRoom setRooms={setRooms} /> : null}
         </div>
       )})}
-      <div onClick={() => {
+      <div className="mic" onClick={() => {
         setMuted(!muted)
         setShouldHandleVoice(true)
-      }}>{ muted ? "Zmutowany" : "Odmutowany"}</div>
+      }}>{ muted ? <Image src="/images/mute.png" alt="Mute" width={50} height={50}/> 
+      : <Image src="/images/unmute.png" alt="Unmute" width={40} height={40}/>}</div>
     </div>
   </div>)
 }

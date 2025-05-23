@@ -58,7 +58,6 @@ io.sockets.on("connection", (socket) => {
         console.log(`${user} opuścił pokój: ${oldRoom}`);
         socket.to(oldRoom).emit("guest_leave")
         const usersInRoom = (await io.in(oldRoom).fetchSockets()).map(elem => elem.userId)
-        console.log(usersInRoom)
         socket.to(oldRoom).emit('roomMates', usersInRoom);
       });
       socket.join(room);
