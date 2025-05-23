@@ -1,4 +1,4 @@
-# Etap 1: build aplikacji
+# Etap builda
 FROM node:18-alpine AS builder
 
 ARG NEXT_PUBLIC_KEYCLOAK_URL
@@ -10,7 +10,7 @@ RUN npm install
 COPY . ./
 RUN npm run build
 
-# Etap 2: uruchomienie aplikacji
+# produkcja
 FROM node:18-alpine AS runner
 
 ARG NEXT_PUBLIC_KEYCLOAK_URL

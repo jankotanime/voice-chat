@@ -1,11 +1,16 @@
-# Build stage
-FROM node:18-alpine as builder
+# build
+FROM node:18-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
-RUN npm install -g nodemon
 COPY . .
-EXPOSE 8001
-CMD ["npm", "run", "dev"]
 
-# TODO: Production stage
+# produkcja
+FROM node:18-alpine
+WORKDIR /app
+COPY --from=builder /app ./
+RUN npm install --omit=dev
+EXPOSE 8001
+CMD ["node", "src/server.js"]
+
+# dev: CMD ["npm", "run", "dev"]

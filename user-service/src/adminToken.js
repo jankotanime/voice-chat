@@ -1,18 +1,25 @@
 import axios from 'axios';
+import fs from "fs"
 
 const keycloakUrl = process.env.KEYCLOAK_URL;
 
-const realm = 'master';
-const clientId = 'admin-cli';
-const username = 'admin';
-const password = 'admin';
+function readSecret(path) {
+  return fs.existsSync(path) ? fs.readFileSync(path, 'utf8').trim() : null;
+}
+
+const realm = readSecret('/run/secrets/backend_realm');
+const secret = readSecret('/run/secrets/backend_secret');
+const clientId = readSecret('/run/secrets/backend_id');
+const username = readSecret('/run/secrets/backend_username');
+const password = readSecret('/run/secrets/backend_password');
+
+console.log(realm)
 
 export default async function getAdminAccessToken() {
   const params = new URLSearchParams();
   params.append('client_id', clientId);
-  params.append('grant_type', 'password');
-  params.append('username', username);
-  params.append('password', password);
+  params.append('client_secret', secret);
+  params.append('grant_type', 'client_credentials');
 
   try {
     const response = await axios.post(

@@ -53,6 +53,17 @@ services:
       - KEYCLOAK_URL=${KEYCLOAK_URL}
       - VOICE_URL=${VOICE_URL}
       - SPA_URL=${SPA_URL}
+      - BACKEND_ID=/run/secrets/backend_id
+      - BACKEND_REALM=/run/secrets/backend_realm
+      - BACKEND_SECRET=/run/secrets/backend_secret
+      - BACKEND_USERNAME=/run/secrets/backend_username
+      - BACKEND_PASSWORD=/run/secrets/backend_password
+    secrets:
+      - backend_realm
+      - backend_id
+      - backend_secret
+      - backend_username
+      - backend_password
     networks:
       - app-network
     volumes:
@@ -94,7 +105,6 @@ services:
     networks:
       - app-network
     volumes:
-      # - ./realms:/opt/keycloak/data/import
       - keycloak_data:/opt/keycloak/data 
     restart: always
 
@@ -108,4 +118,14 @@ volumes:
   mongo-data:
     driver: local
 
-# docker-compose up --build
+secrets:
+  backend_realm:
+    file: ./secrets/backend_realm
+  backend_id:
+    file: ./secrets/backend_id
+  backend_secret:
+    file: ./secrets/backend_secret
+  backend_username:
+    file: ./secrets/backend_username
+  backend_password:
+    file: ./secrets/backend_password
