@@ -2,39 +2,49 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Lista użytkowników</title>
+  <title>Admin panel</title>
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-  <h1>Użytkownicy</h1>
-  <ul>
-    <% users.forEach(user => { %>
-      <li>
-        <strong><%= user.username %></strong>
-        <ul>
-          <% user.realmRoles.forEach(role => { %>
-            <li><%= role %></li>
-          <% }) %>
-        </ul>
-      </li>
-    <% }) %>
-  </ul>
-
-  <h1>Pokoje</h1>
-  <ul>
-    <% rooms.forEach(room => { %>
-      <li>
-        <strong><%= room.name %></strong>
-        <ul>
-          <% room.roles.forEach(role => { %>
-            <li><%= role %></li>
-          <% }) %>
-        </ul>
-      </li>
-    <% }) %>
-  </ul>
-
-  <form action="/logout" method="get">
-    <button type="submit">Wyloguj się</button>
-  </form>
+  <header class="header">
+    <div class="header-content">
+      <span class="username">Zalogowany jako: <%= username %></span>
+      <form action="/logout" method="get" class="logout-form">
+        <button type="submit" class="logout-button">Wyloguj się</button>
+      </form>
+    </div>
+  </header>
+  <div class="columns">
+    <div class="column">
+      <h1>Użytkownicy</h1>
+      <ul>
+        <% users.forEach(user => { %>
+          <li>
+            <strong><%= user.username %></strong>
+            <ul>
+              <% user.realmRoles.forEach(role => { %>
+                <li><%= role %></li>
+              <% }) %>
+            </ul>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+    <div class="column">
+      <h1>Pokoje</h1>
+      <ul>
+        <% rooms.forEach(room => { %>
+          <li>
+            <strong><%= room.name %></strong>
+            <ul>
+              <% room.roles.forEach(role => { %>
+                <li><%= role %></li>
+              <% }) %>
+            </ul>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
 </body>
 </html>

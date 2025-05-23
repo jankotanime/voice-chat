@@ -1,8 +1,0 @@
-{
-  "realm": "voice-chat",
-  "auth-server-url": "http://localhost:8080/",
-  "ssl-required": "external",
-  "resource": "SSR",
-  "public-client": true,
-  "confidential-port": 0
-}

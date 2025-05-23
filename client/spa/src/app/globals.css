@@ -179,12 +179,21 @@ body {
 }
 
 .mic {
+  z-index: 1;
   position: relative;
   width: 50%;
   height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.mic-img {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  margin-right: 10px;
+  pointer-events: none;
 }
 
 .createRoomButtonFinish {
@@ -214,14 +223,14 @@ body {
 }
 
 .manage-room {
-  position: absolute;
+  position:absolute;
   left: 100%;
   top: 0;
   width: 130px;
   padding: 5px;
   background-color: rgb(25, 15, 30);
   border: 1px solid black;
-  z-index: 0;
+  z-index: 100;
   border-radius: 5px;
 }
 

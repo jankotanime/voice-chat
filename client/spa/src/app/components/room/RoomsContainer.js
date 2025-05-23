@@ -81,8 +81,8 @@ const RoomsContainer = (props) => {
       <div className="mic" onClick={() => {
         setMuted(!muted)
         setShouldHandleVoice(true)
-      }}>{ muted ? <Image src="/images/mute.png" alt="Mute" width={50} height={50}/> 
-      : <Image src="/images/unmute.png" alt="Unmute" width={40} height={40}/>}</div>
+      }}>{ muted ? <Image className="mic-img" src="/images/mute.png" alt="Mute" width={50} height={50}/> 
+      : <Image className="mic-img" src="/images/unmute.png" alt="Unmute" width={40} height={40}/>}</div>
     </div>
   </div>)
 }

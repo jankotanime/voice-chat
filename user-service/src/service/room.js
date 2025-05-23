@@ -39,6 +39,8 @@ export const createRoom = async (username, userId, name, roles, token) => {
 
 export const checkRoomAccess = async (username, userId, roomId, token) => {
   try {
+    const admin = await isAdmin(username, userId, token)
+    if (admin) return {mess: true}
     const userRoles = await getUserRoles(username, userId, token)
     const room = await Channel.findById(roomId)
     let isAccess = false

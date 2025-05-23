@@ -43,6 +43,8 @@ app.use(keycloak.middleware({
 app.set('views', path.join(__dirname, '..', 'views'));
 app.set('view engine', 'ejs');
 
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.get('/', keycloak.protect(), async (req, res) => {
   const token = req.kauth.grant.access_token.token;
 
@@ -63,11 +65,12 @@ app.get('/', keycloak.protect(), async (req, res) => {
         const json = (await response.json()).mess;
         if (!json) {
           res.render('forbidden.ejs'); 
-          return
+          return;
         }
       }
       const json = await fetchData(token);
-      res.render('index.ejs', json); 
+      const username = req.kauth.grant.access_token.content.preferred_username;
+      res.render('index.ejs', { ...json, username }); 
     } catch (error) {
       console.error('Błąd podczas pobierania danych:', error);
       res.status(500).send('Błąd serwera podczas pobierania danych');
