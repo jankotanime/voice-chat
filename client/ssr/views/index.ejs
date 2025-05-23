@@ -8,17 +8,18 @@
 <body>
   <header class="header">
     <div class="header-content">
-      <span class="username">Zalogowany jako: <%= username %></span>
+      <span class="username">Hello, <%= username %></span>
       <form action="/logout" method="get" class="logout-form">
-        <button type="submit" class="logout-button">Wyloguj się</button>
+        <button type="submit" class="logout-button">Logout</button>
       </form>
     </div>
   </header>
   <div class="columns">
     <div class="column">
-      <h1>Użytkownicy</h1>
+      <h1>Users</h1>
       <ul>
         <% users.forEach(user => { %>
+          <% console.log("aaa") %>
           <li>
             <strong><%= user.username %></strong>
             <ul>
@@ -31,7 +32,7 @@
       </ul>
     </div>
     <div class="column">
-      <h1>Pokoje</h1>
+      <h1>Rooms</h1>
       <ul>
         <% rooms.forEach(room => { %>
           <li>
