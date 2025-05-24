@@ -1,7 +1,8 @@
-version: "3.8"
+# version: "3.8"
 
 services:
   spa:
+    container_name: spa-client
     build:
       context: ./client/spa
       dockerfile: Dockerfile
@@ -16,6 +17,7 @@ services:
       - app-network
     volumes:
       - ./client/spa:/app
+      - /app/node_modules
     environment:
       - NEXT_PUBLIC_KEYCLOAK_URL=${NEXT_PUBLIC_KEYCLOAK_URL}
       - NEXT_PUBLIC_USER_URL=${NEXT_PUBLIC_USER_URL}
@@ -24,6 +26,7 @@ services:
       - NEXT_PUBLIC_REALM=${REALM}
 
   ssr:
+    container_name: ssr-client
     build:
       context: ./client/ssr
       dockerfile: Dockerfile
@@ -35,6 +38,7 @@ services:
       - app-network
     volumes:
       - ./client/ssr:/app
+      - /app/node_modules
     environment:
       - USER_URL=${SSR_USER_URL}
       - KEYCLOAK_URL=${SSR_KEYCLOAK_URL}
@@ -68,6 +72,7 @@ services:
       - app-network
     volumes:
       - ./user-service:/app
+      - /app/node_modules
 
   voice-service:
     build: ./voice-service
@@ -83,6 +88,7 @@ services:
       - app-network
     volumes:
       - ./voice-service:/app
+      - /app/node_modules
   
   mongo:
     image: mongo:latest
@@ -94,7 +100,12 @@ services:
       - app-network
     volumes:
       - mongo-data:/data/db
-    command: ["mongod", "--quiet"]
+      - ./mongo-dump:/dump
+    command: >
+      bash -c "
+        mongorestore --drop /dump/voice-chat &&
+        mongod --bind_ip_all
+      "
   
   keycloak:
     image: quay.io/keycloak/keycloak:latest
@@ -105,7 +116,9 @@ services:
     networks:
       - app-network
     volumes:
-      - keycloak_data:/opt/keycloak/data 
+      - ./keycloak-export/realm-export.json:/opt/keycloak/data/import/realm-export.json
+    environment:
+      - KEYCLOAK_IMPORT=/opt/keycloak/data/import/realm-export.json
     restart: always
 
 networks:
