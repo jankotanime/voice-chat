@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mongo-seed
+spec:
+  template:
+    spec:
+      containers:
+      - name: mongo-seed
+        image: mongo:latest
+        command: 
+          - "sh"
+          - "-c"
+          - |
+            until mongosh --host mongo --port 27017 --eval 'db.adminCommand({ ping: 1 })' &> /dev/null; do 
+              echo "Waiting for MongoDB...";
+              sleep 5;
+            done;
+            mongorestore --uri=$MONGO_URL --drop --dir=/dump/dump  # Zmiana ścieżki
+        env:
+        - name: MONGO_URL
+          value: "mongodb://mongo:27017/voice-chat"
+        volumeMounts:
+        - name: mongo-dump
+          mountPath: /dump
+      volumes:
+      - name: mongo-dump
+        persistentVolumeClaim:
+          claimName: mongo-dump-pvc
+      restartPolicy: Never

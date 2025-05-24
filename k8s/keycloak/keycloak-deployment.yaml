@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.36.0 (ae2a39403)
+  labels:
+    io.kompose.service: keycloak
+  name: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: keycloak  # Musi pasować do etykiet w template
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml
+        kompose.version: 1.36.0 (ae2a39403)
+      labels:
+        io.kompose.service: keycloak  # Etykieta musi zgadzać się z selektorem
+    spec:
+      containers:
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:latest
+          args: ["start-dev"]
+          ports:
+            - containerPort: 8080
+          env:  # Dodaj kluczowe zmienne środowiskowe
+            - name: KEYCLOAK_ADMIN
+              value: "admin"
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              value: "admin"
+          volumeMounts:
+            - name: keycloak-config
+              mountPath: /opt/keycloak/config  # Poprawny mount dla wolumenu
+      volumes:
+        - name: keycloak-config
+          persistentVolumeClaim:
+            claimName: keycloak-config-pvc  # Wymaga istnienia PVC
