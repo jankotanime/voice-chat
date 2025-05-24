@@ -5,3 +5,5 @@
 /.env
 
 /secrets/
+
+/mongo-data/

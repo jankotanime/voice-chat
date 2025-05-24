@@ -1,5 +1,3 @@
-# version: "3.8"
-
 services:
   spa:
     container_name: spa-client
@@ -60,14 +58,10 @@ services:
       - BACKEND_ID=/run/secrets/backend_id
       - BACKEND_REALM=/run/secrets/backend_realm
       - BACKEND_SECRET=/run/secrets/backend_secret
-      - BACKEND_USERNAME=/run/secrets/backend_username
-      - BACKEND_PASSWORD=/run/secrets/backend_password
     secrets:
       - backend_realm
       - backend_id
       - backend_secret
-      - backend_username
-      - backend_password
     networks:
       - app-network
     volumes:
@@ -96,16 +90,26 @@ services:
     restart: always
     ports:
       - "27017:27017"
-    networks:
-      - app-network
     volumes:
       - mongo-data:/data/db
-      - ./mongo-dump:/dump
-    command: >
+    networks:
+      - app-network
+
+  mongo-seed:
+    image: mongo:latest
+    depends_on:
+      - mongo
+    volumes:
+      - ./dump:/dump
+    entrypoint: >
       bash -c "
-        mongorestore --drop /dump/voice-chat &&
-        mongod --bind_ip_all
+        echo 'Waiting for Mongo to be ready...' &&
+        sleep 5 &&
+        mongorestore --host=mongo --drop /dump
       "
+    networks:
+      - app-network
+    restart: "no"
   
   keycloak:
     image: quay.io/keycloak/keycloak:latest
@@ -116,9 +120,7 @@ services:
     networks:
       - app-network
     volumes:
-      - ./keycloak-export/realm-export.json:/opt/keycloak/data/import/realm-export.json
-    environment:
-      - KEYCLOAK_IMPORT=/opt/keycloak/data/import/realm-export.json
+      - ./keycloak-data:/opt/keycloak/data/h2
     restart: always
 
 networks:
@@ -138,7 +140,3 @@ secrets:
     file: ./secrets/backend_id
   backend_secret:
     file: ./secrets/backend_secret
-  backend_username:
-    file: ./secrets/backend_username
-  backend_password:
-    file: ./secrets/backend_password
