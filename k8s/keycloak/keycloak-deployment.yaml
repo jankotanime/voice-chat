@@ -11,7 +11,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: keycloak  # Musi pasować do etykiet w template
+      io.kompose.service: keycloak
   strategy:
     type: Recreate
   template:
@@ -20,23 +20,42 @@ spec:
         kompose.cmd: kompose convert -f docker-compose.yml
         kompose.version: 1.36.0 (ae2a39403)
       labels:
-        io.kompose.service: keycloak  # Etykieta musi zgadzać się z selektorem
+        io.kompose.service: keycloak
     spec:
+      securityContext:
+        runAsUser: 0
       containers:
         - name: keycloak
           image: quay.io/keycloak/keycloak:latest
-          args: ["start-dev"]
+          args: ["start-dev", "--http-host=0.0.0.0"]
           ports:
             - containerPort: 8080
-          env:  # Dodaj kluczowe zmienne środowiskowe
+          env:
+            - name: KC_MIGRATION_STRATEGY
+              value: "IGNORE"
             - name: KEYCLOAK_ADMIN
               value: "admin"
             - name: KEYCLOAK_ADMIN_PASSWORD
               value: "admin"
+            - name: QUARKUS_TRANSACTION_MANAGER_ENABLE_RECOVERY
+              value: "false"
+            - name: QUARKUS_TRANSACTION_MANAGER_RECOVERY_FACTORY
+              value: "com.arjuna.ats.internal.arjuna.recovery.AtomicActionRecoveryModule"
+            - name: KC_DB
+              value: "dev-file"
+            - name: KC_DB_URL
+              value: "jdbc:h2:file:/opt/keycloak/data/h2/keycloakdb;AUTO_SERVER=TRUE"
+          resources:
+            limits:
+              memory: "2048Mi"
+              cpu: "1000m"
+            requests:
+              memory: "1024Mi"
+              cpu: "500m"
           volumeMounts:
             - name: keycloak-config
-              mountPath: /opt/keycloak/config  # Poprawny mount dla wolumenu
+              mountPath: /opt/keycloak/data
       volumes:
         - name: keycloak-config
           persistentVolumeClaim:
-            claimName: keycloak-config-pvc  # Wymaga istnienia PVC
+            claimName: keycloak-config-pvc

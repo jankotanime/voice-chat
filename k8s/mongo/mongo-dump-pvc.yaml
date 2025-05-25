@@ -3,8 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: mongo-dump-pvc
 spec:
+  storageClassName: manual
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
+      storage: 3Gi

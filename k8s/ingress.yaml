@@ -1,0 +1,54 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: voice-chat.pl
+    http:
+      paths:
+      - path: /spa(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: spa
+            port:
+              number: 3000
+      - path: /_next/static(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: spa
+            port:
+              number: 3000
+      - path: /ssr
+        pathType: Prefix
+        backend:
+          service:
+            name: ssr
+            port:
+              number: 3001
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: user-service
+            port:
+              number: 8001
+      - path: /voice
+        pathType: Prefix
+        backend:
+          service:
+            name: voice-service
+            port:
+              number: 8002
+      - path: /auth
+        pathType: Prefix
+        backend:
+          service:
+            name: keycloak
+            port:
+              number: 8080

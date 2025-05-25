@@ -94,8 +94,13 @@ services:
     restart: always
     ports:
       - "27017:27017"
+    # volumes:
+    #   - mongo-data:/data/db
     volumes:
-      - mongo-data:/data/db
+      - name: mongo-data
+        hostPath:
+          path: /mnt/c/Users/janga/docker-volumes/mongo-data
+          type: DirectoryOrCreate
     networks:
       - app-network
 

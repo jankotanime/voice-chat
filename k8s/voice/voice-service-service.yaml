@@ -13,4 +13,4 @@ spec:
       port: 8002
       targetPort: 8002
   selector:
-    io.kompose.service: voice-service
+    app: voice-service

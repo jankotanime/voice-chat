@@ -5,6 +5,7 @@ metadata:
 spec:
   template:
     spec:
+      restartPolicy: Never
       containers:
       - name: mongo-seed
         image: mongo:latest
@@ -14,17 +15,17 @@ spec:
           - |
             until mongosh --host mongo --port 27017 --eval 'db.adminCommand({ ping: 1 })' &> /dev/null; do 
               echo "Waiting for MongoDB...";
-              sleep 5;
+              sleep 10;
             done;
-            mongorestore --uri=$MONGO_URL --drop --dir=/dump/dump  # Zmiana ścieżki
+            mongorestore --uri=$MONGO_URL --drop --dir=/dump
         env:
         - name: MONGO_URL
           value: "mongodb://mongo:27017/voice-chat"
         volumeMounts:
         - name: mongo-dump
-          mountPath: /dump
+          mountPath: /mnt/c/Users/janga/docker-volumes/dump
       volumes:
       - name: mongo-dump
-        persistentVolumeClaim:
-          claimName: mongo-dump-pvc
-      restartPolicy: Never
+        hostPath:
+          path: /mnt/c/Users/janga/docker-volumes/dump
+          type: DirectoryOrCreate

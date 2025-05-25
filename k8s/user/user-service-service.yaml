@@ -13,4 +13,4 @@ spec:
       port: 8001
       targetPort: 8001
   selector:
-    io.kompose.service: user-service
+    app: user-service
