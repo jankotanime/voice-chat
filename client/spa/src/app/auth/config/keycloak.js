@@ -5,10 +5,14 @@ const KEYCLOAK_URL = process.env.NEXT_PUBLIC_KEYCLOAK_URL
 const REALM = process.env.NEXT_PUBLIC_REALM
 const CLIENT = process.env.NEXT_PUBLIC_CLIENT_ID
 
+console.log(KEYCLOAK_URL)
+console.log(REALM)
+console.log(CLIENT)
+
 const keycloakConfig = {
-  url: KEYCLOAK_URL,
-  realm: REALM,
-  clientId: CLIENT,
+  url: KEYCLOAK_URL || 'https://voice-chat.pl/auth',
+  realm: REALM || 'voice-chat',
+  clientId: 'SPA',
 };
 
 let keycloak;

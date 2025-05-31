@@ -55,9 +55,6 @@ data:
     # Etap builda
     FROM node:18-alpine AS builder
 
-    ARG NEXT_PUBLIC_KEYCLOAK_URL
-    ENV NEXT_PUBLIC_KEYCLOAK_URL=$NEXT_PUBLIC_KEYCLOAK_URL
-
     WORKDIR /app
     COPY package*.json ./
     RUN npm install
@@ -66,9 +63,6 @@ data:
 
     # produkcja
     FROM node:18-alpine AS runner
-
-    ARG NEXT_PUBLIC_KEYCLOAK_URL
-    ENV NEXT_PUBLIC_KEYCLOAK_URL=$NEXT_PUBLIC_KEYCLOAK_URL
 
     WORKDIR /app
     COPY --from=builder /app ./

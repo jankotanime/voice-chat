@@ -93,14 +93,14 @@ services:
     container_name: mongo
     restart: always
     ports:
-      - "27017:27017"
-    # volumes:
-    #   - mongo-data:/data/db
+      - "27018:27017"
     volumes:
-      - name: mongo-data
-        hostPath:
-          path: /mnt/c/Users/janga/docker-volumes/mongo-data
-          type: DirectoryOrCreate
+      - mongo-data:/data/db
+    # volumes:
+    #   - name: mongo-data
+    #     hostPath:
+    #       path: /mnt/c/Users/janga/docker-volumes/mongo-data
+    #       type: DirectoryOrCreate
     networks:
       - app-network
 
@@ -131,6 +131,10 @@ services:
     volumes:
       - ./keycloak-data:/opt/keycloak/data/h2
     restart: always
+    environment:
+      - KC_DB=dev-file
+      - KC_DB_USERNAME=sa
+      - KC_DB_PASSWORD=
 
 networks:
   app-network:

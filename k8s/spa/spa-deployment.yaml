@@ -15,16 +15,6 @@ spec:
       containers:
         - name: spa-client
           image: jankotanimesigma/voicechat-spa:latest
+          command: ["npm", "start"]
           ports:
             - containerPort: 3000
-          env:
-            - name: NEXT_PUBLIC_CLIENT_ID
-              value: "SPA"
-            - name: NEXT_PUBLIC_KEYCLOAK_URL
-              value: "http://keycloak:8080"
-            - name: NEXT_PUBLIC_REALM
-              value: "voice-chat"
-            - name: NEXT_PUBLIC_USER_URL
-              value: "http://user-service:8001"
-            - name: NEXT_PUBLIC_VOICE_URL
-              value: "http://voice-service:8002"
