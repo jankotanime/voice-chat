@@ -8,11 +8,9 @@
 ## Środowisko uruchomieniowe
 
 ### Wymagania:
-- Linux
 - Docker + Docker Compose
 - Kubernetes (kubectl)
-- MongoDB
-- Node.js (dla frontendu Next.js)
+- Node.js
 
 ## Instrukcja uruchomienia
 
@@ -24,7 +22,7 @@
 ### 2. Uruchomienie na Kubernetes:
 1. Zmień porty w `deploy_k8s.sh` lub `ingress.yaml` zależnie od sposobu uruchamiania aplikacji  
 2. W plikach `mongo-dump-pv.yaml` i `keycloak-pv.yaml` zmień `spec.hostPath.path` na swoją lokalizację folderów `keycloak-data` oraz `dump`
-3. Uruchom skrypt `deploy_k8s.sh`
+3. Uruchom skrypt `deploy_k8s.sh` (Tylko na linux!)
 4. Jeżeli skrypt nie działa ustaw kubernetesa ręcznie
 5. Uruchom pliki yaml:  
   `kubectl apply -f k8s/ --recursive`
@@ -56,10 +54,10 @@
 
 ## Struktura projektu
 
-- **Frontend:** TypeScript + Next.js
-- **Backend:** (do uzupełnienia, np. Node.js/Express)
-- **Baza danych:** MongoDB
-- **Infrastruktura:** Docker, Kubernetes, Websockety
+- **Frontend:** Next.js, React, EJS, CSS
+- **Backend:** Express, Websockety
+- **Bazy danych:** MongoDB, postgreSQL dla keycloak
+- **Infrastruktura:** Docker, Kubernetes, Keycloak, skrypt bash
 
 ---
   
