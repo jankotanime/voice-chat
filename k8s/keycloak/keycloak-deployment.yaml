@@ -15,7 +15,13 @@ spec:
       containers:
         - name: keycloak
           image: quay.io/keycloak/keycloak:26.2.2
-          args: ["start-dev", "--http-host=0.0.0.0", "--hostname-strict=false", "--import-realm", "--http-enabled=true", "--hostname=voice-chat.pl"]
+          args:
+            - "start-dev"
+            - "--http-host=0.0.0.0"
+            - "--hostname-strict=false"
+            - "--import-realm"
+            - "--http-enabled=true"
+            - "--hostname=voice-chat.pl"
           env:
             - name: KC_HOSTNAME_STRICT
               value: "false"
@@ -39,3 +45,15 @@ spec:
               value: "edge"
           ports:
             - containerPort: 8080
+          volumeMounts:
+            - name: realm-import
+              mountPath: /opt/keycloak/data/import
+            - name: keycloak-data
+              mountPath: /opt/keycloak/data
+      volumes:
+        - name: realm-import
+          configMap:
+            name: keycloak-realm
+        - name: keycloak-data
+          persistentVolumeClaim:
+            claimName: keycloak-config-pvc
