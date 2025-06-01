@@ -39,10 +39,13 @@ COPY --from=builder /app ./
 RUN npm install --omit=dev
 
 EXPOSE 3000
+CMD ["npm", "run", "dev"]
 
-CMD ["npx", "next", "start", "-H", "0.0.0.0"]
+# ? Dla kubernetes buildx
+# CMD ["npm", "start"]
+# CMD ["npx", "next", "start", "-H", "0.0.0.0"]
 
-# Dla buildx
+# ? Dla buildx
 # docker build \
 # --build-arg NEXT_PUBLIC_KEYCLOAK_URL=https://voice-chat.pl \
 # --build-arg NEXT_PUBLIC_REALM=voice-chat \

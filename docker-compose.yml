@@ -6,7 +6,6 @@ services:
       dockerfile: Dockerfile
       args:
         NEXT_PUBLIC_KEYCLOAK_URL: ${NEXT_PUBLIC_KEYCLOAK_URL}
-    image: voicechat/spa-client:latest
     ports:
       - "3000:3000"
     depends_on:
@@ -29,7 +28,6 @@ services:
     build:
       context: ./client/ssr
       dockerfile: Dockerfile
-    image: voicechat/ssr-client:latest
     ports:
       - "3001:3001"
     depends_on:
@@ -50,7 +48,6 @@ services:
     depends_on:
       - mongo
       - keycloak
-    image: voicechat/user-service:latest
     ports:
       - "8001:8001"
     environment:
@@ -76,7 +73,6 @@ services:
     container_name: voice-service
     depends_on:
       - user-service
-    image: voicechat/voice-service:latest
     ports:
       - "8002:8002"
     environment:
@@ -93,14 +89,9 @@ services:
     container_name: mongo
     restart: always
     ports:
-      - "27018:27017"
+      - "27017:27017"
     volumes:
       - mongo-data:/data/db
-    # volumes:
-    #   - name: mongo-data
-    #     hostPath:
-    #       path: /mnt/c/Users/janga/docker-volumes/mongo-data
-    #       type: DirectoryOrCreate
     networks:
       - app-network
 
