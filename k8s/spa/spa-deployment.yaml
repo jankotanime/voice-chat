@@ -14,7 +14,6 @@ spec:
     spec:
       containers:
         - name: spa-client
-          image: jankotanimesigma/voicechat-spa:latest
-          command: ["npm", "start"]
+          image: jankotanimesigma/voicechat-spa:v5.0.0
           ports:
             - containerPort: 3000

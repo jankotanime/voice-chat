@@ -1,32 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert -f docker-compose.yml
-    kompose.version: 1.36.0 (ae2a39403)
-  labels:
-    io.kompose.service: keycloak
   name: keycloak
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: keycloak
-  strategy:
-    type: Recreate
+      app: keycloak
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert -f docker-compose.yml
-        kompose.version: 1.36.0 (ae2a39403)
       labels:
-        io.kompose.service: keycloak
+        app: keycloak
     spec:
       containers:
         - name: keycloak
-          image: quay.io/keycloak/keycloak:23.0.7
-          args: ["start-dev", "--http-host=0.0.0.0", "--hostname-strict=false"]
+          image: quay.io/keycloak/keycloak:26.2.2
+          args: ["start-dev", "--http-host=0.0.0.0", "--hostname-strict=false", "--import-realm", "--http-enabled=true", "--hostname=voice-chat.pl"]
           env:
+            - name: KC_HOSTNAME_STRICT
+              value: "false"
+            - name: KC_HOSTNAME_STRICT_HTTPS
+              value: "false"
+            - name: KC_HOSTNAME_URL
+              value: "https://voice-chat.pl"
             - name: KC_DB
               value: "postgres"
             - name: KC_DB_URL
@@ -35,21 +31,11 @@ spec:
               value: "keycloak"
             - name: KC_DB_PASSWORD
               value: "password"
-            - name: KEYCLOAK_ADMIN
+            - name: KC_BOOTSTRAP_KEYCLOAK_ADMIN
               value: "admin"
-            - name: KEYCLOAK_ADMIN_PASSWORD 
+            - name: KC_BOOTSTRAP_KEYCLOAK_ADMIN_PASSWORD
               value: "admin"
-          resources:
-            limits:
-              memory: "2048Mi"
-              cpu: "1000m"
-            requests:
-              memory: "1024Mi"
-              cpu: "500m"
-          volumeMounts:
-            - name: keycloak-config
-              mountPath: /opt/keycloak/data
-      volumes:
-        - name: keycloak-config
-          persistentVolumeClaim:
-            claimName: keycloak-config-pvc
+            - name: KC_PROXY
+              value: "edge"
+          ports:
+            - containerPort: 8080

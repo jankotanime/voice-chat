@@ -2,44 +2,54 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: app-ingress
+  annotations:
+  # ? dla https
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-forwarded-headers: "true"
 spec:
   ingressClassName: nginx
+  # ? dla https
+  # tls:
+  #   - hosts:
+  #       - voice-chat.pl
+  #     secretName: voice-chat-pl-tls
   rules:
-  - host: voice-chat.pl
-    http:
-      paths:
-      - path: /spa
-        pathType: Prefix
-        backend:
-          service:
-            name: spa
-            port:
-              number: 3000
-      - path: /ssr
-        pathType: Prefix
-        backend:
-          service:
-            name: ssr
-            port:
-              number: 3001
-      - path: /api
-        pathType: Prefix
-        backend:
-          service:
-            name: user-service
-            port:
-              number: 8001
-      - path: /voice
-        pathType: Prefix
-        backend:
-          service:
-            name: voice-service
-            port:
-              number: 8002
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: keycloak
-            port:
-              number: 8080
+    - host: voice-chat.pl
+      http:
+        paths:
+          - path: /spa
+            pathType: Prefix
+            backend:
+              service:
+                name: spa
+                port:
+                  number: 3000
+          - path: /ssr
+            pathType: Prefix
+            backend:
+              service:
+                name: ssr
+                port:
+                  number: 3001
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: user-service
+                port:
+                  number: 8001
+          - path: /voice
+            pathType: Prefix
+            backend:
+              service:
+                name: voice-service
+                port:
+                  number: 8002
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak
+                port:
+                  number: 8080

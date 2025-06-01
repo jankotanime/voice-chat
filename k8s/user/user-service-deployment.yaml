@@ -22,10 +22,10 @@ spec:
             - containerPort: 8001
           env:
             - name: SPA_URL
-              value: "http://spa:3000"
+              value: "http://voice-chat.pl:3000/spa"
             - name: VOICE_URL
-              value: "http://voice-service:8002"
+              value: "http://voice-chat.pl:8002"
             - name: MONGO_URL
               value: "mongodb://mongo:27017/voice-chat"
             - name: KEYCLOAK_URL
-              value: "http://keycloak:8080"
+              value: "http://voice-chat.pl:8080"

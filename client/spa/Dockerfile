@@ -39,11 +39,12 @@ COPY --from=builder /app ./
 RUN npm install --omit=dev
 
 EXPOSE 3000
-CMD ["npm", "start"]
+
+CMD ["npx", "next", "start", "-H", "0.0.0.0"]
 
 # Dla buildx
 # docker build \
-# --build-arg NEXT_PUBLIC_KEYCLOAK_URL=https://voice-chat.pl/auth \
+# --build-arg NEXT_PUBLIC_KEYCLOAK_URL=https://voice-chat.pl \
 # --build-arg NEXT_PUBLIC_REALM=voice-chat \
 # --build-arg NEXT_PUBLIC_CLIENT_ID=SPA \
 # --build-arg NEXT_PUBLIC_USER_URL=https://voice-chat.pl/user \
