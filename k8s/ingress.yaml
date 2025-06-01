@@ -36,7 +36,7 @@ spec:
             name: voice-service
             port:
               number: 8002
-      - path: /auth
+      - path: /
         pathType: Prefix
         backend:
           service:

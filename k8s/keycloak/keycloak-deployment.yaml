@@ -22,29 +22,23 @@ spec:
       labels:
         io.kompose.service: keycloak
     spec:
-      securityContext:
-        runAsUser: 0
       containers:
         - name: keycloak
-          image: quay.io/keycloak/keycloak:latest
-          args: ["start-dev", "--http-host=0.0.0.0"]
-          ports:
-            - containerPort: 8080
+          image: quay.io/keycloak/keycloak:23.0.7
+          args: ["start-dev", "--http-host=0.0.0.0", "--hostname-strict=false"]
           env:
-            - name: KC_MIGRATION_STRATEGY
-              value: "IGNORE"
+            - name: KC_DB
+              value: "postgres"
+            - name: KC_DB_URL
+              value: "jdbc:postgresql://postgres:5432/keycloak"
+            - name: KC_DB_USERNAME
+              value: "keycloak"
+            - name: KC_DB_PASSWORD
+              value: "password"
             - name: KEYCLOAK_ADMIN
               value: "admin"
-            - name: KEYCLOAK_ADMIN_PASSWORD
+            - name: KEYCLOAK_ADMIN_PASSWORD 
               value: "admin"
-            - name: QUARKUS_TRANSACTION_MANAGER_ENABLE_RECOVERY
-              value: "false"
-            - name: QUARKUS_TRANSACTION_MANAGER_RECOVERY_FACTORY
-              value: "com.arjuna.ats.internal.arjuna.recovery.AtomicActionRecoveryModule"
-            - name: KC_DB
-              value: "dev-file"
-            - name: KC_DB_URL
-              value: "jdbc:h2:file:/opt/keycloak/data/h2/keycloakdb;AUTO_SERVER=TRUE"
           resources:
             limits:
               memory: "2048Mi"

@@ -20,7 +20,7 @@ spec:
             - name: POSTGRES_USER
               value: keycloak
             - name: POSTGRES_PASSWORD
-              value: haslo
+              value: password
           ports:
             - containerPort: 5432
 ---

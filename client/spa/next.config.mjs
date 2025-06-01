@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: '/spa',
+  // basePath: '/spa',
 };
 
 export default nextConfig;
