@@ -28,7 +28,7 @@ export const initKeycloak = () => {
         .init({
           onLoad: "check-sso",
           checkLoginIframe: false,
-          redirectUri: window.location.origin,
+          redirectUri: window.location.origin + "/spa",
         })
         .then(authenticated => {
           return authenticated;

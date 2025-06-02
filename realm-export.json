@@ -425,7 +425,43 @@
   "webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister" : false,
   "webAuthnPolicyPasswordlessAcceptableAaguids" : [ ],
   "webAuthnPolicyPasswordlessExtraOrigins" : [ ],
-  "users" : [ {
+  "users" : [   {
+    "id": "admin-user-id-001",
+    "username": "admin",
+    "enabled": true,
+    "emailVerified": true,
+    "email": "admin@voice-chat.pl",
+    "firstName": "Admin",
+    "lastName": "User",
+    "credentials": [
+      {
+        "type": "password",
+        "value": "admin",
+        "temporary": false
+      }
+    ],
+    "requiredActions": [],
+    "realmRoles": [
+      "realm-admin"
+    ],
+    "clientRoles": {
+      "realm-management": [
+        "manage-users",
+        "view-users",
+        "manage-realm",
+        "view-realm",
+        "manage-events",
+        "view-events",
+        "query-users",
+        "query-groups",
+        "impersonation",
+        "realm-admin"
+      ]
+    },
+    "groups": [],
+    "notBefore": 0
+  }
+  , {
     "id" : "b80fee06-b8a1-4a4e-91a0-1ff06c7193c0",
     "username" : "service-account-backend",
     "emailVerified" : false,
@@ -547,15 +583,22 @@
     "clientId" : "SPA",
     "name" : "SPA",
     "description" : "",
-    "rootUrl" : "http://localhost:3000",
-    "adminUrl" : "http://localhost:3000",
-    "baseUrl" : "http://localhost:3000",
-    "surrogateAuthRequired" : false,
-    "enabled" : true,
-    "alwaysDisplayInConsole" : false,
-    "clientAuthenticatorType" : "client-secret",
-    "redirectUris" : [ "http://localhost:3000/*" ],
-    "webOrigins" : [ "http://localhost:3000" ],
+    "rootUrl": "https://voice-chat.pl/",
+    "adminUrl": "https://voice-chat.pl/spa",
+    "baseUrl": "https://voice-chat.pl/spa",
+    "surrogateAuthRequired": false,
+    "enabled": true,
+    "alwaysDisplayInConsole": false,
+    "clientAuthenticatorType": "client-secret",
+    "redirectUris": [
+      "https://voice-chat.pl/spa",
+      "https://voice-chat.pl/spa/*"
+    ],
+    "webOrigins": [
+      "https://voice-chat.pl/*",  
+      "https://voice-chat.pl/spa",
+      "https://voice-chat.pl/spa/*"
+    ],
     "notBefore" : 0,
     "bearerOnly" : false,
     "consentRequired" : false,
@@ -572,7 +615,7 @@
       "request.object.encryption.alg" : "any",
       "client.introspection.response.allow.jwt.claim.enabled" : "false",
       "frontchannel.logout.session.required" : "true",
-      "post.logout.redirect.uris" : "http://localhost:3000",
+      "post.logout.redirect.uris" : "https://voice-chat.pl/spa",
       "oauth2.device.authorization.grant.enabled" : "false",
       "use.jwks.url" : "false",
       "backchannel.logout.revoke.offline.tokens" : "false",

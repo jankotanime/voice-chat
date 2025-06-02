@@ -1,4 +1,7 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+    // ? dla kubernetes
+  // basePath: '/spa',
+};
 
 export default nextConfig;

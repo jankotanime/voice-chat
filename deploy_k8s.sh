@@ -45,13 +45,13 @@ kubectl apply -f k8s/spa/spa-hpa.yaml
 # echo "=== Tworzenie Ingress ==="
 # kubectl apply -f k8s/ingress.yaml
 
-echo "=== Port-forwarding serwisów (CTRL+C aby przerwać) ==="
+# echo "=== Port-forwarding serwisów (CTRL+C aby przerwać) ==="
 
-kubectl port-forward service/spa 3000:3000 &
-kubectl port-forward service/ssr 3001:3001 &
-kubectl port-forward service/user-service 8001:8001 &
-kubectl port-forward service/voice-service 8002:8002 &
-kubectl port-forward service/keycloak 8080:8080 &
-kubectl port-forward service/mongo 27017:27017 &
+# kubectl port-forward service/spa 3000:3000 &
+# kubectl port-forward service/ssr 3001:3001 &
+# kubectl port-forward service/user-service 8001:8001 &
+# kubectl port-forward service/voice-service 8002:8002 &
+# kubectl port-forward service/keycloak 8080:8080 &
+# kubectl port-forward service/mongo 27017:27017 &
 
 wait
