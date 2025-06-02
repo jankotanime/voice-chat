@@ -38,8 +38,12 @@ kubectl apply -f k8s/ssr/ssr-deployment.yaml
 echo "=== Tworzenie Service i Deployment dla SPA ==="
 kubectl apply -f k8s/spa/spa-deployment.yaml
 
-echo "=== Tworzenie Ingress ==="
-kubectl apply -f k8s/ingress.yaml
+echo "=== Tworzenie HPA dla SPA ==="
+kubectl apply -f k8s/spa/spa-hpa.yaml
+
+# ? Dla ingress
+# echo "=== Tworzenie Ingress ==="
+# kubectl apply -f k8s/ingress.yaml
 
 echo "=== Port-forwarding serwisów (CTRL+C aby przerwać) ==="
 

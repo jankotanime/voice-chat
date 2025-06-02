@@ -1,5 +1,5 @@
 # Voice chat
-### Wersja: 1.0
+### Wersja: 1.1
 
 ---
 
@@ -23,9 +23,9 @@
 1. Zmień porty w `deploy_k8s.sh` lub `ingress.yaml` zależnie od sposobu uruchamiania aplikacji  
 2. W plikach `mongo-dump-pv.yaml` i `keycloak-pv.yaml` zmień `spec.hostPath.path` na swoją lokalizację folderów `keycloak-data` oraz `dump`
 3. Uruchom skrypt `deploy_k8s.sh` (Tylko na linux!)
-4. Jeżeli skrypt nie działa ustaw kubernetesa ręcznie
+4. Jeżeli skrypt nie działa ustaw kubernetesa ręcznie (od punktu 5)
 5. Uruchom pliki yaml:  
-  `kubectl apply -f k8s/ --recursive`
+  `kubectl apply -f k8s/ -R`
 6. Utwórz ConfigMap dla Keycloak z plikiem realm:  
   `kubectl create configmap realm-export --from-file=realm-export.json=realm-export.json -n default`
 7. (dla ingress przy TLS) Zainstaluj cert-manager:  
@@ -43,7 +43,7 @@
 - **Integracja z Keycloak** – bezpieczne zarządzanie użytkownikami, rolami, klientami i autoryzacja.
 - **Obsługa wielu kanałów i pokoi** – podobnie jak na Discordzie.
 - **Frontend w Next.js** – nowoczesny interfejs użytkownika.
-- **Backend (Node.js)** – logika serwera.
+- **Backend w Node.js** – logika serwera.
 - **Baza danych MongoDB** – przechowywanie danych pokoi i przypisanych do nich ról.
 - **Obsługa Docker i Kubernetes** – łatwe wdrażanie i skalowanie.
 - **Igness i port-forwarding** - uruchamianie aplikacji i serwerów na wspólnej domenie.
@@ -51,11 +51,12 @@
 - **Certyfikaty TLS** – bezpieczna komunikacja.
 - **Ograniczony dostęp do zasobów** – role i uprawnienia przypisane do użytkowników i pokoi.
 - **Sekrety w Dockerze** – bezpieczne przechowywanie wrażliwych danych, takich jak klucze i hasła.
+- **HPA** - skalowanie automatyczne.
 
 ## Struktura projektu
 
 - **Frontend:** Next.js, React, EJS, CSS
-- **Backend:** Express, Websockety
+- **Backend:** Node, http, Express, Websockety
 - **Bazy danych:** MongoDB, postgreSQL dla keycloak
 - **Infrastruktura:** Docker, Kubernetes, Keycloak, skrypt bash
 

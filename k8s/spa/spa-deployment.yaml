@@ -17,3 +17,8 @@ spec:
           image: jankotanimesigma/voicechat-spa:v5.0.0
           ports:
             - containerPort: 3000
+          resources:
+            requests:
+              cpu: 100m
+            limits:
+              cpu: 200m
