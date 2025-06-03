@@ -693,6 +693,7 @@
     "enabled" : true,
     "alwaysDisplayInConsole" : false,
     "clientAuthenticatorType" : "client-secret",
+    "secret" : "JFgMXm6AfDvIavABbpo4KnKoz5Eirjzk",
     "redirectUris" : [ 
       "https://voice-chat.pl/ssr",
       "https://voice-chat.pl/ssr/*" 
@@ -709,7 +710,7 @@
     "implicitFlowEnabled" : false,
     "directAccessGrantsEnabled" : false,
     "serviceAccountsEnabled" : false,
-    "publicClient" : true,
+    "publicClient" : false,
     "frontchannelLogout" : true,
     "protocol" : "openid-connect",
     "attributes" : {
