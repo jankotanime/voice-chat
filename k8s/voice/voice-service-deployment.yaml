@@ -24,4 +24,4 @@ spec:
             - name: SPA_URL
               value: "https://voice-chat.pl/spa"
             - name: USER_URL
-              value: "http://voice-service:8080"
+              value: "http://user-service:8001"
