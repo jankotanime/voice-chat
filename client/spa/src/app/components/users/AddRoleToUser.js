@@ -26,6 +26,7 @@ const handleAdd = async (getToken, user, roles) => {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const json = await response.json();
+    setRooms((prev) => [...prev, json.mess])
   } catch (err) {
     console.log(err)
   }

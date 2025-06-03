@@ -18,6 +18,14 @@ echo "=== Tworzenie ConfigMapy z realmem ==="
 kubectl delete configmap keycloak-realm --ignore-not-found
 kubectl create configmap keycloak-realm --from-file=realm-export.json=realm-export.json
 
+echo "=== Tworzenie ConfigMapy z realmem ==="
+kubectl delete configmap keycloak-realm --ignore-not-found
+kubectl create configmap keycloak-realm --from-file=realm-export.json=realm-export.json
+
+echo "=== Tworzenie ConfigMapy dla ingress ==="
+kubectl delete configmap ingress-headers  --ignore-not-found
+kubectl apply -f k8s/ingress-headers.yaml
+
 echo "=== Tworzenie Service i Deployment dla MongoDB ==="
 kubectl apply -f k8s/mongo/mongo-service.yaml
 kubectl apply -f k8s/mongo/mongo-deployment.yaml
@@ -41,17 +49,7 @@ kubectl apply -f k8s/spa/spa-deployment.yaml
 echo "=== Tworzenie HPA dla SPA ==="
 kubectl apply -f k8s/spa/spa-hpa.yaml
 
-# ? Dla ingress
-# echo "=== Tworzenie Ingress ==="
-# kubectl apply -f k8s/ingress.yaml
-
-# echo "=== Port-forwarding serwisów (CTRL+C aby przerwać) ==="
-
-# kubectl port-forward service/spa 3000:3000 &
-# kubectl port-forward service/ssr 3001:3001 &
-# kubectl port-forward service/user-service 8001:8001 &
-# kubectl port-forward service/voice-service 8002:8002 &
-# kubectl port-forward service/keycloak 8080:8080 &
-# kubectl port-forward service/mongo 27017:27017 &
+echo "=== Tworzenie Ingress ==="
+kubectl apply -f k8s/ingress.yaml
 
 wait

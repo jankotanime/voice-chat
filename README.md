@@ -22,7 +22,7 @@
 ### 2. Uruchomienie na Kubernetes:
 1. Zmień porty w `deploy_k8s.sh` lub `ingress.yaml` zależnie od sposobu uruchamiania aplikacji  
 2. W plikach `mongo-dump-pv.yaml` i `keycloak-pv.yaml` zmień `spec.hostPath.path` na swoją lokalizację folderów `keycloak-data` oraz `dump`
-3. Uruchom skrypt `deploy_k8s.sh` (Tylko na linux!)
+3. Uruchom skrypt `k8s_run.sh` (Tylko na linux!)
 4. Jeżeli skrypt nie działa ustaw kubernetesa ręcznie (od punktu 5)
 5. Uruchom pliki yaml:  
   `kubectl apply -f k8s/ -R`

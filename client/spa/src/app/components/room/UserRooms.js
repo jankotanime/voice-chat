@@ -17,7 +17,7 @@ const UserRooms = (props) => {
   const onJoin = async (id, token) => {
     props.setShouldHandleVoice(true)
     socket.emit("join_room", id, token);
-    const audio = new Audio("/spa/audio/user-join.mp3");
+    const audio = new Audio("/audio/user-join.mp3");
     audio.play().catch(err => console.error("Error playing audio:", err));
     props.setRooms(rooms => rooms.map(elem =>{
       if (elem._id === id) {
@@ -36,7 +36,7 @@ const UserRooms = (props) => {
         <JoinRoom id={elem._id} name={elem.name} joined={elem.joined} onJoin={onJoin}/>
         {props.admin ? <div onClick={() => manage === elem._id ? setManage(null) : setManage(elem._id)}>
           <Image
-          src="/spa/images/edit.png"
+          src="/images/edit.png"
           alt="Edit"
           width={30}
           height={30}

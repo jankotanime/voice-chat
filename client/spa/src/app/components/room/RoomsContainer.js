@@ -40,7 +40,7 @@ const RoomsContainer = (props) => {
           return;
         }
   
-        const response = await fetch(`${USER_URL}/room`, {
+        const response = await fetch(`${USER_URL}/user/room`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -67,8 +67,8 @@ const RoomsContainer = (props) => {
     <div className="user-rooms">
     <UserRooms admin={props.admin} rooms={rooms} setRooms={setRooms} setShouldHandleVoice={setShouldHandleVoice} />
     <div className="createRoomButton" onClick={() => setCreatingRoom(!creatingRoom)}>
-      {props.admin ? creatingRoom ? <Image src="/spa/images/less.png" alt="Return" width={50} height={50}/>
-      : <Image src="/spa/images/more.png" alt="Create room" width={50} height={50}/> : null }
+      {props.admin ? creatingRoom ? <Image src="/images/less.png" alt="Return" width={50} height={50}/>
+      : <Image src="/images/more.png" alt="Create room" width={50} height={50}/> : null }
     </div>
     {creatingRoom ? <CreateRoom setRooms={setRooms} /> : null}
     </div>
@@ -81,8 +81,8 @@ const RoomsContainer = (props) => {
       <div className="mic" onClick={() => {
         setMuted(!muted)
         setShouldHandleVoice(true)
-      }}>{ muted ? <Image className="mic-img" src="/spa/images/mute.png" alt="Mute" width={50} height={50}/> 
-      : <Image className="mic-img" src="/spa/images/unmute.png" alt="Unmute" width={40} height={40}/>}</div>
+      }}>{ muted ? <Image className="mic-img" src="/images/mute.png" alt="Mute" width={50} height={50}/> 
+      : <Image className="mic-img" src="/images/unmute.png" alt="Unmute" width={40} height={40}/>}</div>
     </div>
   </div>)
 }

@@ -7,9 +7,13 @@ function readSecret(path) {
   return fs.existsSync(path) ? fs.readFileSync(path, 'utf8').trim() : null;
 }
 
-const realm = readSecret('/app/secrets/backend_realm');
-const secret = readSecret('/app/secrets/backend_secret');
-const clientId = readSecret('/app/secrets/backend_id');
+const realm = readSecret('/run/secrets/backend_realm');
+const secret = readSecret('/run/secrets/backend_secret');
+const clientId = readSecret('/run/secrets/backend_id');
+const username = readSecret('/run/secrets/backend_username');
+const password = readSecret('/run/secrets/backend_password');
+
+console.log(realm)
 
 export default async function getAdminAccessToken() {
   const params = new URLSearchParams();

@@ -56,8 +56,8 @@ const Roles = (props) => {
       {manage === elem ? <ManageRole name={elem} onDelete={onDelete} /> : null }
     </div>))}
     <div className="createRoomButton" onClick={() => setCreateRole(!createRole)}>
-      {props.admin ? createRole ? <Image src="/spa/images/less.png" alt="Create role" width={50} height={50}/> 
-      : <Image src="/spa/images/more.png" alt="Create role" width={50} height={50}/> : null }
+      {props.admin ? createRole ? <Image src="/images/less.png" alt="Create role" width={50} height={50}/> 
+      : <Image src="/images/more.png" alt="Create role" width={50} height={50}/> : null }
     </div>
     {createRole ? <CreateRole setRoles={setRoles}/> : null}
   </div>)
