@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    // ? dla kubernetes
+    // ? dla kubernetes do działającego ingressa
   // basePath: '/spa',
 };
 

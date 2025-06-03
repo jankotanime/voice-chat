@@ -50,7 +50,7 @@ CMD ["npm", "run", "dev"]
 # --build-arg NEXT_PUBLIC_KEYCLOAK_URL=https://voice-chat.pl \
 # --build-arg NEXT_PUBLIC_REALM=voice-chat \
 # --build-arg NEXT_PUBLIC_CLIENT_ID=SPA \
-# --build-arg NEXT_PUBLIC_USER_URL=https://voice-chat.pl/user \
-# --build-arg NEXT_PUBLIC_VOICE_URL=https://voice-chat.pl/voice \
+# --build-arg NEXT_PUBLIC_USER_URL=https://voice-chat.pl \
+# --build-arg NEXT_PUBLIC_VOICE_URL=https://voice-chat.pl \
 # -t jankotanimesigma/voicechat-spa:latest .
 # [+] Building 139.4s (14/14) FINISHED                           docker:default

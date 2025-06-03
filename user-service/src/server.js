@@ -8,6 +8,7 @@ import cors from 'cors';
 
 const mongoURL = process.env.MONGO_URL;
 const spaURL = process.env.SPA_URL;
+const ssrURL = process.env.SSR_URL;
 const port = 8001;
 const server = express();
 
@@ -16,13 +17,13 @@ mongoose.connect(mongoURL)
   .catch((err) => console.error('Błąd połączenia z MongoDB:', err));
 
 server.use(cors({
-  origin: [spaURL, 'http://localhost:3001'],
+  origin: [spaURL, ssrURL],
   credentials: true
 }));
 
 server.use(express.json());
 
-server.get('/room', verifyToken, getAllRooms); // * admin
+server.get('/room', verifyToken, getUserRooms); // * admin
 server.get('/user', verifyToken, getUsers);
 server.get('/role', verifyToken, getRolesC);
 server.get('/user/role', verifyToken, getUserRolesC);

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: user-service
-          image: jankotanimesigma/voicechat-user-service:latest
+          image: jankotanimesigma/voicechat-user-service:v4.0.0
           envFrom:
             - configMapRef:
                 name: app-config
@@ -22,10 +22,20 @@ spec:
             - containerPort: 8001
           env:
             - name: SPA_URL
-              value: "http://voice-chat.pl:3000/spa"
+              value: "https://voice-chat.pl/spa"
+            - name: SSR_URL
+              value: "https://voice-chat.pl/ssr"
             - name: VOICE_URL
-              value: "http://voice-chat.pl:8002"
+              value: "https://voice-chat.pl/voice"
             - name: MONGO_URL
               value: "mongodb://mongo:27017/voice-chat"
             - name: KEYCLOAK_URL
-              value: "http://voice-chat.pl:8080"
+              value: "http://keycloak:8080"
+          volumeMounts:
+            - name: backend-secrets
+              mountPath: /app/secrets
+              readOnly: true
+      volumes:
+        - name: backend-secrets
+          secret:
+            secretName: backend-secrets

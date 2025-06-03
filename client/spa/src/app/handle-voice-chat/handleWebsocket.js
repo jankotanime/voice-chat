@@ -44,12 +44,12 @@ socket.on("voice", (userId, buffer) => {
 });
 
 socket.on("guest_join", () => {
-  const audio = new Audio("/audio/guest-join.mp3");
+  const audio = new Audio("/spa/audio/guest-join.mp3");
   audio.play().catch(err => console.error("Error playing audio:", err));
 });
 
 socket.on("guest_leave", () => {
-  const audio = new Audio("/audio/guest-leave.mp3");
+  const audio = new Audio("/spa/audio/guest-leave.mp3");
   audio.play().catch(err => console.error("Error playing audio:", err));
 });
 

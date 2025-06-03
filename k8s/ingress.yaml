@@ -4,6 +4,7 @@ metadata:
   name: app-ingress
   annotations:
   # ? dla https
+    nginx.ingress.kubernetes.io/proxy-set-headers: "default/ingress-headers"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/use-forwarded-headers: "true"
@@ -32,7 +33,28 @@ spec:
                 name: ssr
                 port:
                   number: 3001
-          - path: /api
+          - path: /admin-panel
+            pathType: Prefix
+            backend:
+              service:
+                name: user-service
+                port:
+                  number: 8001
+          - path: /user
+            pathType: Prefix
+            backend:
+              service:
+                name: user-service
+                port:
+                  number: 8001
+          - path: /role
+            pathType: Prefix
+            backend:
+              service:
+                name: user-service
+                port:
+                  number: 8001
+          - path: /room
             pathType: Prefix
             backend:
               service:
@@ -41,6 +63,13 @@ spec:
                   number: 8001
           - path: /voice
             pathType: Prefix
+            backend:
+              service:
+                name: voice-service
+                port:
+                  number: 8002
+          - path: /socket.io
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: voice-service

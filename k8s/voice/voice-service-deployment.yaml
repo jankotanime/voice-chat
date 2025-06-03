@@ -22,6 +22,6 @@ spec:
             - containerPort: 8002
           env:
             - name: SPA_URL
-              value: "http://voice-chat.pl:3000/spa"
+              value: "https://voice-chat.pl/spa"
             - name: USER_URL
-              value: "http://voice-chat.pl:8001"
+              value: "http://voice-service:8080"

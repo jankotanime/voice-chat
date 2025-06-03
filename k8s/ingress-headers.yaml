@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ingress-headers
+  namespace: default
+data:
+  Authorization: $http_authorization
