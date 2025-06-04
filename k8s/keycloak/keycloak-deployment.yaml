@@ -54,4 +54,4 @@ spec:
             name: keycloak-realm
         - name: keycloak-data
           persistentVolumeClaim:
-            claimName: keycloak-config-pvc
+            claimName: keycloak-pvc
