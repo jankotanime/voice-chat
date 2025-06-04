@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: spa-client
-          image: jankotanimesigma/voicechat-spa:v10.0.0
+          image: jankotanimesigma/voicechat-spa:v11.0.0
           ports:
             - containerPort: 3000
           resources:
@@ -22,3 +22,6 @@ spec:
               cpu: 100m
             limits:
               cpu: 200m
+          env:
+            - name: NEXT_PUBLIC_KEYCLOAK_URL
+              value: "https://voice-chat.pl"

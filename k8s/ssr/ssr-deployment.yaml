@@ -14,10 +14,7 @@ spec:
     spec:
       containers:
         - name: ssr-client
-          image: jankotanimesigma/voicechat-ssr:v1.0.0
-          envFrom:
-            - configMapRef:
-                name: app-config
+          image: jankotanimesigma/voicechat-ssr:v2.0.0
           ports:
             - containerPort: 3001
           env:

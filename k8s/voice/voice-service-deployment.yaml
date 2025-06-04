@@ -14,10 +14,7 @@ spec:
     spec:
       containers:
         - name: voice-service
-          image: jankotanimesigma/voicechat-voice-service:latest
-          envFrom:
-            - configMapRef:
-                name: app-config
+          image: jankotanimesigma/voicechat-voice-service:v2.0.0
           ports:
             - containerPort: 8002
           env:
