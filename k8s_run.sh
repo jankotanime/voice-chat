@@ -2,6 +2,17 @@
 
 set -e
 
+kubectl delete namespace voice-chat --ignore-not-found
+
+echo "Czekam aż namespace zostanie usunięty..."
+while kubectl get namespace voice-chat &> /dev/null; do
+  sleep 1
+done
+
+kubectl create namespace voice-chat
+
+kubectl config set-context --current --namespace=voice-chat
+
 echo "=== Tworzenie PersistentVolume i PersistentVolumeClaim ==="
 kubectl apply -f k8s/mongo/mongo-dump-pv.yaml
 kubectl apply -f k8s/mongo/mongo-dump-pvc.yaml
