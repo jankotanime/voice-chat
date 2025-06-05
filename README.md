@@ -3,7 +3,7 @@
 
 ---
 
-**Voice chat** to serwer komunikacyjny inspirowany platformą Discord, stworzony w ramach projektów na BAW oraz Technologie Aplikacji Chmurowych. Aplikacja umożliwia komunikację w czasie rzeczywistym z wykorzystaniem websocketów oraz integrację z systemem Keycloak do zarządzania użytkownikami.
+**Voice chat** to serwer komunikacyjny inspirowany platformą Discord, stworzony w ramach projektów na BAW oraz Technologie Aplikacji Chmurowych. Aplikacja umożliwia komunikację w czasie rzeczywistym z wykorzystaniem websocketów oraz integrację z systemem Keycloak do zarządzania użytkownikami. [Idź do preview](#preview)
 
 > Uwaga! Aplikacja jest czysto deweloperska - wszystkie 
 > zmienne aplikacji są publiczne, w żadnym wypadku nie 
@@ -56,7 +56,13 @@
 - **Bazy danych:** MongoDB (pokoje), PostgreSQL (Keycloak)
 - **Infrastruktura:** Docker, Kubernetes, Keycloak, Bash (skrypty)
 
+## Preview
+
+![voice-chat-1](https://github.com/user-attachments/assets/83df22d9-c429-4ac1-acb0-8b7ff36be5c6)
+![voice-chat-2](https://github.com/user-attachments/assets/76919016-85c0-4be0-848b-2943fcd94cf4)
+![voice-chat-3](https://github.com/user-attachments/assets/4c60beb9-4ba0-41ec-b0c2-3eff88e390c9)
+
 ---
-  
+
 ## Repozytorium DockerHub 
 https://hub.docker.com/u/jankotanimesigma
