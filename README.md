@@ -5,7 +5,7 @@
 
 **Voice chat** to serwer komunikacyjny inspirowany platformą Discord, stworzony w ramach projektów na BAW oraz Technologie Aplikacji Chmurowych. Aplikacja umożliwia komunikację w czasie rzeczywistym z wykorzystaniem websocketów oraz integrację z systemem Keycloak do zarządzania użytkownikami. [Idź do preview](#preview)
 
-> Uwaga! Aplikacja jest czysto deweloperska - wszystkie 
+> **Uwaga!** Aplikacja jest czysto deweloperska - wszystkie 
 > zmienne aplikacji są publiczne, w żadnym wypadku nie 
 > powinno się jej wykorzystwać do produkcji.
 
@@ -27,6 +27,15 @@
 1. Dodaj do pliku `/etc/hosts` (wymagany administrator) linie `127.0.0.1 voice-chat.pl`
 2. Uruchom skrypt `k8s_run.sh`
 3. Poczekaj na włączenie się aplikacji, może to potrwać nawet około 5 minut
+> **Uwaga!** Kubernetes nie posiada działającego klienta SSR 
+
+### 3. Dane do logowania:
+1. Konto administratora
+- login `sigma` 
+- hasło `sigma`
+2. Konto użytkownika
+- login `test`
+- hasło `test`
 
 ## Funkcjonalności
 
