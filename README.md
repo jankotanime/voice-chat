@@ -1,13 +1,13 @@
 # Voice chat
-### Wersja: 1.1 (DEV)
+### Version: 1.1 (DEV)
 
 ---
 
-**Voice chat** to serwer komunikacyjny inspirowany platformą Discord, stworzony w ramach projektów na BAW oraz Technologie Aplikacji Chmurowych. Aplikacja umożliwia komunikację w czasie rzeczywistym z wykorzystaniem websocketów oraz integrację z systemem Keycloak do zarządzania użytkownikami. [Idź do preview](#preview)
+**Voice chat** is a communication server inspired by Discord, created as part of projects for University Of Gdańsk courses. The application enables real-time communication using websockets and integrates with Keycloak for user management. [Go to preview](#preview)
 
-> **Uwaga!** Aplikacja jest czysto deweloperska - wszystkie 
-> zmienne aplikacji są publiczne, w żadnym wypadku nie 
-> powinno się jej wykorzystwać do produkcji.
+> **Note!** This is a purely development application — all  
+> variables are public and under no circumstances  
+> should it be used in production.
 
 ## Środowisko uruchomieniowe
 
@@ -16,54 +16,55 @@
 - Kubernetes (kubectl)
 - Node.js
 
-## Instrukcja uruchomienia
+## Launch instructions
 
-### 1. Budowanie i uruchamianie z Dockerem:
-1. Zmień zmienne w pliku `.env`, aby były zgodne z Twoim środowiskiem (np. IP) oraz ustaw porty w taki sposób, aby nie kolidowały z innymi aplikacjami
-2. Zbuduj i uruchom kontenery:  
+### 1. Building and running with Docker:
+1. Edit the variables in the `.env` file to match your environment (e.g., IP) and set the ports to avoid conflicts with other applications.
+2. Build and run the containers:  
    `docker-compose up`
 
-### 2. Uruchomienie na Kubernetes:
-1. Dodaj do pliku `/etc/hosts` (wymagany administrator) linie `127.0.0.1 voice-chat.pl`
-2. Uruchom skrypt `k8s_run.sh`
-3. Poczekaj na włączenie się aplikacji, może to potrwać nawet około 5 minut
-> **Uwaga!** Kubernetes nie posiada działającego klienta SSR 
+### 2. Running on Kubernetes:
+1. Add the following line to `/etc/hosts` (administrator required): `127.0.0.1 voice-chat.pl`
+2. Run the `k8s_run.sh` script.
+3. Wait for the application to start — this may take up to about 5 minutes.
+> **Note!** Kubernetes does not have a working SSR client.
 
-### 3. Dane do logowania:
-1. Konto administratora
-- login `sigma` 
-- hasło `sigma`
-2. Konto użytkownika
-- login `test`
-- hasło `test`
+### 3. Login credentials:
+1. Administrator account  
+- login: `sigma`  
+- password: `sigma`  
 
-## Funkcjonalności
+2. User account  
+- login: `test`  
+- password: `test`
 
-- **SPA (Next.js)** - interfejs użytkownika z widokiem zależnym od roli ułatwiający korzystanie z serwisu.
-- **SSR (Express z EJS)** - panel administracyjny ułatwiający przeglądanie informacji o pokojach i użytkownikach (tylko w `docker`).
-- **Backend2Backend** - Połączenie serwera websocket a API do autoryzacji.
-- **Websockety** – Komunikacja wielokanałowa w czasie rzeczystwistm.
-- **Przesyłanie dźwięku** – zbieranie dźwięku z mikrofonu przeglądarki i wysyłanie ich do użytkowników w pokoju.
-- **Integracja z Keycloak** – bezpieczne zarządzanie użytkownikami, rolami, klientami i autoryzacją w sposób scentralizowany.
-- **Backend w Node.js** – serwerowa logika aplikacji.
-- **MongoDB** – baza danych przechowująca informacje o pokojach i przypisanych rolach.
-- **Postgres** – baza danych używana przez Keycloak (dla Kubernetes).
-- **Docker i Kubernetes** – infrastruktura umożliwiająca łatwe wdrażanie i utrzymanie aplikacji.
-- **Igness** - uruchamianie aplikacji i serwerów na wspólnej domenie.
-- **Wolumeny** - trwałe przechowywanie danych w wolumenach.
-- **Certyfikaty TLS** – zapewnienie szyfrowania komunikacji.
-- **Kontrola dostępu** – zarządzanie uprawnieniami użytkowników i dostępem do pokoi.
-- **Sekrety w Dockerze i Kubernetesie** – bezpieczne przechowywanie poufnych danych, takich jak tokeny, klucze i hasła.
-- **HPA** - automatyczne skalowanie replik podów w zależności od obciążenia.
-- **Własne obrazy** - obrazy tworzone specjalnie dla komponentów tej aplikacji.
-- **PV i PVS** - przechowywanie danych aplikacji.
+## Features
 
-## Struktura projektu
+- **SPA (Next.js)** — User interface with role-based views to simplify usage.
+- **SSR (Express with EJS)** — Admin panel for reviewing information about rooms and users (Docker only).
+- **Backend2Backend** — Connection between websocket server and authorization API.
+- **Websockets** — Multi-channel real-time communication.
+- **Audio transmission** — Captures audio from the browser's microphone and sends it to users in the room.
+- **Keycloak integration** — Secure user, role, client, and authorization management in a centralized way.
+- **Node.js backend** — Application server logic.
+- **MongoDB** — Database storing information about rooms and assigned roles.
+- **Postgres** — Database used by Keycloak (for Kubernetes).
+- **Docker and Kubernetes** — Infrastructure enabling easy deployment and maintenance of the application.
+- **Ingress** — Launching the app and servers under a shared domain.
+- **Volumes** — Persistent data storage.
+- **TLS certificates** — Ensures encrypted communication.
+- **Access control** — Management of user permissions and room access.
+- **Secrets in Docker and Kubernetes** — Secure storage of sensitive data like tokens, keys, and passwords.
+- **HPA** — Automatic scaling of pod replicas depending on load.
+- **Custom images** — Images created specifically for the app’s components.
+- **PV and PVC** — Application data storage.
 
-- **Frontend:** Next.js, React, Express, EJS, CSS
-- **Backend:** Node.js, HTTP, Express, WebSocket
-- **Bazy danych:** MongoDB (pokoje), PostgreSQL (Keycloak)
-- **Infrastruktura:** Docker, Kubernetes, Keycloak, Bash (skrypty)
+## Project structure
+
+- **Frontend:** Next.js, React, Express, EJS, CSS  
+- **Backend:** Node.js, HTTP, Express, WebSocket  
+- **Databases:** MongoDB (rooms), PostgreSQL (Keycloak)  
+- **Infrastructure:** Docker, Kubernetes, Keycloak, Bash (scripts)
 
 ## Preview
 
@@ -73,5 +74,5 @@
 
 ---
 
-## Repozytorium DockerHub 
+## DockerHub repository 
 https://hub.docker.com/u/jankotanimesigma
