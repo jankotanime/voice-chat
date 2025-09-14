@@ -9,9 +9,9 @@
 > variables are public and under no circumstances  
 > should it be used in production.
 
-## Środowisko uruchomieniowe
+## Runtime environment
 
-### Wymagania:
+### Requirements:
 - Docker + Docker Compose
 - Kubernetes (kubectl)
 - Node.js
@@ -24,7 +24,7 @@
    `docker-compose up`
 
 ### 2. Running on Kubernetes:
-1. Add the following line to `/etc/hosts` (administrator required): `127.0.0.1 voice-chat.pl`
+1. Add the following line to `/etc/hosts` (admin required): `127.0.0.1 voice-chat.pl`
 2. Run the `k8s_run.sh` script.
 3. Wait for the application to start — this may take up to about 5 minutes.
 > **Note!** Kubernetes does not have a working SSR client.
